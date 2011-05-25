@@ -89,7 +89,7 @@ module MiniTest
     
     def add_test_result(suite, test, test_runner)
       self.report[suite] ||= {}
-      self.report[suite][test] = test_runner
+      self.report[suite][test.to_sym] = test_runner
       
       self.assertion_count += test_runner.assertions
       
