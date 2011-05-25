@@ -8,8 +8,9 @@ Allows you to extend MiniTest using reporters rather than monkey-patching.
 
 ## Usage ##
 
-Then, in your `test_helper.rb` file, add the following lines:
+In your `test_helper.rb` file, add the following lines:
 
+    require 'minitest-reporter'
     MiniTest::Unit.runner = MiniTest::SuiteRunner.new
     MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
 
