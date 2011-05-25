@@ -1,5 +1,5 @@
-module Minitest
-  module Reporter
-    VERSION = "0.0.1"
+module MiniTest
+  class Reporter
+    VERSION = '0.0.1'
   end
 end
