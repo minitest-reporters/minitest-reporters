@@ -11,11 +11,11 @@ module MiniTestReporterTest
       assert_equal({}, @runner.report)
     end
     
-    test '.reporters' do
-      assert_equal [@reporter], MiniTest::SuiteRunner.reporters
+    test '#reporters' do
+      assert_equal [@reporter], @runner.reporters
       
       reporter2 = add_reporter
-      assert_equal [@reporter, reporter2], MiniTest::SuiteRunner.reporters
+      assert_equal [@reporter, reporter2], @runner.reporters
     end
     
     test '#_run_anything with no suites' do
@@ -36,8 +36,8 @@ module MiniTestReporterTest
       suites = [Fixtures::PassTestFixture, Fixtures::SkipTestFixture]
       stub_suites(suites)
       
-      @reporter.expects(:before_suites).with(suites)
-      @reporter.expects(:after_suites).with(suites)
+      @reporter.expects(:before_suites).with(suites, :test)
+      @reporter.expects(:after_suites).with(suites, :test)
       
       @runner._run_anything(:test)
       
@@ -49,88 +49,77 @@ module MiniTestReporterTest
       assert_equal :skip, @runner.report[Fixtures::SkipTestFixture][:test_skip].result
     end
     
+    test '#_run_anything with a filter' do
+      @runner.options[:filter] = '/foo/'
+      stub_suites([Fixtures::PassTestFixture])
+      
+      @runner._run_anything(:test)
+      assert_equal 2, @runner.assertion_count
+    end
+    
     test '#_run_suite without tests' do
       @reporter.expects(:before_suite).never
       @reporter.expects(:after_suite).never
       
-      @runner._run_suite(Fixtures::EmptyTestFixture, :test)
-      
-      assert_nil @runner.suite_start_time
+      @runner._run_suite(Fixtures::EmptyTestFixture, [])
     end
     
     test '#_run_suite with tests' do
       @reporter.expects(:before_suite).with(Fixtures::PassTestFixture)
       @reporter.expects(:after_suite).with(Fixtures::PassTestFixture)
       
-      @runner._run_suite(Fixtures::PassTestFixture, :test)
+      @runner._run_suite(Fixtures::PassTestFixture, [:test_pass, :test_foo])
       
       assert_equal 3, @runner.assertion_count
       assert_instance_of Time, @runner.suite_start_time
     end
     
-    test '#_run_suite with a filter' do
-      @runner.options[:filter] = '/foo/'
-      @runner._run_suite(Fixtures::PassTestFixture, :test)
-      assert_equal 2, @runner.assertion_count
-    end
-    
-    test '#_run_tests without a suite .startup and .shutdown' do
-      @runner._run_tests(Fixtures::PassTestFixture, [:test_pass, :test_foo])
-      assert_equal 3, @runner.assertion_count
-    end
-    
-    test '#_run_tests with a suite .startup and .shutdown' do
+    test '#_run_suite with a suite .startup and .shutdown' do
       suite = Fixtures::SuiteCallbackTestFixture
       suite.expects(:startup)
       suite.expects(:shutdown)
-      @runner._run_tests(suite, [:test_foo])
+      @runner._run_suite(suite, [:test_foo])
     end
     
     test '#_run_test with a passing test' do
       suite = Fixtures::PassTestFixture
       test = :test_pass
-      
-      @runner.report = {}
-      @runner.assertion_count = 0
-      
+            
       @reporter.expects(:before_test).with(suite, test)
       @reporter.expects(:pass).with(suite, test, instance_of(MiniTest::TestRunner))
       
       @runner._run_test(suite, test)
       
       assert_equal 1, @runner.assertion_count
+      assert_instance_of Time, @runner.test_start_time
       assert_equal :pass, @runner.report[suite][test].result
     end
     
     test '#_run_test with a skipped test' do
       suite = Fixtures::SkipTestFixture
       test = :test_skip
-      
-      @runner.report = {}
-      @runner.assertion_count = 0
-      
+            
       @reporter.expects(:before_test).with(suite, test)
       @reporter.expects(:skip).with(suite, test, instance_of(MiniTest::TestRunner))
       
       @runner._run_test(suite, test)
       
       assert_equal 0, @runner.assertion_count
+      assert_instance_of Time, @runner.test_start_time
       assert_equal :skip, @runner.report[suite][test].result
     end
     
     test '#_run_test with a failing test' do
       suite = Fixtures::FailureTestFixture
       test = :test_failure
-      
-      @runner.report = {}
-      @runner.assertion_count = 0
-      
+            
       @reporter.expects(:before_test).with(suite, test)
       @reporter.expects(:failure).with(suite, test, instance_of(MiniTest::TestRunner))
       
       @runner._run_test(suite, test)
       
       assert_equal 0, @runner.assertion_count
+      assert_instance_of Time, @runner.test_start_time
       assert_equal :failure, @runner.report[suite][test].result
     end
     
@@ -138,15 +127,13 @@ module MiniTestReporterTest
       suite = Fixtures::ErrorTestFixture
       test = :test_error
       
-      @runner.report = {}
-      @runner.assertion_count = 0
-      
       @reporter.expects(:before_test).with(suite, test)
       @reporter.expects(:error).with(suite, test, instance_of(MiniTest::TestRunner))
       
       @runner._run_test(suite, test)
       
       assert_equal 0, @runner.assertion_count
+      assert_instance_of Time, @runner.test_start_time
       assert_equal :error, @runner.report[suite][test].result
     end
     
@@ -158,18 +145,16 @@ module MiniTestReporterTest
       @runner.trigger(:before_suite, Fixtures::PassTestFixture)
     end
     
+    private
+    
     def add_reporter
       reporter = MiniTest::Reporter.new
-      MiniTest::SuiteRunner.reporters << reporter
+      @runner.reporters << reporter
       reporter
     end
     
     def stub_suites(suites)
       MiniTest::Unit::TestCase.stubs(:test_suites).returns(suites)
-    end
-    
-    def teardown
-      MiniTest::SuiteRunner.reporters = []
     end
   end
 end

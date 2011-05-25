@@ -1,4 +1,12 @@
 module MiniTest
+  # Runner for individual MiniTest tests.
+  # 
+  # You *should not* create instances of this class directly. Instances of
+  # {SuiteRunner} will create these and send them to the reporters.
+  # 
+  # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
+  # 
+  # @see https://github.com/seattlerb/minitest MiniTest
   class TestRunner
     attr_reader :suite, :test, :assertions, :result, :exception
     

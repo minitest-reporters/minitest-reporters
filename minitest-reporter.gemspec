@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ['Alexander Kern']
   s.email       = ['alex@kernul.com']
   s.homepage    = 'https://github.com/CapnKernul/minitest-reporter'
-  s.summary     = %q{Adds reporters to MiniTest}
-  s.description = %q{Allows you to extend MiniTest::Unit using reporters rather than monkey-patching}
+  s.summary     = %q{Reporters for MiniTest}
+  s.description = %q{Allows you to extend MiniTest using reporters rather than monkey-patching}
   
   s.rubyforge_project = 'minitest-reporter'
   

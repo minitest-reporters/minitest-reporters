@@ -8,6 +8,10 @@ module MiniTest
       runner.output
     end
     
+    def verbose?
+      runner.verbose
+    end
+    
     def print(*args)
       runner.output.print(*args)
     end
@@ -16,14 +20,14 @@ module MiniTest
       runner.output.puts(*args)
     end
     
-    def before_suites(suites); end
-    def after_suites(suites); end
+    def before_suites(suites, type); end
+    def after_suites(suites, type); end
     def before_suite(suite); end
     def after_suite(suite); end
     def before_test(suite, test); end
-    def pass(suite, test, runner); end
-    def skip(suite, test, runner); end
-    def failure(suite, test, runner); end
-    def error(suite, test, runner); end
+    def pass(suite, test, test_runner); end
+    def skip(suite, test, test_runner); end
+    def failure(suite, test, test_runner); end
+    def error(suite, test, test_runner); end
   end
 end

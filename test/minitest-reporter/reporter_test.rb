@@ -14,11 +14,22 @@ module MiniTestReporterTest
     end
     
     test '#runner' do
-      assert_instance_of MiniTest::Unit, @reporter.runner
+      assert_kind_of MiniTest::Unit, @reporter.runner
     end
     
     test '#output' do
       assert_equal MiniTest::Unit.output, @reporter.output
+    end
+    
+    test '#verbose?' do
+      refute @reporter.verbose?
+      
+      begin
+        @reporter.runner.verbose = true
+        assert @reporter.verbose?
+      ensure
+        @reporter.runner.verbose = false
+      end
     end
     
     test '#print' do

@@ -1,14 +1,15 @@
 module MiniTest
+  # Runner for MiniTest suites.
+  # 
+  # This is a heavily refactored version of the built-in MiniTest runner. It's
+  # about the same speed, from what I can tell, but is significantly easier to
+  # extend.
+  # 
+  # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
+  # 
+  # @see https://github.com/seattlerb/minitest MiniTest
   class SuiteRunner < Unit
-    class << self
-      attr_writer :reporters
-      
-      def reporters
-        @reporters ||= []
-      end
-    end
-    
-    attr_accessor :suite_start_time, :test_start_time
+    attr_accessor :suite_start_time, :test_start_time, :reporters
     
     def initialize
       self.report = {}
@@ -18,6 +19,7 @@ module MiniTest
       self.test_count = 0
       self.assertion_count = 0
       self.verbose = false
+      self.reporters = []
     end
     
     def _run_anything(type)
@@ -32,28 +34,30 @@ module MiniTest
       self.test_count = tests.inject(0) { |acc, suite| acc + suite[1].length }
       
       if test_count > 0
-        trigger(:before_suites, suites)
-        fix_sync { _run_suites(suites, type) }
-        trigger(:after_suites, suites)
+        trigger(:before_suites, suites, type)
+        
+        fix_sync do
+          suites.each { |suite| _run_suite(suite, tests[suite]) }
+        end
+        
+        trigger(:after_suites, suites, type)
       end
     end
     
-    def _run_suite(suite, type)
-      tests = filtered_tests(suite, type)
-      
+    def _run_suite(suite, tests)
       unless tests.empty?
-        self.suite_start_time = Time.now
-        trigger(:before_suite, suite)
-        _run_tests(suite, tests)
-        trigger(:after_suite, suite)
+        begin
+          self.suite_start_time = Time.now
+          
+          trigger(:before_suite, suite)
+          suite.startup if suite.respond_to?(:startup)
+          
+          tests.each { |test| _run_test(suite, test) }
+        ensure
+          suite.shutdown if suite.respond_to?(:shutdown)
+          trigger(:after_suite, suite)
+        end
       end
-    end
-    
-    def _run_tests(suite, tests)
-      suite.startup if suite.respond_to?(:startup)
-      tests.each { |test| _run_test(suite, test) }
-    ensure
-      suite.shutdown if suite.respond_to?(:shutdown)
     end
     
     def _run_test(suite, test)
@@ -68,7 +72,7 @@ module MiniTest
     end
     
     def trigger(callback, *args)
-      self.class.reporters.each { |reporter| reporter.send(callback, *args) }
+      reporters.each { |reporter| reporter.send(callback, *args) }
     end
     
     private
