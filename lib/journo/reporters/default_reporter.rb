@@ -1,13 +1,13 @@
 require 'ansi'
 
-module MiniTest
+module Journo
   module Reporters
     # A reporter identical to the standard MiniTest reporter.
     # 
     # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
     # 
     # @see https://github.com/seattlerb/minitest MiniTest
-    class DefaultReporter < MiniTest::Reporter
+    class DefaultReporter < Journo::Reporter
       def before_suites(suites, type)
         puts
         puts "# Running #{type}s:"

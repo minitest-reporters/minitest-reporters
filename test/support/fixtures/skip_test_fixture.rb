@@ -1,4 +1,4 @@
-module MiniTestReporterTest
+module JournoTest
   module Fixtures
     class SkipTestFixture < TestCaseFixture
       def test_skip

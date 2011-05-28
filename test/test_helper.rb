@@ -2,9 +2,9 @@ require 'bundler/setup'
 require 'minitest/autorun'
 require 'mocha'
 require 'test_declarative'
-require 'minitest-reporter'
+require 'journo'
 
-module MiniTestReporterTest
+module JournoTest
   require File.expand_path('../support/test_case', __FILE__)
   
   module Fixtures
@@ -18,7 +18,7 @@ module MiniTestReporterTest
   end
 end
 
-MiniTest::Unit.runner = MiniTest::SuiteRunner.new
+MiniTest::Unit.runner = Journo::SuiteRunner.new
 
 # Testing the built-in reporters using automated unit testing would be extremely
 # brittle. Consequently, there are no unit tests for them. Instead, uncomment
@@ -28,6 +28,6 @@ MiniTest::Unit.runner = MiniTest::SuiteRunner.new
 # Personally, I like the progress reporter. Make sure you don't change that line
 # when you commit.
 # 
-# MiniTest::Unit.runner.reporters << MiniTest::Reporters::DefaultReporter.new
-# MiniTest::Unit.runner.reporters << MiniTest::Reporters::SpecReporter.new
-MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
+# MiniTest::Unit.runner.reporters << Journo::Reporters::DefaultReporter.new
+# MiniTest::Unit.runner.reporters << Journo::Reporters::SpecReporter.new
+MiniTest::Unit.runner.reporters << Journo::Reporters::ProgressReporter.new

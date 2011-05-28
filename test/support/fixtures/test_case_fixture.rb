@@ -1,4 +1,4 @@
-module MiniTestReporterTest
+module JournoTest
   module Fixtures
     class TestCaseFixture
       attr_writer :_assertions

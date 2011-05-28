@@ -1,11 +1,11 @@
 require 'test_helper'
 
-module MiniTestReporterTest
+module JournoTest
   class TestRunnerTest < TestCase
     def setup
       @suite = stub
       @test = :test_foo
-      @runner = MiniTest::TestRunner.new(@suite, @test)
+      @runner = Journo::TestRunner.new(@suite, @test)
     end
     
     test '#suite' do

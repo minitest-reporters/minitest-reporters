@@ -1,4 +1,4 @@
-module MiniTestReporterTest
+module JournoTest
   module Fixtures
     class PassTestFixture < TestCaseFixture
       def test_pass

@@ -1,4 +1,4 @@
-module MiniTestReporterTest
+module JournoTest
   module Fixtures
     class FailureTestFixture < TestCaseFixture
       def test_failure

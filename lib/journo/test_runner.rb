@@ -1,4 +1,4 @@
-module MiniTest
+module Journo
   # Runner for individual MiniTest tests.
   # 
   # You *should not* create instances of this class directly. Instances of

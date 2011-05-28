@@ -1,5 +1,7 @@
-module MiniTest
+module Journo
   class Reporter
+    VERSION = '0.1.0'
+    
     def runner
       MiniTest::Unit.runner
     end

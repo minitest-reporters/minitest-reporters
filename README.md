@@ -1,29 +1,29 @@
-# minitest-reporter - reporters for MiniTest [![StillMaintained Status](http://stillmaintained.com/CapnKernul/minitest-reporter.png)](http://stillmaintained.com/CapnKernul/minitest-reporter) [![Build Status](http://travis-ci.org/CapnKernul/minitest-reporter.png)](http://travis-ci.org/CapnKernul/minitest-reporter) #
+# journo - reporters for MiniTest [![StillMaintained Status](http://stillmaintained.com/CapnKernul/journo.png)](http://stillmaintained.com/CapnKernul/journo) [![Build Status](http://travis-ci.org/CapnKernul/journo.png)](http://travis-ci.org/CapnKernul/journo) #
 
 Allows you to extend MiniTest using reporters rather than monkey-patching.
 
 ## Installation ##
 
-    gem install minitest-reporter
+    gem install journo
 
 ## Usage ##
 
 In your `test_helper.rb` file, add the following lines:
 
-    require 'minitest-reporter'
-    MiniTest::Unit.runner = MiniTest::SuiteRunner.new
-    MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
+    require 'journo'
+    MiniTest::Unit.runner = Journo::SuiteRunner.new
+    MiniTest::Unit.runner.reporters << Journo::Reporters::ProgressReporter.new
 
 Now, just run your tests; the reporter you specified will be used and make your
 output look absolutely gorgeous! If you feel the need to write your own
-reporter, just subclass `MiniTest::Reporter` and override the methods you'd
+reporter, just subclass `Journo::Reporter` and override the methods you'd
 like. Take a look at the provided reporters for examples.
 
 The following reporters are provided:
 
-    MiniTest::Reporters::DefaultReporter # => Identical to the standard MiniTest reporter
-    MiniTest::Reporters::SpecReporter # => Turn-like output that reads like a spec
-    MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
+    Journo::Reporters::DefaultReporter # => Identical to the standard MiniTest reporter
+    Journo::Reporters::SpecReporter # => Turn-like output that reads like a spec
+    Journo::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
 
 I really like `ProgressReporter`.
 
@@ -37,9 +37,9 @@ I really like `ProgressReporter`.
 
 ## Resources ##
 
-* [GitHub Repository](https://github.com/CapnKernul/minitest-reporter)
-* [Documentation](http://rubydoc.info/github/CapnKernul/minitest-reporter)
+* [GitHub Repository](https://github.com/CapnKernul/journo)
+* [Documentation](http://rubydoc.info/github/CapnKernul/journo)
 
 ## License ##
 
-Minitest-reporter is licensed under the MIT License. See `LICENSE` for details.
+Journo is licensed under the MIT License. See `LICENSE` for details.

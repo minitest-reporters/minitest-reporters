@@ -1,4 +1,4 @@
-module MiniTest
+module Journo
   # Runner for MiniTest suites.
   # 
   # This is a heavily refactored version of the built-in MiniTest runner. It's
@@ -8,7 +8,7 @@ module MiniTest
   # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
   # 
   # @see https://github.com/seattlerb/minitest MiniTest
-  class SuiteRunner < Unit
+  class SuiteRunner < MiniTest::Unit
     attr_accessor :suite_start_time, :test_start_time, :reporters
     
     def initialize
