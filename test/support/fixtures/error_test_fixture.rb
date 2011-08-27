@@ -1,4 +1,4 @@
-module JournoTest
+module MiniTestReportersTest
   module Fixtures
     class ErrorTestFixture < TestCaseFixture
       def test_error

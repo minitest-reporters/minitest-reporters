@@ -1,18 +1,18 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path('../lib', __FILE__)
-require 'journo/version'
+require 'minitest/reporters/version'
 
 Gem::Specification.new do |s|
-  s.name        = 'journo'
-  s.version     = Journo::VERSION
+  s.name        = 'minitest-reporters'
+  s.version     = MiniTest::Reporters::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Alexander Kern']
   s.email       = ['alex@kernul.com']
-  s.homepage    = 'https://github.com/CapnKernul/journo'
-  s.summary     = %q{Reporters for MiniTest}
-  s.description = %q{Allows you to extend MiniTest using reporters rather than monkey-patching}
+  s.homepage    = 'https://github.com/CapnKernul/minitest-reporters'
+  s.summary     = %q{Create customizable MiniTest output formats}
+  s.description = %q{Death to haphazard monkey-patching! Extend MiniTest through simple hooks.}
   
-  s.rubyforge_project = 'journo'
+  s.rubyforge_project = 'minitest-reporters'
   
   s.add_dependency 'minitest', '~> 2.0'
   s.add_dependency 'ansi'

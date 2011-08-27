@@ -1,7 +1,7 @@
 require 'ansi'
 require 'progressbar'
 
-module Journo
+module MiniTest
   module Reporters
     # Fuubar-like reporter with a progress bar.
     # 
@@ -10,7 +10,8 @@ module Journo
     # 
     # @see https://github.com/jeffkreeftmeijer/fuubar Fuubar
     # @see https://gist.github.com/356945 paydro's monkey-patch
-    class ProgressReporter < Journo::Reporter
+    class ProgressReporter
+      include MiniTest::Reporter
       include ANSI::Code
       
       INFO_PADDING = 2

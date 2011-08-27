@@ -1,9 +1,13 @@
 require 'test_helper'
 
-module JournoTest
+module MiniTestReportersTest
   class ReporterTest < TestCase
     def setup
-      @reporter = Journo::Reporter.new
+      klass = Class.new do
+        include MiniTest::Reporter
+      end
+      
+      @reporter = klass.new
     end
     
     test 'callbacks' do

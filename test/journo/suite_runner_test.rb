@@ -1,9 +1,9 @@
 require 'test_helper'
 
-module JournoTest
+module MiniTestReportersTest
   class SuiteRunnerTest < TestCase
     def setup
-      @runner = Journo::SuiteRunner.new
+      @runner = MiniTest::SuiteRunner.new
       @reporter = add_reporter
     end
     
@@ -86,7 +86,7 @@ module JournoTest
       test = :test_pass
             
       @reporter.expects(:before_test).with(suite, test)
-      @reporter.expects(:pass).with(suite, test, instance_of(Journo::TestRunner))
+      @reporter.expects(:pass).with(suite, test, instance_of(MiniTest::TestRunner))
       
       @runner._run_test(suite, test)
       
@@ -100,7 +100,7 @@ module JournoTest
       test = :test_skip
             
       @reporter.expects(:before_test).with(suite, test)
-      @reporter.expects(:skip).with(suite, test, instance_of(Journo::TestRunner))
+      @reporter.expects(:skip).with(suite, test, instance_of(MiniTest::TestRunner))
       
       @runner._run_test(suite, test)
       
@@ -114,7 +114,7 @@ module JournoTest
       test = :test_failure
             
       @reporter.expects(:before_test).with(suite, test)
-      @reporter.expects(:failure).with(suite, test, instance_of(Journo::TestRunner))
+      @reporter.expects(:failure).with(suite, test, instance_of(MiniTest::TestRunner))
       
       @runner._run_test(suite, test)
       
@@ -128,7 +128,7 @@ module JournoTest
       test = :test_error
       
       @reporter.expects(:before_test).with(suite, test)
-      @reporter.expects(:error).with(suite, test, instance_of(Journo::TestRunner))
+      @reporter.expects(:error).with(suite, test, instance_of(MiniTest::TestRunner))
       
       @runner._run_test(suite, test)
       
@@ -148,7 +148,11 @@ module JournoTest
     private
     
     def add_reporter
-      reporter = Journo::Reporter.new
+      klass = Class.new do
+        include MiniTest::Reporter
+      end
+      
+      reporter = klass.new
       @runner.reporters << reporter
       reporter
     end

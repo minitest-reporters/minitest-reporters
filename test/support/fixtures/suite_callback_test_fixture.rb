@@ -1,4 +1,4 @@
-module JournoTest
+module MiniTestReportersTest
   module Fixtures
     class SuiteCallbackTestFixture < TestCaseFixture
       def self.startup; end

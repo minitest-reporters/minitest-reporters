@@ -1,6 +1,6 @@
 require 'ansi'
 
-module Journo
+module MiniTest
   module Reporters
     # Turn-like reporter that reads like a spec.
     # 
@@ -8,7 +8,8 @@ module Journo
     # 
     # @see https://github.com/TwP/turn turn
     # @see https://gist.github.com/356945 paydro's monkey-patch
-    class SpecReporter < Journo::Reporter
+    class SpecReporter
+      include MiniTest::Reporter
       include ANSI::Code
       
       TEST_PADDING = 2

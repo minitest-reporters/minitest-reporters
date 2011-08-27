@@ -1,4 +1,4 @@
-module Journo
+module MiniTest
   # Runner for MiniTest suites.
   # 
   # This is a heavily refactored version of the built-in MiniTest runner. It's
