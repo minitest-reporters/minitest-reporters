@@ -27,7 +27,10 @@ MiniTest::Unit.runner = MiniTest::SuiteRunner.new
 # 
 # Personally, I like the progress reporter. Make sure you don't change that line
 # when you commit.
-# 
-# MiniTest::Unit.runner.reporters << MiniTest::Reporters::DefaultReporter.new
-# MiniTest::Unit.runner.reporters << MiniTest::Reporters::SpecReporter.new
-MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
+if ENV['TM_PID']
+  MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMateReporter.new
+else
+  # MiniTest::Unit.runner.reporters << MiniTest::Reporters::DefaultReporter.new
+  # MiniTest::Unit.runner.reporters << MiniTest::Reporters::SpecReporter.new
+  MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
+end

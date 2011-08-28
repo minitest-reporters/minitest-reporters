@@ -24,8 +24,24 @@ The following reporters are provided:
     MiniTest::Reporters::DefaultReporter # => Identical to the standard MiniTest reporter
     MiniTest::Reporters::SpecReporter # => Turn-like output that reads like a spec
     MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
+    MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate; see below
 
-I really like `ProgressReporter`.
+I really like `ProgressReporter` for my everyday terminal usage, but I like
+using `RubyMateReporter` when I'm executing test suites from TextMate. My usual
+set up looks like this:
+
+    require 'minitest/reporters'
+    MiniTest::Unit.runner = MiniTest::SuiteRunner.new
+    if ENV['TM_PID']
+      MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMateReporter.new
+    else
+      MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
+    end
+
+## TODO ##
+
+* Make the boilerplate code look prettier. Something like a one-line require for the general use-case would be nice.
+* Add some example images of the reporters.
 
 ## Note on Patches/Pull Requests ##
 
