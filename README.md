@@ -41,11 +41,11 @@ set up looks like this:
 
 If you prefer integration with RubyMine test runner or TeamCity CI server you'll need:
 
-   if ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
-     MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
-   else
-     ...
-   end
+    if ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
+      MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
+    else
+      ...
+    end
 
 ## TODO ##
 
