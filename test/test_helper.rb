@@ -29,6 +29,8 @@ MiniTest::Unit.runner = MiniTest::SuiteRunner.new
 # when you commit.
 if ENV['TM_PID']
   MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMateReporter.new
+elsif ENV["RM_INFO"]
+  MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
 else
   # MiniTest::Unit.runner.reporters << MiniTest::Reporters::DefaultReporter.new
   # MiniTest::Unit.runner.reporters << MiniTest::Reporters::SpecReporter.new

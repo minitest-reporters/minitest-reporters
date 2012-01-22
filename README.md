@@ -24,7 +24,8 @@ The following reporters are provided:
     MiniTest::Reporters::DefaultReporter # => Identical to the standard MiniTest reporter
     MiniTest::Reporters::SpecReporter # => Turn-like output that reads like a spec
     MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
-    MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate; see below
+    MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
+    MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server; see below
 
 I really like `ProgressReporter` for my everyday terminal usage, but I like
 using `RubyMateReporter` when I'm executing test suites from TextMate. My usual
@@ -36,6 +37,14 @@ set up looks like this:
       MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMateReporter.new
     else
       MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
+    end
+
+If you prefer integration with RubyMine test runner or TeamCity CI server you'll need:
+
+    if ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
+      MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
+    else
+      ...
     end
 
 ## TODO ##
