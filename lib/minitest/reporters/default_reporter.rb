@@ -10,6 +10,10 @@ module MiniTest
     class DefaultReporter
       include MiniTest::Reporter
 
+      def initialize(backtrace_filter = MiniTest::BacktraceFilter.default_filter)
+        @backtrace_filter = backtrace_filter
+      end
+
       def before_suites(suites, type)
         puts
         puts "# Running #{type}s:"
@@ -91,7 +95,7 @@ module MiniTest
         when :skip then "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         when :error
-          bt = MiniTest::filter_backtrace(test_runner.exception.backtrace).join "\n    "
+          bt = @backtrace_filter.filter(test_runner.exception.backtrace).join "\n    "
           "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
         end
       end
