@@ -32,7 +32,7 @@ module MiniTest
       end
       
       def before_suite(suite)
-        puts suite
+        puts suite.name
       end
       
       def after_suite(suite)
