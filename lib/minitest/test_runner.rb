@@ -8,7 +8,7 @@ module MiniTest
   # 
   # @see https://github.com/seattlerb/minitest MiniTest
   class TestRunner
-    attr_reader :suite, :test, :assertions, :result, :exception
+    attr_reader :suite, :test, :assertions, :result, :exception, :options
     
     def initialize(suite, test)
       @suite = suite
