@@ -14,5 +14,6 @@ module MiniTest
     autoload :ProgressReporter, "minitest/reporters/progress_reporter"
     autoload :RubyMateReporter, "minitest/reporters/ruby_mate_reporter"
     autoload :RubyMineReporter, "minitest/reporters/rubymine_reporter"
+    autoload :GuardReporter, "minitest/reporters/guard_reporter"
   end
 end
