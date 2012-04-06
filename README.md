@@ -26,6 +26,7 @@ The following reporters are provided:
     MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
     MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
     MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server; see below
+    MiniTest::Reporters::GuardReporter # => Integrates with guard-minitest to provide on-screen notifications
 
 I really like `ProgressReporter` for my everyday terminal usage, but I like
 using `RubyMateReporter` when I'm executing test suites from TextMate. My usual
