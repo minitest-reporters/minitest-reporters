@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'minitest', '~> 2.0'
   s.add_dependency 'ansi'
   s.add_dependency 'ruby-progressbar'
+  s.add_dependency 'builder'
 
   s.add_development_dependency 'mocha'
   s.add_development_dependency 'maruku'
