@@ -51,13 +51,13 @@ module MiniTest
 
         case test_runner.result
         when :skip 
-          xml.skipped
+          xml.skipped(:type => test)
         when :error
-          xml.error(:message => xml.trunc!(e.message)) do
+          xml.error(:type => test, :message => xml.trunc!(e.message)) do
             xml.text!(message_for(test_runner))
           end
         when :failure
-          xml.failure(:message => xml.trunc!(e.message)) do
+          xml.failure(:type => test, :message => xml.trunc!(e.message)) do
             xml.text!(message_for(test_runner))
           end
         end
@@ -100,10 +100,10 @@ module MiniTest
 
       def filename_for(suite)
         file_counter = 0
-        filename = "#{suite.to_s[0..245]}.xml" #restrict max filename length, to be kind to filesystems
+        filename = "TEST-#{suite.to_s[0..240]}.xml" #restrict max filename length, to be kind to filesystems
         while File.exists?(filename) # restrict number of tries, to avoid infinite loops
           file_counter += 1
-          filename = "#{suite}-#{file_counter}.xml"
+          filename = "TEST-#{suite}-#{file_counter}.xml"
           p "Too many duplicate files, overwriting earlier report #{filename}" and break if file_counter >= 99
         end
         File.join(@reports_path, filename)
