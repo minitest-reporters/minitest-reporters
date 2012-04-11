@@ -1,6 +1,6 @@
-# require 'ansi'
-# require 'builder'
-# require 'fileutils'
+require 'ansi'
+require 'builder'
+require 'fileutils'
 module MiniTest
   module Reporters
     # A reporter for writing JUnit test reports
