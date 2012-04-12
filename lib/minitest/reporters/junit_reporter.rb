@@ -4,6 +4,7 @@ require 'fileutils'
 module MiniTest
   module Reporters
     # A reporter for writing JUnit test reports
+    # Intended for easy integration with CI servers - tested on JetBrains TeamCity
     #
     # Inspired by ci_reporter (see https://github.com/nicksieger/ci_reporter)
     # Also inspired by Marc Seeger's attempt at producing a JUnitReporter (see https://github.com/rb2k/minitest-reporters/commit/e13d95b5f884453a9c77f62bc5cba3fa1df30ef5)
@@ -101,7 +102,7 @@ module MiniTest
       def filename_for(suite)
         file_counter = 0
         filename = "TEST-#{suite.to_s[0..240]}.xml" #restrict max filename length, to be kind to filesystems
-        while File.exists?(filename) # restrict number of tries, to avoid infinite loops
+        while File.exists?(File.join(@reports_path, filename)) # restrict number of tries, to avoid infinite loops
           file_counter += 1
           filename = "TEST-#{suite}-#{file_counter}.xml"
           p "Too many duplicate files, overwriting earlier report #{filename}" and break if file_counter >= 99
