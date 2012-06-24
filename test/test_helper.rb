@@ -18,21 +18,15 @@ module MiniTestReportersTest
   end
 end
 
-MiniTest::Unit.runner = MiniTest::SuiteRunner.new
-
 # Testing the built-in reporters using automated unit testing would be extremely
 # brittle. Consequently, there are no unit tests for them. Instead, uncomment
 # the reporter that you'd like to test and run the full test suite. Make sure to
 # try them with skipped, failing, and error tests as well!
-#
-# Personally, I like the progress reporter. Make sure you don't change that line
-# when you commit.
-if ENV["TM_PID"]
-  MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMateReporter.new
-elsif ENV["RM_INFO"]
-  MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
-else
-  # MiniTest::Unit.runner.reporters << MiniTest::Reporters::DefaultReporter.new
-  # MiniTest::Unit.runner.reporters << MiniTest::Reporters::SpecReporter.new
-  MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
-end
+
+MiniTest::Reporters.choose_runner!
+
+# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::RubyMateReporter.new]
+# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::RubyMineReporter.new]
+# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::DefaultReporter.new]
+# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::SpecReporter.new]
+# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::ProgressReporter.new]
