@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'minitest/autorun'
 require 'mocha'
+require 'stringio'
 require 'test_declarative'
 require 'minitest/reporters'
 

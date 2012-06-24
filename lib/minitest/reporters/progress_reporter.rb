@@ -16,8 +16,16 @@ module MiniTest
 
       INFO_PADDING = 2
 
-      def initialize(backtrace_filter = MiniTest::BacktraceFilter.default_filter)
-        @backtrace_filter = backtrace_filter
+      def initialize(options={})
+        unless options.is_a?(Hash)
+          warn "Please use :backtrace_filter => filter instead of passing filter directly"
+          options = {:backtrace_filter => options}
+        end
+
+        @options = {
+          :backtrace_filter => MiniTest::BacktraceFilter.default_filter,
+          :detailed_skip => true
+        }.merge(options)
       end
 
       def before_suites(suites, type)
@@ -44,10 +52,12 @@ module MiniTest
 
       def skip(suite, test, test_runner)
         @color = YELLOW unless @color == RED
-        print(yellow { 'SKIP' })
-        print_test_with_time(suite, test)
-        puts
-        puts
+        if @options[:detailed_skip]
+          print(yellow { 'SKIP' })
+          print_test_with_time(suite, test)
+          puts
+          puts
+        end
         increment
       end
 
@@ -94,7 +104,7 @@ module MiniTest
       def print_info(e)
         e.message.each_line { |line| puts pad(line) }
 
-        trace = @backtrace_filter.filter(e.backtrace)
+        trace = @options[:backtrace_filter].filter(e.backtrace)
         trace.each { |line| puts pad(line) }
       end
 
