@@ -11,13 +11,16 @@ Death to haphazard monkey-patching! Extend MiniTest through simple hooks.
 In your `test_helper.rb` file, add the following lines:
 
     require 'minitest/reporters'
-    MiniTest::Unit.runner = MiniTest::SuiteRunner.new
-    MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
+    MiniTest::Runners.choose_runner!
 
-Now, just run your tests; the reporter you specified will be used and make your
-output look absolutely gorgeous! If you feel the need to write your own
-reporter, just `include MiniTest::Reporter` and override the methods you'd like.
+The correct formatter will be chosen for Textmate/Rubymine/console.
+If you feel the need to write your own reporter, just `include MiniTest::Reporter` and override the methods you'd like.
 Take a look at the provided reporters for examples.
+
+Don't like progressbar ?
+
+    MiniTest::Runners.choose_runner! :console => MiniTest::Reporters::SpecReporter.new
+
 
 The following reporters are provided:
 
@@ -28,29 +31,8 @@ The following reporters are provided:
     MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server; see below
     MiniTest::Reporters::GuardReporter # => Integrates with guard-minitest to provide on-screen notifications
 
-I really like `ProgressReporter` for my everyday terminal usage, but I like
-using `RubyMateReporter` when I'm executing test suites from TextMate. My usual
-set up looks like this:
-
-    require 'minitest/reporters'
-    MiniTest::Unit.runner = MiniTest::SuiteRunner.new
-    if ENV['TM_PID']
-      MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMateReporter.new
-    else
-      MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
-    end
-
-If you prefer integration with RubyMine test runner or TeamCity CI server you'll need:
-
-    if ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
-      MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
-    else
-      ...
-    end
-
 ## TODO ##
 
-* Make the boilerplate code look prettier. Something like a one-line require for the general use-case would be nice.
 * Add some example images of the reporters.
 
 ## Note on Patches/Pull Requests ##
