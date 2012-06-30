@@ -26,6 +26,7 @@ end
 MiniTest::Reporters.use!
 # MiniTest::Reporters.use! MiniTest::Reporters::DefaultReporter.new
 # MiniTest::Reporters.use! MiniTest::Reporters::SpecReporter.new
+# MiniTest::Reporters.use! MiniTest::Reporters::ProgressReporter.new(:detailed_skip => false)
 # MiniTest::Reporters.use! MiniTest::Reporters::RubyMateReporter.new
 # MiniTest::Reporters.use! MiniTest::Reporters::RubyMineReporter.new
 # MiniTest::Reporters.use! MiniTest::Reporters::GuardReporter.new
