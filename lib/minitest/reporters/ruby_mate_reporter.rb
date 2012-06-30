@@ -5,11 +5,11 @@ module MiniTest
   module Reporters
     # Simple reporter designed for RubyMate.
     class RubyMateReporter
-      include MiniTest::Reporter
+      include Reporter
 
       INFO_PADDING = 2
 
-      def initialize(backtrace_filter = MiniTest::BacktraceFilter.default_filter)
+      def initialize(backtrace_filter = BacktraceFilter.default_filter)
         @backtrace_filter = backtrace_filter
       end
 

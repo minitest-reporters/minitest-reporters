@@ -23,10 +23,10 @@ end
 # the reporter that you'd like to test and run the full test suite. Make sure to
 # try them with skipped, failing, and error tests as well!
 
-MiniTest::Reporters.choose_runner!
-
-# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::RubyMateReporter.new]
-# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::RubyMineReporter.new]
-# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::DefaultReporter.new]
-# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::SpecReporter.new]
-# MiniTest::Unit.runner.reporters.replace [MiniTest::Reporters::ProgressReporter.new]
+MiniTest::Reporters.use!
+# MiniTest::Reporters.use! MiniTest::Reporters::DefaultReporter.new
+# MiniTest::Reporters.use! MiniTest::Reporters::SpecReporter.new
+# MiniTest::Reporters.use! MiniTest::Reporters::RubyMateReporter.new
+# MiniTest::Reporters.use! MiniTest::Reporters::RubyMineReporter.new
+# MiniTest::Reporters.use! MiniTest::Reporters::GuardReporter.new
+# MiniTest::Reporters.use! MiniTest::Reporters::JUnitReporter.new

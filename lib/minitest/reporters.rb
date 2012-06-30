@@ -17,19 +17,19 @@ module MiniTest
     autoload :GuardReporter, "minitest/reporters/guard_reporter"
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
 
-    def self.choose_runner!
-      MiniTest::Unit.runner = MiniTest::SuiteRunner.new
-      MiniTest::Unit.runner.reporters << reporter
+    def self.use!(console_reporters = ProgressReporter.new, env = ENV)
+      runner = SuiteRunner.new
+      runner.reporters = choose_reporters(console_reporters, env)
+      Unit.runner = runner
     end
 
-    def self.reporter(options={})
-      env = options[:env] || ENV
-      if env['TM_PID']
-        RubyMateReporter.new
-      elsif env['RM_INFO'] || env['TEAMCITY_VERSION']
-        RubyMineReporter.new
+    def self.choose_reporters(console_reporters, env)
+      if env["TM_PID"]
+        [RubyMateReporter.new]
+      elsif env["RM_INFO"] || env["TEAMCITY_VERSION"]
+        [RubyMineReporter.new]
       else
-        options[:console] || ProgressReporter.new
+        Array(console_reporters)
       end
     end
   end

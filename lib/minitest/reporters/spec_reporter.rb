@@ -9,14 +9,14 @@ module MiniTest
     # @see https://github.com/TwP/turn turn
     # @see https://gist.github.com/356945 paydro's monkey-patch
     class SpecReporter
-      include MiniTest::Reporter
+      include Reporter
       include ANSI::Code
 
       TEST_PADDING = 2
       INFO_PADDING = 8
       MARK_SIZE    = 5
 
-      def initialize(backtrace_filter = MiniTest::BacktraceFilter.default_filter)
+      def initialize(backtrace_filter = BacktraceFilter.default_filter)
         @backtrace_filter = backtrace_filter
       end
 

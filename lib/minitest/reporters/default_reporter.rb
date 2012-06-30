@@ -8,9 +8,9 @@ module MiniTest
     #
     # @see https://github.com/seattlerb/minitest MiniTest
     class DefaultReporter
-      include MiniTest::Reporter
+      include Reporter
 
-      def initialize(backtrace_filter = MiniTest::BacktraceFilter.default_filter)
+      def initialize(backtrace_filter = BacktraceFilter.default_filter)
         @backtrace_filter = backtrace_filter
       end
 

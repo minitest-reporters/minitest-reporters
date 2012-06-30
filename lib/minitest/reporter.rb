@@ -1,7 +1,7 @@
 module MiniTest
   module Reporter
     def runner
-      MiniTest::Unit.runner
+      Unit.runner
     end
     
     def output

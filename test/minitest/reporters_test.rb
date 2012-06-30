@@ -2,34 +2,26 @@ require 'test_helper'
 
 module MiniTestReportersTest
   class ReportersTest < TestCase
-    test ".reporter sets up progressbar by default" do
-      reporter = Minitest::Reporters.reporter :env => {}
-      assert_equal MiniTest::Reporters::ProgressReporter, reporter.class
+    test "chooses the Rubymine reporter when necessary" do
+      # Rubymine reporter complains when RubyMine libs are not available, so
+      # stub its #puts method out.
+      MiniTest::Unit.runner.output.stubs(:puts) 
+
+      reporters = Minitest::Reporters.choose_reporters [], { "RM_INFO" => "x" }
+      assert_instance_of MiniTest::Reporters::RubyMineReporter, reporters[0]
+
+      reporters = Minitest::Reporters.choose_reporters [], { "TEAMCITY_VERSION" => "x" }
+      assert_instance_of MiniTest::Reporters::RubyMineReporter, reporters[0]
     end
 
-    test ".reporter uses Rubymine when necessary" do
-      MiniTest::Unit.runner.output.stubs(:puts) # Rubymine reporter complains when rubymine libs are not available
-
-      reporter = Minitest::Reporters.reporter :env => {"RM_INFO" => "x"}
-      assert_equal MiniTest::Reporters::RubyMineReporter, reporter.class
-
-      reporter = Minitest::Reporters.reporter :env => {"TEAMCITY_VERSION" => "x"}
-      assert_equal MiniTest::Reporters::RubyMineReporter, reporter.class
+    test "chooses the TextMate reporter when necessary" do
+      reporters = Minitest::Reporters.choose_reporters [], {"TM_PID" => "x"}
+      assert_instance_of MiniTest::Reporters::RubyMateReporter, reporters[0]
     end
 
-    test ".reporter uses Textmate when necessary" do
-      reporter = Minitest::Reporters.reporter :env => {"TM_PID" => "x"}
-      assert_equal MiniTest::Reporters::RubyMateReporter, reporter.class
-    end
-
-    test ".reporter chooses passed :console reporter with empty env" do
-      reporter = Minitest::Reporters.reporter :env => {}, :console => MiniTest::Reporters::SpecReporter.new
-      assert_equal MiniTest::Reporters::SpecReporter, reporter.class
-    end
-
-    test ".reporter does not choose passed :console reporter with matching env" do
-      reporter = Minitest::Reporters.reporter :env => {"TM_PID" => "x"}, :console => MiniTest::Reporters::SpecReporter.new
-      assert_equal MiniTest::Reporters::RubyMateReporter, reporter.class
+    test "chooses the console reporters when necessary" do
+      reporters = Minitest::Reporters.choose_reporters [MiniTest::Reporters::SpecReporter.new], {}
+      assert_instance_of MiniTest::Reporters::SpecReporter, reporters[0]
     end
   end
 end

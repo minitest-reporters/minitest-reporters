@@ -24,8 +24,8 @@ module MiniTest
     
     def puke(suite, test, exception)
       case exception
-      when MiniTest::Skip then [:skip, exception]
-      when MiniTest::Assertion then [:failure, exception]
+      when Skip then [:skip, exception]
+      when Assertion then [:failure, exception]
       else [:error, exception]
       end
     end

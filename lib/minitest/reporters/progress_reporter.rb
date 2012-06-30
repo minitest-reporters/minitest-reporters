@@ -11,12 +11,12 @@ module MiniTest
     # @see https://github.com/jeffkreeftmeijer/fuubar Fuubar
     # @see https://gist.github.com/356945 paydro's monkey-patch
     class ProgressReporter
-      include MiniTest::Reporter
+      include Reporter
       include ANSI::Code
 
       INFO_PADDING = 2
 
-      def initialize(backtrace_filter = MiniTest::BacktraceFilter.default_filter)
+      def initialize(backtrace_filter = BacktraceFilter.default_filter)
         @backtrace_filter = backtrace_filter
       end
 

@@ -27,7 +27,7 @@ rescue LoadError
   # delegate to default reporter
   module MiniTest
     module Reporters
-      class RubyMineReporter < MiniTest::Reporters::DefaultReporter
+      class RubyMineReporter < DefaultReporter
       end
     end
   end
@@ -35,7 +35,7 @@ else
   module MiniTest
     module Reporters
       class RubyMineReporter
-        include MiniTest::Reporter
+        include Reporter
         include ANSI::Code
 
         include ::Rake::TeamCity::RunnerCommon

@@ -8,7 +8,7 @@ module MiniTest
   # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
   # 
   # @see https://github.com/seattlerb/minitest MiniTest
-  class SuiteRunner < MiniTest::Unit
+  class SuiteRunner < Unit
     attr_accessor :suite_start_time, :test_start_time, :reporters
     
     def initialize

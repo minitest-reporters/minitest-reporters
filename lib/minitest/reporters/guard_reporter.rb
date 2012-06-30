@@ -1,15 +1,14 @@
 begin
-  require 'guard/minitest/notifier'
+  require "guard/minitest/notifier"
 rescue LoadError
-  puts "You need guard-minitest to use this reporter"
+  puts "You need guard-minitest to use this reporter."
   exit 1
 end
 
 module MiniTest
   module Reporters
-
     class GuardReporter
-      include MiniTest::Reporter
+      include Reporter
 
       def after_suites(*args)
         duration = Time.now - runner.start_time

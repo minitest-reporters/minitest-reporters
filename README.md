@@ -10,17 +10,18 @@ Death to haphazard monkey-patching! Extend MiniTest through simple hooks.
 
 In your `test_helper.rb` file, add the following lines:
 
-    require 'minitest/reporters'
-    MiniTest::Runners.choose_runner!
+    require "minitest/reporters"
+    MiniTest::Reporters.use!
 
-The correct formatter will be chosen for Textmate/Rubymine/console.
-If you feel the need to write your own reporter, just `include MiniTest::Reporter` and override the methods you'd like.
-Take a look at the provided reporters for examples.
+This will swap out the MiniTest runner to the custom one used by minitest-reporters and use the correct reporters for Textmate, Rubymine, and the console. If you would like to write your own reporter, just `include MiniTest::Reporter` and override the methods you'd like. Take a look at the provided reporters for examples.
 
-Don't like progressbar ?
+Don't like the default progress bar reporter?
 
-    MiniTest::Runners.choose_runner! :console => MiniTest::Reporters::SpecReporter.new
+    MiniTest::Reporters.use! MiniTest::Reporters::SpecReporter.new
 
+Want to use multiple reporters?
+
+    MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new, MiniTest::Reporters::GuardReporter.new]
 
 The following reporters are provided:
 

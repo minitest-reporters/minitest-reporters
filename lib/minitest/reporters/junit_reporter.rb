@@ -10,9 +10,9 @@ module MiniTest
     # Also inspired by Marc Seeger's attempt at producing a JUnitReporter (see https://github.com/rb2k/minitest-reporters/commit/e13d95b5f884453a9c77f62bc5cba3fa1df30ef5)
     # Also inspired by minitest-ci (see https://github.com/bhenderson/minitest-ci)
     class JUnitReporter
-      include MiniTest::Reporter
+      include Reporter
 
-      def initialize(reports_dir = "test/reports", backtrace_filter = MiniTest::BacktraceFilter.default_filter)
+      def initialize(reports_dir = "test/reports", backtrace_filter = BacktraceFilter.default_filter)
         @backtrace_filter = backtrace_filter
         @reports_path = File.join(Dir.getwd, reports_dir)
         p "Emptying #{@reports_path}"
