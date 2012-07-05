@@ -1,5 +1,5 @@
 require 'ansi'
-require 'progressbar'
+require File.expand_path('../../internal_progressbar', __FILE__)
 
 module MiniTest
   module Reporters
