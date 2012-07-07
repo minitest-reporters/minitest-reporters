@@ -25,12 +25,12 @@ Want to use multiple reporters?
 
 The following reporters are provided:
 
-    MiniTest::Reporters::DefaultReporter # => Identical to the standard MiniTest reporter
-    MiniTest::Reporters::SpecReporter # => Turn-like output that reads like a spec
+    MiniTest::Reporters::DefaultReporter  # => Identical to the standard MiniTest reporter
+    MiniTest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
     MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
     MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
     MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server; see below
-    MiniTest::Reporters::GuardReporter # => Integrates with guard-minitest to provide on-screen notifications
+    MiniTest::Reporters::GuardReporter    # => Integrates with guard-minitest to provide on-screen notifications
 
 ## TODO ##
 
