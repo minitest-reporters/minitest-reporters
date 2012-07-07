@@ -1,5 +1,4 @@
 require 'ansi'
-require 'progressbar'
 
 module MiniTest
   module Reporters

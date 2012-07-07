@@ -1,5 +1,5 @@
 require 'ansi'
-require 'progressbar'
+require 'powerbar'
 
 module MiniTest
   module Reporters
@@ -25,24 +25,29 @@ module MiniTest
           @backtrace_filter = options
           @detailed_skip = true
         end
+
+        @progress = PowerBar.new(:msg => "0/#{runner.test_count}")
+        @progress.settings.tty.finite.output = lambda { |s| print(s) }
+        @progress.settings.tty.finite.template.barchar = "="
+        @progress.settings.tty.finite.template.padchar = " "
+        @progress.settings.tty.finite.template.pre = "\e[1000D\e[?25l#{GREEN}"
+        @progress.settings.tty.finite.template.post = CLEAR
       end
 
       def before_suites(suites, type)
         puts 'Started'
         puts
 
-        @color = GREEN
         @finished_count = 0
-        @progress = ProgressBar.new("0/#{runner.test_count}", runner.test_count, runner.output)
-        @progress.bar_mark = '='
       end
 
       def increment
-        with_color do
-          @finished_count += 1
-          @progress.instance_variable_set('@title', "#{@finished_count}/#{runner.test_count}")
-          @progress.inc
-        end
+        @finished_count += 1
+        @progress.show({
+          :msg => "#{@finished_count}/#{runner.test_count}",
+          :done => @finished_count,
+          :total => runner.test_count
+        }, true)
       end
 
       def pass(suite, test, test_runner)
@@ -50,43 +55,48 @@ module MiniTest
       end
 
       def skip(suite, test, test_runner)
-        @color = YELLOW unless @color == RED
-
         if @detailed_skip
+          wipe
           print(yellow { 'SKIP' })
           print_test_with_time(suite, test)
           puts
           puts
         end
 
+        self.color = YELLOW unless color == RED
         increment
       end
 
       def failure(suite, test, test_runner)
-        @color = RED
+        wipe
         print(red { 'FAIL' })
         print_test_with_time(suite, test)
         puts
         print_info(test_runner.exception)
         puts
+
+        self.color = RED
         increment
       end
 
       def error(suite, test, test_runner)
-        @color = RED
+        wipe
         print(red { 'ERROR' })
         print_test_with_time(suite, test)
         puts
         print_info(test_runner.exception)
         puts
+
+        self.color = RED
         increment
       end
 
       def after_suites(suites, type)
-        with_color { @progress.finish }
+        @progress.close
 
         total_time = Time.now - runner.start_time
 
+        wipe
         puts
         puts('Finished in %.5fs' % total_time)
         print('%d tests, %d assertions, ' % [runner.test_count, runner.assertion_count])
@@ -96,6 +106,10 @@ module MiniTest
       end
 
       private
+
+      def wipe
+        @progress.wipe
+      end
 
       def print_test_with_time(suite, test)
         total_time = Time.now - runner.test_start_time
@@ -113,10 +127,13 @@ module MiniTest
         ' ' * INFO_PADDING + str
       end
 
-      def with_color
-        print @color
-        yield
-        print CLEAR
+      def color
+        @color ||= GREEN
+      end
+
+      def color=(color)
+        @color = color
+        @progress.scope.template.pre = "\e[1000D\e[?25l#{@color}"
       end
     end
   end
