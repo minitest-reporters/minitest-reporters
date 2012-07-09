@@ -12,9 +12,11 @@ module MiniTest
       include Reporter
       include ANSI::Code
 
-      TEST_PADDING = 2
-      INFO_PADDING = 8
-      MARK_SIZE    = 5
+      TEST_SIZE    = 70
+      TEST_PADDING =  2
+      MARK_SIZE    =  5
+      MARK_PADDING =  1
+      INFO_PADDING =  8
 
       def initialize(backtrace_filter = BacktraceFilter.default_filter)
         @backtrace_filter = backtrace_filter
@@ -43,21 +45,25 @@ module MiniTest
         puts
       end
 
+      def before_test(suite, test)
+        print pad_test(test)
+      end
+
       def pass(suite, test, test_runner)
         print(green { pad_mark('PASS') })
-        print_test_with_time(test)
+        print_time(test)
         puts
       end
 
       def skip(suite, test, test_runner)
         print(yellow { pad_mark('SKIP') })
-        print_test_with_time(test)
+        print_time(test)
         puts
       end
 
       def failure(suite, test, test_runner)
         print(red { pad_mark('FAIL') })
-        print_test_with_time(test)
+        print_time(test)
         puts
         print_info(test_runner.exception)
         puts
@@ -65,7 +71,7 @@ module MiniTest
 
       def error(suite, test, test_runner)
         print(red { pad_mark('ERROR') })
-        print_test_with_time(test)
+        print_time(test)
         puts
         print_info(test_runner.exception)
         puts
@@ -73,9 +79,9 @@ module MiniTest
 
       private
 
-      def print_test_with_time(test)
+      def print_time(test)
         total_time = Time.now - runner.test_start_time
-        print(" %s (%.2fs)" % [test, total_time])
+        print(" (%5.2fs)" % [total_time])
       end
 
       def print_info(e)
@@ -90,7 +96,11 @@ module MiniTest
       end
 
       def pad_mark(str)
-        pad("%#{MARK_SIZE}s" % str, TEST_PADDING)
+        pad("%#{MARK_SIZE}s" % str, MARK_PADDING)
+      end
+
+      def pad_test(str)
+        pad("%-#{TEST_SIZE}s" % str, TEST_PADDING)
       end
     end
   end
