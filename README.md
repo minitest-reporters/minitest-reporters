@@ -32,10 +32,6 @@ The following reporters are provided:
     MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server; see below
     MiniTest::Reporters::GuardReporter    # => Integrates with guard-minitest to provide on-screen notifications
 
-## TODO ##
-
-* Add some example images of the reporters.
-
 ## Note on Patches/Pull Requests ##
 
 * Fork the project.
