@@ -27,7 +27,7 @@ module MiniTest
       end
 
       def after_suites(suites, type)
-        total_time = Time.now - runner.start_time
+        total_time = Time.now - runner.suites_start_time
 
         puts('Finished in %.5fs' % total_time)
         print('%d tests, %d assertions, ' % [runner.test_count, runner.assertion_count])

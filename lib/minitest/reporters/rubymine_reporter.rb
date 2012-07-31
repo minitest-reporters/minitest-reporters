@@ -1,14 +1,5 @@
 # Test results reporter for RubyMine IDE (http://www.jetbrains.com/ruby/) and
 # TeamCity(http://www.jetbrains.com/teamcity/) Continuous Integration Server
-#
-# Usage:
-#     # in test_helper.rb
-#     ...
-#     if ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
-#       MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
-#     else
-#       MiniTest::Unit.runner.reporters << MiniTest::Reporters::DefaultReporter.new
-#     end
 
 require "ansi"
 begin
@@ -81,7 +72,7 @@ else
         end
 
         def after_suites(suites, type)
-          total_time = Time.now - runner.start_time
+          total_time = Time.now - runner.suites_start_time
 
           puts('Finished in %.5fs' % total_time)
           print('%d tests, %d assertions, ' % [runner.test_count, runner.assertion_count])

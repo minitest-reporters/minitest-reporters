@@ -3,23 +3,23 @@ module MiniTest
     def runner
       Unit.runner
     end
-    
+
     def output
       runner.output
     end
-    
+
     def verbose?
       runner.verbose
     end
-    
+
     def print(*args)
       runner.output.print(*args)
     end
-    
+
     def puts(*args)
       runner.output.puts(*args)
     end
-    
+
     def before_suites(suites, type); end
     def after_suites(suites, type); end
     def before_suite(suite); end

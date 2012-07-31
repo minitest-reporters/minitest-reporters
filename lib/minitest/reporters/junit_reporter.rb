@@ -15,14 +15,14 @@ module MiniTest
       def initialize(reports_dir = "test/reports", backtrace_filter = BacktraceFilter.default_filter)
         @backtrace_filter = backtrace_filter
         @reports_path = File.join(Dir.getwd, reports_dir)
-        p "Emptying #{@reports_path}"
+        puts "Emptying #{@reports_path}"
         FileUtils.remove_dir(@reports_path) if File.exists?(@reports_path)
         FileUtils.mkdir_p(@reports_path)
       end
 
       def after_suites(suites, type)
-        p "Writing XML reports to #{@reports_path}"
-        runner.report.each do |suite, tests|
+        puts "Writing XML reports to #{@reports_path}"
+        runner.test_results.each do |suite, tests|
           suite_result = analyze_suite(suite, tests)
 
           xml = Builder::XmlMarkup.new(:indent => 2)
@@ -51,7 +51,7 @@ module MiniTest
         e = test_runner.exception
 
         case test_runner.result
-        when :skip 
+        when :skip
           xml.skipped(:type => test)
         when :error
           xml.error(:type => test, :message => xml.trunc!(e.message)) do
@@ -79,7 +79,7 @@ module MiniTest
         end
       end
 
-      
+
       def location(exception)
         last_before_assertion = ''
         exception.backtrace.reverse_each do |s|
@@ -105,7 +105,7 @@ module MiniTest
         while File.exists?(File.join(@reports_path, filename)) # restrict number of tries, to avoid infinite loops
           file_counter += 1
           filename = "TEST-#{suite}-#{file_counter}.xml"
-          p "Too many duplicate files, overwriting earlier report #{filename}" and break if file_counter >= 99
+          puts "Too many duplicate files, overwriting earlier report #{filename}" and break if file_counter >= 99
         end
         File.join(@reports_path, filename)
       end

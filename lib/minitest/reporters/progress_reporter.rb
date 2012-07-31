@@ -46,7 +46,7 @@ module MiniTest
         @progress.show({
           :msg => "#{@finished_count}/#{runner.test_count}",
           :done => @finished_count,
-          :total => runner.test_count
+          :total => runner.test_count,
         }, true)
       end
 
@@ -94,7 +94,7 @@ module MiniTest
       def after_suites(suites, type)
         @progress.close
 
-        total_time = Time.now - runner.start_time
+        total_time = Time.now - runner.suites_start_time
 
         wipe
         puts

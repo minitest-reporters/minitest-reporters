@@ -1,10 +1,11 @@
 require "minitest/unit"
 
 module MiniTest
-  autoload :Reporter, "minitest/reporter"
-  autoload :SuiteRunner, "minitest/suite_runner"
-  autoload :TestRunner, "minitest/test_runner"
-  autoload :BacktraceFilter, "minitest/backtrace_filter"
+  require "minitest/reporter"
+  require "minitest/reporter_runner"
+  require "minitest/before_test_hook"
+  require "minitest/test_runner"
+  require "minitest/backtrace_filter"
 
   module Reporters
     require "minitest/reporters/version"
@@ -18,9 +19,14 @@ module MiniTest
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
 
     def self.use!(console_reporters = ProgressReporter.new, env = ENV)
-      runner = SuiteRunner.new
+      include_hook!
+      runner = ReporterRunner.new
       runner.reporters = choose_reporters(console_reporters, env)
       Unit.runner = runner
+    end
+
+    def self.include_hook!
+      Unit::TestCase.send(:include, BeforeTestHook)
     end
 
     def self.choose_reporters(console_reporters, env)

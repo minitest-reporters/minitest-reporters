@@ -1,20 +1,11 @@
 require 'bundler/setup'
 require 'minitest/autorun'
-require 'mocha'
-require 'test_declarative'
+require 'rr'
 require 'minitest/reporters'
 
 module MiniTestReportersTest
-  require File.expand_path('../support/test_case', __FILE__)
-
-  module Fixtures
-    require File.expand_path('../support/fixtures/test_case_fixture', __FILE__)
-    require File.expand_path('../support/fixtures/empty_test_fixture', __FILE__)
-    require File.expand_path('../support/fixtures/error_test_fixture', __FILE__)
-    require File.expand_path('../support/fixtures/failure_test_fixture', __FILE__)
-    require File.expand_path('../support/fixtures/pass_test_fixture', __FILE__)
-    require File.expand_path('../support/fixtures/skip_test_fixture', __FILE__)
-    require File.expand_path('../support/fixtures/suite_callback_test_fixture', __FILE__)
+  class TestCase < MiniTest::Unit::TestCase
+    include RR::Adapters::MiniTest
   end
 end
 

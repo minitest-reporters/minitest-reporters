@@ -41,7 +41,7 @@ module MiniTest
       end
 
       def after_suites(suites, type)
-        time = Time.now - runner.start_time
+        time = Time.now - runner.suites_start_time
 
         puts
         puts
@@ -49,7 +49,7 @@ module MiniTest
           [time, runner.test_count / time, runner.assertion_count / time]
 
         i = 0
-        runner.report.each do |suite, tests|
+        runner.test_results.each do |suite, tests|
           tests.each do |test, test_runner|
             message = message_for(test_runner)
             if message
@@ -60,7 +60,6 @@ module MiniTest
         end
 
         puts
-
         puts status
       end
 
