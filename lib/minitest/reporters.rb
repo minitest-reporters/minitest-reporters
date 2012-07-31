@@ -26,7 +26,13 @@ module MiniTest
     end
 
     def self.include_hook!
-      Unit::TestCase.send(:include, BeforeTestHook)
+      if Unit::VERSION >= "3.3.0"
+        Unit::TestCase.send(:include, BeforeTestHook)
+      else
+        Unit::TestCase.send(:define_method, :before_setup) do
+          BeforeTestHook.before_test(self)
+        end
+      end
     end
 
     def self.choose_reporters(console_reporters, env)
