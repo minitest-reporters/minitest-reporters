@@ -37,6 +37,8 @@ module MiniTest
     end
 
     def record(suite, test, assertions, time, exception)
+      self.assertion_count += assertions
+
       result = case exception
       when nil then :pass
       when Skip then :skip
