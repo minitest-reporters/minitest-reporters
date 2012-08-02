@@ -1,4 +1,4 @@
-# minitest-reporters - create customizable MiniTest output formats [![StillMaintained Status](http://stillmaintained.com/CapnKernul/minitest-reporters.png)](http://stillmaintained.com/CapnKernul/minitest-reporters) [![Build Status](http://travis-ci.org/CapnKernul/minitest-reporters.png)](http://travis-ci.org/CapnKernul/minitest-reporters) #
+# minitest-reporters - create customizable MiniTest output formats [![Build Status](http://travis-ci.org/CapnKernul/minitest-reporters.png)](http://travis-ci.org/CapnKernul/minitest-reporters) #
 
 Death to haphazard monkey-patching! Extend MiniTest through simple hooks.
 
