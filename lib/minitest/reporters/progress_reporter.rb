@@ -113,7 +113,7 @@ module MiniTest
 
       def print_test_with_time(suite, test)
         total_time = Time.now - runner.test_start_time
-        print(" #{suite}##{test} (%.2fs)#{clr}" % total_time)
+        print(" %s#%s (%.2fs)%s" % [suite, test, total_time, clr])
       end
 
       def print_info(e)
