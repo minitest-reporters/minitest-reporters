@@ -1,6 +1,8 @@
 require 'bundler/setup'
 require 'minitest/autorun'
 require 'rr'
+
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 require 'minitest/reporters'
 
 module MiniTestReportersTest
@@ -13,6 +15,7 @@ end
 # brittle. Consequently, there are no unit tests for them. Instead, uncomment
 # the reporter that you'd like to test and run the full test suite. Make sure to
 # try them with skipped, failing, and error tests as well!
+# or simply run `REPORTER=DefaultReporter rake gallery`
 
 MiniTest::Reporters.use!
 # MiniTest::Reporters.use! MiniTest::Reporters::DefaultReporter.new
