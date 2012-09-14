@@ -1,6 +1,8 @@
 require 'bundler/setup'
 require 'minitest/autorun'
 require 'rr'
+
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 require 'minitest/reporters'
 
 module MiniTestReportersTest
