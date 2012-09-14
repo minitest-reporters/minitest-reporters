@@ -15,6 +15,7 @@ end
 # brittle. Consequently, there are no unit tests for them. Instead, uncomment
 # the reporter that you'd like to test and run the full test suite. Make sure to
 # try them with skipped, failing, and error tests as well!
+# or simply run `REPORTER=DefaultReporter rake gallery`
 
 MiniTest::Reporters.use!
 # MiniTest::Reporters.use! MiniTest::Reporters::DefaultReporter.new
