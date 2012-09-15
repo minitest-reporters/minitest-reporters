@@ -3,7 +3,6 @@ rdoc
 pkg
 test/tmp
 test/version_tmp
-test/reports
 tmp
 pkg
 *.gem
