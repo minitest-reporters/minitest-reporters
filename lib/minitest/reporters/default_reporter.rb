@@ -10,21 +10,22 @@ module MiniTest
     class DefaultReporter
       include Reporter
 
-      def initialize(options={})
+      def initialize(options = {})
         if options.is_a?(Hash)
           @backtrace_filter = options.fetch(:backtrace_filter, BacktraceFilter.default_filter)
-          @color = options.fetch(:color){
+          @detailed_skip = options.fetch(:detailed_skip, true)
+          @color = options.fetch(:color) do
             output.tty? && (
               ENV["TERM"] == "screen" ||
               ENV["TERM"] =~ /term(?:-(?:256)?color)?\z/ ||
               ENV["EMACS"] == "t"
             )
-          }
-          @detailed_skip = options.fetch(:detailed_skip, true)
+          end
         else
           warn "Please use :backtrace_filter => filter instead of passing in the filter directly."
           @backtrace_filter = options
           @detailed_skip = true
+          @color = false
         end
       end
 
@@ -39,66 +40,72 @@ module MiniTest
       end
 
       def pass(suite, test, test_runner)
-        after_test(color(:pass, '.'))
+        after_test(green { '.' })
       end
 
       def skip(suite, test, test_runner)
-        after_test(color(:skip, 'S'))
+        after_test(yellow { 'S' })
       end
 
       def failure(suite, test, test_runner)
-        after_test(color(:failure, 'F'))
+        after_test(red { 'F' })
       end
 
       def error(suite, test, test_runner)
-        after_test(color(:error, 'E'))
+        after_test(red { 'E' })
       end
 
       def after_suites(suites, type)
         time = Time.now - runner.suites_start_time
-
-        result = (
-          runner.failures > 0 ? :failure :
-          runner.errors > 0 ? :error :
-          runner.skips > 0 ? :skip :
-          :pass
-        )
+        status_line = colored_for(suite_result) do
+          "Finished %ss in %.6fs, %.4f tests/s, %.4f assertions/s." %
+            [type, time, runner.test_count / time, runner.assertion_count / time]
+        end
 
         puts
         puts
-        stats = "Finished #{type}s in %.6fs, %.4f tests/s, %.4f assertions/s." %
-          [time, runner.test_count / time, runner.assertion_count / time]
-        puts color(result, stats)
+        puts status_line
 
-        i = 0
         runner.test_results.each do |suite, tests|
           tests.each do |test, test_runner|
-            message = message_for(test_runner)
-            if message
-              i += 1
-              puts color(test_runner.result, "\n%3d) %s" % [i, message])
+            if message = message_for(test_runner)
+              puts
+              print(colored_for(test_runner.result) { message })
             end
           end
         end
 
         puts
-        puts color(result, status)
+        puts(colored_for(suite_result) { status })
       end
 
       private
 
-      def color(code, string)
-        if @color
-          color = {
-            :failure => :red,
-            :error => :red,
-            :skip => :yellow,
-            :pass => :green
-          }[code] || raise("Unknonw code #{code.inspect}")
+      def green(&block)
+        @color ? ANSI::Code.green(&block) : yield
+      end
 
-          ANSI::Code.send(color, string)
-        else
-          string
+      def yellow(&block)
+        @color ? ANSI::Code.yellow(&block) : yield
+      end
+
+      def red(&block)
+        @color ? ANSI::Code.red(&block) : yield
+      end
+
+      def colored_for(result, &block)
+        case result
+        when :failure, :error; red(&block)
+        when :skip; yellow(&block)
+        else green(&block)
+        end
+      end
+
+      def suite_result
+        if runner.failures > 0; :failure
+        elsif runner.errors > 0; :error
+        elsif runner.skips > 0; :skip
+        else :pass
         end
       end
 
