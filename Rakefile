@@ -3,13 +3,11 @@ require "rake/testtask"
 
 task :default => :test
 Rake::TestTask.new do |t|
-  t.libs << "test"
   t.pattern = "test/unit/**/*_test.rb"
   t.verbose = true
 end
 
 Rake::TestTask.new("test:gallery") do |t|
-  t.libs << "test"
   t.pattern = "test/gallery/**/*_test.rb"
   t.verbose = true
 end
