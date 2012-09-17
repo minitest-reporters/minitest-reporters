@@ -10,8 +10,22 @@ module MiniTest
     class DefaultReporter
       include Reporter
 
-      def initialize(backtrace_filter = BacktraceFilter.default_filter)
-        @backtrace_filter = backtrace_filter
+      def initialize(options={})
+        if options.is_a?(Hash)
+          @backtrace_filter = options.fetch(:backtrace_filter, BacktraceFilter.default_filter)
+          @color = options.fetch(:color){
+            output.tty? && (
+              ENV["TERM"] == "screen" ||
+              ENV["TERM"] =~ /term(?:-(?:256)?color)?\z/ ||
+              ENV["EMACS"] == "t"
+            )
+          }
+          @detailed_skip = options.fetch(:detailed_skip, true)
+        else
+          warn "Please use :backtrace_filter => filter instead of passing in the filter directly."
+          @backtrace_filter = options
+          @detailed_skip = true
+        end
       end
 
       def before_suites(suites, type)
@@ -25,28 +39,36 @@ module MiniTest
       end
 
       def pass(suite, test, test_runner)
-        after_test('.')
+        after_test(color(:pass, '.'))
       end
 
       def skip(suite, test, test_runner)
-        after_test('S')
+        after_test(color(:skip, 'S'))
       end
 
       def failure(suite, test, test_runner)
-        after_test('F')
+        after_test(color(:failure, 'F'))
       end
 
       def error(suite, test, test_runner)
-        after_test('E')
+        after_test(color(:error, 'E'))
       end
 
       def after_suites(suites, type)
         time = Time.now - runner.suites_start_time
 
+        result = (
+          runner.failures > 0 ? :failure :
+          runner.errors > 0 ? :error :
+          runner.skips > 0 ? :skip :
+          :pass
+        )
+
         puts
         puts
-        puts "Finished #{type}s in %.6fs, %.4f tests/s, %.4f assertions/s." %
+        stats = "Finished #{type}s in %.6fs, %.4f tests/s, %.4f assertions/s." %
           [time, runner.test_count / time, runner.assertion_count / time]
+        puts color(result, stats)
 
         i = 0
         runner.test_results.each do |suite, tests|
@@ -54,16 +76,31 @@ module MiniTest
             message = message_for(test_runner)
             if message
               i += 1
-              puts "\n%3d) %s" % [i, message]
+              puts color(test_runner.result, "\n%3d) %s" % [i, message])
             end
           end
         end
 
         puts
-        puts status
+        puts color(result, status)
       end
 
       private
+
+      def color(code, string)
+        if @color
+          color = {
+            :failure => :red,
+            :error => :red,
+            :skip => :yellow,
+            :pass => :green
+          }[code] || raise("Unknonw code #{code.inspect}")
+
+          ANSI::Code.send(color, string)
+        else
+          string
+        end
+      end
 
       def after_test(result)
         time = Time.now - runner.test_start_time
@@ -91,7 +128,10 @@ module MiniTest
 
         case test_runner.result
         when :pass then nil
-        when :skip then "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+        when :skip
+          if @detailed_skip
+            "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+          end
         when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         when :error
           bt = @backtrace_filter.filter(test_runner.exception.backtrace).join "\n    "
