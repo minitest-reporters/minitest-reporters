@@ -25,7 +25,7 @@ Want to use multiple reporters?
 
 The following reporters are provided:
 
-    MiniTest::Reporters::DefaultReporter  # => Identical to the standard MiniTest reporter
+    MiniTest::Reporters::DefaultReporter  # => Redgreen version of standard MiniTest reporter
     MiniTest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
     MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
     MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
