@@ -40,71 +40,70 @@ module MiniTest
       end
 
       def pass(suite, test, test_runner)
-        after_test(green { '.' })
+        after_test(green('.'))
       end
 
       def skip(suite, test, test_runner)
-        after_test(yellow { 'S' })
+        after_test(yellow('S'))
       end
 
       def failure(suite, test, test_runner)
-        after_test(red { 'F' })
+        after_test(red('F'))
       end
 
       def error(suite, test, test_runner)
-        after_test(red { 'E' })
+        after_test(red('E'))
       end
 
       def after_suites(suites, type)
         time = Time.now - runner.suites_start_time
-        status_line = colored_for(suite_result) do
-          "Finished %ss in %.6fs, %.4f tests/s, %.4f assertions/s." %
-            [type, time, runner.test_count / time, runner.assertion_count / time]
-        end
+        status_line = "Finished %ss in %.6fs, %.4f tests/s, %.4f assertions/s." %
+          [type, time, runner.test_count / time, runner.assertion_count / time]
 
         puts
         puts
-        puts status_line
+        puts colored_for(suite_result, status_line)
 
         runner.test_results.each do |suite, tests|
           tests.each do |test, test_runner|
             if message = message_for(test_runner)
               puts
-              print(colored_for(test_runner.result) { message })
+              print colored_for(test_runner.result, message)
             end
           end
         end
 
         puts
-        puts(colored_for(suite_result) { status })
+        puts colored_for(suite_result, result_line)
       end
 
       private
 
-      def green(&block)
-        @color ? ANSI::Code.green(&block) : yield
+      def green(string)
+        @color ? ANSI::Code.green(string) : string
       end
 
-      def yellow(&block)
-        @color ? ANSI::Code.yellow(&block) : yield
+      def yellow(string)
+        @color ? ANSI::Code.yellow(string) : string
       end
 
-      def red(&block)
-        @color ? ANSI::Code.red(&block) : yield
+      def red(string)
+        @color ? ANSI::Code.red(string) : string
       end
 
-      def colored_for(result, &block)
+      def colored_for(result, string)
         case result
-        when :failure, :error; red(&block)
-        when :skip; yellow(&block)
-        else green(&block)
+        when :failure, :error; red(string)
+        when :skip; yellow(string)
+        else green(string)
         end
       end
 
       def suite_result
-        if runner.failures > 0; :failure
-        elsif runner.errors > 0; :error
-        elsif runner.skips > 0; :skip
+        case
+        when runner.failures > 0; :failure
+        when runner.errors > 0; :error
+        when runner.skips > 0; :skip
         else :pass
         end
       end
@@ -146,7 +145,7 @@ module MiniTest
         end
       end
 
-      def status
+      def result_line
         '%d tests, %d assertions, %d failures, %d errors, %d skips' %
           [runner.test_count, runner.assertion_count, runner.failures, runner.errors, runner.skips]
       end
