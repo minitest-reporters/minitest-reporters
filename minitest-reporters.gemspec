@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = 'minitest-reporters'
 
-  s.add_dependency 'minitest', '>= 2.12', '< 4.0'
+  s.add_dependency 'minitest', '>= 2.12', '< 3.5'
   s.add_dependency 'ansi'
   s.add_dependency 'powerbar'
   s.add_dependency 'builder'
