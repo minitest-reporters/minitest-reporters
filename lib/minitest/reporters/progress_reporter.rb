@@ -1,4 +1,4 @@
-require 'ansi'
+require 'ansi/code'
 require 'powerbar'
 
 module MiniTest
