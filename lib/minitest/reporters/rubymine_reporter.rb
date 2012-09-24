@@ -1,7 +1,7 @@
 # Test results reporter for RubyMine IDE (http://www.jetbrains.com/ruby/) and
 # TeamCity(http://www.jetbrains.com/teamcity/) Continuous Integration Server
 
-require "ansi"
+require 'ansi/code'
 begin
   require 'teamcity/runner_common'
   require 'teamcity/utils/service_message_factory'
