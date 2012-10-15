@@ -12,8 +12,7 @@ module MiniTest
     class JUnitReporter
       include Reporter
 
-      def initialize(reports_dir = "test/reports", backtrace_filter = BacktraceFilter.default_filter)
-        @backtrace_filter = backtrace_filter
+      def initialize(reports_dir = "test/reports")
         @reports_path = File.join(Dir.getwd, reports_dir)
         puts "Emptying #{@reports_path}"
         FileUtils.remove_dir(@reports_path) if File.exists?(@reports_path)
@@ -74,7 +73,7 @@ module MiniTest
         when :skip then "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         when :error
-          bt = @backtrace_filter.filter(test_runner.exception.backtrace).join "\n    "
+          bt = filter_backtrace(test_runner.exception.backtrace).join "\n    "
           "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
         end
       end

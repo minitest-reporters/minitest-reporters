@@ -17,14 +17,7 @@ module MiniTest
       INFO_PADDING = 2
 
       def initialize(options = {})
-        if options.is_a?(Hash)
-          @backtrace_filter = options.fetch(:backtrace_filter, BacktraceFilter.default_filter)
-          @detailed_skip = options.fetch(:detailed_skip, true)
-        else
-          warn "Please use :backtrace_filter => filter instead of passing in the filter directly."
-          @backtrace_filter = options
-          @detailed_skip = true
-        end
+        @detailed_skip = options.fetch(:detailed_skip, true)
 
         @progress = PowerBar.new(:msg => "0/#{runner.test_count}")
         @progress.settings.tty.finite.output = lambda { |s| print(s) }
@@ -119,7 +112,7 @@ module MiniTest
       def print_info(e)
         e.message.each_line { |line| puts pad(line) }
 
-        trace = @backtrace_filter.filter(e.backtrace)
+        trace = filter_backtrace(e.backtrace)
         trace.each { |line| puts pad(line) }
       end
 

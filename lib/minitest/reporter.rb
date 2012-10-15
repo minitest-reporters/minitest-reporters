@@ -4,6 +4,10 @@ module MiniTest
       Unit.runner
     end
 
+    def filter_backtrace(backtrace)
+      MiniTest.filter_backtrace(backtrace)
+    end
+
     def output
       runner.output
     end

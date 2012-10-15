@@ -1,12 +1,12 @@
 module MiniTest
   # Filters backtraces of exceptions that may arise when running tests.
-  class BacktraceFilter
+  class ExtensibleBacktraceFilter
     # Returns the default filter.
     #
     # The default filter will filter out all MiniTest and minitest-reporters
     # lines.
     #
-    # @return [MiniTest::BacktraceFilter]
+    # @return [MiniTest::ExtensibleBacktraceFilter]
     def self.default_filter
       unless defined? @default_filter
         filter = self.new

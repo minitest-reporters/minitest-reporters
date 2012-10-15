@@ -2,7 +2,8 @@ require 'ansi/code'
 
 module MiniTest
   module Reporters
-    # A reporter identical to the standard MiniTest reporter.
+    # A reporter identical to the standard MiniTest reporter except with more
+    # colors.
     #
     # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
     #
@@ -11,21 +12,13 @@ module MiniTest
       include Reporter
 
       def initialize(options = {})
-        if options.is_a?(Hash)
-          @backtrace_filter = options.fetch(:backtrace_filter, BacktraceFilter.default_filter)
-          @detailed_skip = options.fetch(:detailed_skip, true)
-          @color = options.fetch(:color) do
-            output.tty? && (
-              ENV["TERM"] == "screen" ||
-              ENV["TERM"] =~ /term(?:-(?:256)?color)?\z/ ||
-              ENV["EMACS"] == "t"
-            )
-          end
-        else
-          warn "Please use :backtrace_filter => filter instead of passing in the filter directly."
-          @backtrace_filter = options
-          @detailed_skip = true
-          @color = false
+        @detailed_skip = options.fetch(:detailed_skip, true)
+        @color = options.fetch(:color) do
+          output.tty? && (
+            ENV["TERM"] == "screen" ||
+            ENV["TERM"] =~ /term(?:-(?:256)?color)?\z/ ||
+            ENV["EMACS"] == "t"
+          )
         end
       end
 
@@ -140,7 +133,7 @@ module MiniTest
           end
         when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         when :error
-          bt = @backtrace_filter.filter(test_runner.exception.backtrace).join "\n    "
+          bt = filter_backtrace(test_runner.exception.backtrace).join "\n    "
           "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
         end
       end

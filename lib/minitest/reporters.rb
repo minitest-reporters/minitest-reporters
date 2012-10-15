@@ -5,7 +5,7 @@ module MiniTest
   require "minitest/reporter_runner"
   require "minitest/before_test_hook"
   require "minitest/test_runner"
-  require "minitest/backtrace_filter"
+  require "minitest/extensible_backtrace_filter"
 
   module Reporters
     require "minitest/reporters/version"
@@ -18,14 +18,19 @@ module MiniTest
     autoload :GuardReporter, "minitest/reporters/guard_reporter"
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
 
-    def self.use!(console_reporters = ProgressReporter.new, env = ENV)
-      include_hook!
+    def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = ExtensibleBacktraceFilter.default_filter)
+      use_runner!(console_reporters, env)
+      use_before_test_hook!
+      use_backtrace_filter!(backtrace_filter)
+    end
+
+    def self.use_runner!(console_reporters, env)
       runner = ReporterRunner.new
       runner.reporters = choose_reporters(console_reporters, env)
       Unit.runner = runner
     end
 
-    def self.include_hook!
+    def self.use_before_test_hook!
       if Unit::VERSION >= "3.3.0"
         Unit::TestCase.send(:include, BeforeTestHook)
       else
@@ -33,6 +38,22 @@ module MiniTest
           BeforeTestHook.before_test(self)
         end
       end
+    end
+
+    def self.use_backtrace_filter!(backtrace_filter)
+      if Unit::VERSION < "4.1.0"
+        MiniTest.class_eval do
+          class << self
+            attr_accessor :backtrace_filter
+          end
+
+          def self.filter_backtrace(backtrace)
+            backtrace_filter.filter(backtrace)
+          end
+        end
+      end
+
+      MiniTest.backtrace_filter = backtrace_filter
     end
 
     def self.choose_reporters(console_reporters, env)

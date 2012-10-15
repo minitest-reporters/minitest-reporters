@@ -8,10 +8,6 @@ module MiniTest
 
       INFO_PADDING = 2
 
-      def initialize(backtrace_filter = BacktraceFilter.default_filter)
-        @backtrace_filter = backtrace_filter
-      end
-
       def before_suites(suites, type)
         puts 'Started'
         puts
@@ -61,7 +57,7 @@ module MiniTest
       def print_info(e)
         e.message.each_line { |line| puts pad(line) }
 
-        trace = @backtrace_filter.filter(e.backtrace)
+        trace = filter_backtrace(e.backtrace)
         trace.each { |line| puts pad(line) }
       end
 
