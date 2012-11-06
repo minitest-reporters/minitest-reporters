@@ -22,6 +22,7 @@ module MiniTest
       use_runner!(console_reporters, env)
       use_before_test_hook!
       use_backtrace_filter!(backtrace_filter)
+      use_parallel_length_method!
     end
 
     def self.use_runner!(console_reporters, env)
@@ -63,6 +64,14 @@ module MiniTest
         [RubyMineReporter.new]
       else
         Array(console_reporters)
+      end
+    end
+
+    def self.use_parallel_length_method!
+      if Unit::VERSION >= "4.2.0"
+        ParallelEach.send(:define_method, :length) do
+          @queue.length
+        end
       end
     end
   end

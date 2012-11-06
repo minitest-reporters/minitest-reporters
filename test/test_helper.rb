@@ -1,11 +1,9 @@
 require "bundler/setup"
 require "minitest/autorun"
-require "rr"
 require "minitest/reporters"
 
 module MiniTestReportersTest
   class TestCase < MiniTest::Unit::TestCase
-    include RR::Adapters::MiniTest
   end
 end
 

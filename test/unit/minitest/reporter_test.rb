@@ -35,15 +35,5 @@ module MiniTestReportersTest
         @reporter.runner.verbose = false
       end
     end
-
-    def test_print
-      mock(@reporter.output).print('foo')
-      @reporter.print('foo')
-    end
-
-    def test_puts
-      mock(@reporter.output).puts('foo')
-      @reporter.puts('foo')
-    end
   end
 end

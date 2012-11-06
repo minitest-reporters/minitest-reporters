@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'powerbar'
   s.add_dependency 'builder'
 
-  s.add_development_dependency 'rr'
   s.add_development_dependency 'maruku'
   s.add_development_dependency 'rake'
 
