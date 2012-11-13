@@ -139,7 +139,7 @@ else
             if block_given?
               exception = test_runner.exception
               msg = exception.nil? ? "" : "#{exception.class.name}: #{exception.message}"
-              backtrace = exception.nil? ? "" : format_backtrace(exception.backtrace)
+              backtrace = exception.nil? ? "" : filter_backtrace(exception.backtrace).join("\n")
 
               yield(msg, backtrace)
             end
