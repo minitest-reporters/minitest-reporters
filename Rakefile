@@ -15,7 +15,7 @@ end
 # The RubyMine reporter must be tested separately inside of RubyMine, and hence
 # is not run in the gallery. The JUnit reporter writes to `test/reports` instead
 # of having meaningful output. The guard reporter requires Guard, and I'm not
-# really all that intersted in setting it up for automated testing for such a
+# really all that interested in setting it up for automated testing for such a
 # simple reporter.
 task :gallery do
   [
@@ -23,7 +23,8 @@ task :gallery do
     "JUnitReporter",
     "ProgressReporter",
     "RubyMateReporter",
-    "SpecReporter"
+    "SpecReporter",
+    "SlowTestReporter"
   ].each do |reporter|
     puts "Running gallery tests using #{reporter}..."
     sh "rake test:gallery REPORTER=#{reporter}" do
