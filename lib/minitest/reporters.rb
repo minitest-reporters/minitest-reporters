@@ -17,7 +17,6 @@ module MiniTest
     autoload :RubyMineReporter, "minitest/reporters/rubymine_reporter"
     autoload :GuardReporter, "minitest/reporters/guard_reporter"
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
-    autoload :SlowTestReporter, "minitest/reporters/slow_test_reporter"
 
     def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = ExtensibleBacktraceFilter.default_filter)
       use_runner!(console_reporters, env)

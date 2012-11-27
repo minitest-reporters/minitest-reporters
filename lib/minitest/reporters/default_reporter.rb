@@ -13,6 +13,8 @@ module MiniTest
 
       def initialize(options = {})
         @detailed_skip = options.fetch(:detailed_skip, true)
+        @slow_count = options.fetch(:slow_count, 0)
+        @test_times = []
         @color = options.fetch(:color) do
           output.tty? && (
             ENV["TERM"] == "screen" ||
@@ -29,7 +31,8 @@ module MiniTest
       end
 
       def before_test(suite, test)
-        print "#{suite}##{test} = " if verbose?
+        @test_name = "#{suite}##{test}"
+        print "#{@test_name} = " if verbose?
       end
 
       def pass(suite, test, test_runner)
@@ -63,6 +66,18 @@ module MiniTest
               puts
               print colored_for(test_runner.result, message)
             end
+          end
+        end
+
+        if @slow_count > 0
+          slow_tests = @test_times.sort_by { |x| x[1] }.reverse.take(@slow_count)
+
+          puts
+          puts "Slowest tests:"
+          puts
+
+          slow_tests.each do |slow_test|
+            puts "%.6fs %s" % [slow_test[1], slow_test[0]]
           end
         end
 
@@ -103,6 +118,7 @@ module MiniTest
 
       def after_test(result)
         time = Time.now - runner.test_start_time
+        @test_times << [@test_name, time]
 
         print '%.2f s = ' % time if verbose?
         print result

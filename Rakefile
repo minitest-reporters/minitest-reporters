@@ -23,8 +23,7 @@ task :gallery do
     "JUnitReporter",
     "ProgressReporter",
     "RubyMateReporter",
-    "SpecReporter",
-    "SlowTestReporter"
+    "SpecReporter"
   ].each do |reporter|
     puts "Running gallery tests using #{reporter}..."
     sh "rake test:gallery REPORTER=#{reporter}" do
