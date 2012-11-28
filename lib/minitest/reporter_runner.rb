@@ -26,6 +26,7 @@ module MiniTest
 
     def _run_suite(suite, type)
       trigger_callback(:before_suite, suite)
+      self.start_time = Time.now
       super(suite, type)
     ensure
       trigger_callback(:after_suite, suite)
