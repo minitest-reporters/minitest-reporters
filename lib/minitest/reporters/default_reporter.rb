@@ -14,7 +14,9 @@ module MiniTest
       def initialize(options = {})
         @detailed_skip = options.fetch(:detailed_skip, true)
         @slow_count = options.fetch(:slow_count, 0)
+        @slow_suite_count = options.fetch(:slow_suite_count, 0)
         @test_times = []
+        @suite_times = []
         @color = options.fetch(:color) do
           output.tty? && (
             ENV["TERM"] == "screen" ||
@@ -51,6 +53,11 @@ module MiniTest
         after_test(red('E'))
       end
 
+      def after_suite(suite)
+        time = Time.now - runner.suite_start_time
+        @suite_times << [suite.name, time]
+      end
+
       def after_suites(suites, type)
         time = Time.now - runner.suites_start_time
         status_line = "Finished %ss in %.6fs, %.4f tests/s, %.4f assertions/s." %
@@ -81,8 +88,20 @@ module MiniTest
           end
         end
 
+        if @slow_suite_count > 0
+          slow_suites = @suite_times.sort_by { |x| x[1] }.reverse.take(@slow_suite_count)
+
+          puts
+          puts "Slowest test classes:"
+          puts
+
+          slow_suites.each do |slow_suite|
+            puts "%.6fs %s" % [slow_suite[1], slow_suite[0]]
+          end
+        end
+
         puts
-        puts colored_for(suite_result, result_line)
+        print colored_for(suite_result, result_line)
       end
 
       private
