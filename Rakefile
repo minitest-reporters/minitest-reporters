@@ -20,6 +20,7 @@ end
 task :gallery do
   [
     "DefaultReporter",
+    "FastFailReporter",
     "JUnitReporter",
     "ProgressReporter",
     "RubyMateReporter",
