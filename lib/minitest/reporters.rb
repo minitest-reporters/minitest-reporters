@@ -1,6 +1,7 @@
 require "minitest/unit"
 
 module MiniTest
+  require "minitest/relative_position"
   require "minitest/reporter"
   require "minitest/reporter_runner"
   require "minitest/before_test_hook"

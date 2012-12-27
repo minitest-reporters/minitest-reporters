@@ -10,11 +10,13 @@ module MiniTest
     # @see https://github.com/seattlerb/minitest MiniTest
     class DefaultReporter
       include Reporter
+      include RelativePosition
 
       def initialize(options = {})
         @detailed_skip = options.fetch(:detailed_skip, true)
         @slow_count = options.fetch(:slow_count, 0)
         @slow_suite_count = options.fetch(:slow_suite_count, 0)
+        @fast_fail = options.fetch(:fast_fail, false)
         @test_times = []
         @suite_times = []
         @color = options.fetch(:color) do
@@ -46,11 +48,29 @@ module MiniTest
       end
 
       def failure(suite, test, test_runner)
-        after_test(red('F'))
+        if @fast_fail
+          puts
+          puts suite.name
+          print pad_test(test)
+          print(red(pad_mark('FAIL')))
+          puts
+          print_info(test_runner.exception)
+        else
+          after_test(red('F'))
+        end
       end
 
       def error(suite, test, test_runner)
-        after_test(red('E'))
+        if @fast_fail
+          puts
+          puts suite.name
+          print pad_test(test)
+          print(red(pad_mark('ERROR')))
+          puts
+          print_info(test_runner.exception)
+        else
+          after_test(red('E'))
+        end
       end
 
       def after_suite(suite)
@@ -67,11 +87,13 @@ module MiniTest
         puts
         puts colored_for(suite_result, status_line)
 
-        runner.test_results.each do |suite, tests|
-          tests.each do |test, test_runner|
-            if message = message_for(test_runner)
-              puts
-              print colored_for(test_runner.result, message)
+        unless @fast_fail
+          runner.test_results.each do |suite, tests|
+            tests.each do |test, test_runner|
+              if message = message_for(test_runner)
+                puts
+                print colored_for(test_runner.result, message)
+              end
             end
           end
         end
@@ -176,6 +198,11 @@ module MiniTest
       def result_line
         '%d tests, %d assertions, %d failures, %d errors, %d skips' %
           [runner.test_count, runner.assertion_count, runner.failures, runner.errors, runner.skips]
+      end
+
+      def print_info(e)
+        e.message.each_line { |line| print_with_info_padding(line) }
+        filter_backtrace(e.backtrace).each { |line| print_with_info_padding(line) }
       end
     end
   end

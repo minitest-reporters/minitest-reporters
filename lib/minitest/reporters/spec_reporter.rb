@@ -11,11 +11,7 @@ module MiniTest
     class SpecReporter
       include Reporter
       include ANSI::Code
-
-      TEST_PADDING = 2
-      TEST_SIZE = 63
-      MARK_SIZE = 5
-      INFO_PADDING = 8
+      include RelativePosition
 
       def before_suites(suites, type)
         puts 'Started'
@@ -80,22 +76,10 @@ module MiniTest
       end
 
       def print_info(e)
-        e.message.each_line { |line| puts pad(line, INFO_PADDING) }
+        e.message.each_line { |line| print_with_info_padding(line) }
 
         trace = filter_backtrace(e.backtrace)
-        trace.each { |line| puts pad(line, INFO_PADDING) }
-      end
-
-      def pad(str, size)
-        ' ' * size + str
-      end
-
-      def pad_mark(str)
-        "%#{MARK_SIZE}s" % str
-      end
-
-      def pad_test(str)
-        pad("%-#{TEST_SIZE}s" % str, TEST_PADDING)
+        trace.each { |line| print_with_info_padding(line) }
       end
     end
   end
