@@ -158,7 +158,7 @@ module MiniTest
       end
 
       def after_test(result)
-        time = Time.now - runner.test_start_time
+        time = Time.now - (runner.test_start_time || Time.now)
         @test_times << [@test_name, time]
 
         print '%.2f s = ' % time if verbose?
