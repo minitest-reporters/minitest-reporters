@@ -133,7 +133,7 @@ else
         end
 
         def test_finished(test, test_runner)
-          duration_ms = get_current_time_in_ms() - get_time_in_ms(runner.test_start_time)
+          duration_ms = get_current_time_in_ms() - get_time_in_ms(runner.test_start_time || Time.now)
 
           begin
             if block_given?

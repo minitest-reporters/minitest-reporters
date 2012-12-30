@@ -71,7 +71,7 @@ module MiniTest
       private
 
       def print_time(test)
-        total_time = Time.now - runner.test_start_time
+        total_time = Time.now - (runner.test_start_time || Time.now)
         print(" (%.2fs)" % total_time)
       end
 

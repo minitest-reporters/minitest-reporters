@@ -50,7 +50,7 @@ module MiniTest
       private
 
       def print_test_with_time(suite, test)
-        total_time = Time.now - runner.test_start_time
+        total_time = Time.now - (runner.test_start_time || Time.now)
         print(" #{suite}##{test} (%.2fs)" % total_time)
       end
 
