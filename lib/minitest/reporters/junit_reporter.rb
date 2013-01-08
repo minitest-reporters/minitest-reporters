@@ -33,7 +33,7 @@ module MiniTest
               end
             end
           end
-          IO.write(filename_for(suite), xml.target!)
+          File.open(filename_for(suite), "w") { |file| file << xml.target! }
         end
       end
 
