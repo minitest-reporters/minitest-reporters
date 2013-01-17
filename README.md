@@ -32,6 +32,7 @@ The following reporters are provided:
     MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
     MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server; see below
     MiniTest::Reporters::GuardReporter    # => Integrates with guard-minitest to provide on-screen notifications
+    MiniTest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
 
 ## Note on Patches/Pull Requests ##
 
