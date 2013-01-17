@@ -5,18 +5,25 @@ module MiniTest
   #
   # @see https://github.com/seattlerb/minitest MiniTest
   class ReporterRunner < Unit
-    attr_accessor :suites_start_time, :test_start_time, :reporters, :test_results
+    extend Forwardable
 
-    alias_method :suite_start_time, :start_time
+    attr_accessor :reporters
+    attr_reader :test_results
+    attr_reader :suites_start_time
+    attr_reader :suite_start_time
+    attr_reader :test_start_time
+
+    def_delegator :@test_recorder, :assertion_count
 
     def initialize
       super
       self.reporters = []
-      self.test_results = {}
+      @test_results = {}
+      @test_recorder = TestRecorder.new
     end
 
     def _run_suites(suites, type)
-      self.suites_start_time = Time.now
+      @suites_start_time = Time.now
       count_tests!(suites, type)
       trigger_callback(:before_suites, suites, type)
       super(suites, type)
@@ -25,63 +32,54 @@ module MiniTest
     end
 
     def _run_suite(suite, type)
+      @suite_start_time = Time.now
       trigger_callback(:before_suite, suite)
-      self.start_time = Time.now
       super(suite, type)
     ensure
       trigger_callback(:after_suite, suite)
     end
 
     def before_test(suite, test)
-      self.test_start_time = Time.now
+      @test_start_time = Time.now
       trigger_callback(:before_test, suite, test)
     end
 
     def record(suite, test, assertions, time, exception)
-      self.assertion_count += assertions
+      runner = TestRunner.new(suite,
+                              test.to_sym,
+                              assertions,
+                              time,
+                              exception)
 
-      result = case exception
-      when nil then :pass
-      when Skip then :skip
-      when Assertion then :failure
-      else :error
+      @test_results[suite] ||= {}
+      @test_results[suite][test.to_sym] = runner
+      @test_recorder.record(runner)
+    end
+
+    def after_test(suite, test)
+      runners = @test_recorder[suite, test.to_sym]
+
+      runners.each do |runner|
+        trigger_callback(runner.result, suite, test.to_sym, runner)
       end
-
-      test_runner = TestRunner.new(
-        suite,
-        test.to_sym,
-        assertions,
-        time,
-        result,
-        exception
-      )
-
-      test_results[suite] ||= {}
-      test_results[suite][test.to_sym] = test_runner
-      trigger_callback(result, suite, test, test_runner)
     end
 
-    def puts(*args)
-    end
-
-    def print(*args)
-    end
-
-    def status(io = output)
-    end
+    # Stub out the three IO methods used by the built-in reporter.
+    def puts(*args); end
+    def print(*args); end
+    def status(io = output); end
 
     private
 
     def trigger_callback(callback, *args)
-      reporters.each do |reporter|
-        reporter.public_send(callback, *args)
-      end
+      reporters.each { |r| r.public_send(callback, *args) }
     end
 
     def count_tests!(suites, type)
       filter = options[:filter] || '/./'
       filter = Regexp.new $1 if filter =~ /\/(.*)\//
-      self.test_count = suites.inject(0) do |acc, suite|
+
+      @test_count = suites.inject(0) do |acc, suite|
         acc + suite.send("#{type}_methods").grep(filter).length
       end
     end

@@ -4,8 +4,9 @@ module MiniTest
   require "minitest/relative_position"
   require "minitest/reporter"
   require "minitest/reporter_runner"
-  require "minitest/before_test_hook"
+  require "minitest/around_test_hooks"
   require "minitest/test_runner"
+  require "minitest/test_recorder"
   require "minitest/extensible_backtrace_filter"
 
   module Reporters
@@ -34,10 +35,14 @@ module MiniTest
 
     def self.use_before_test_hook!
       if Unit::VERSION >= "3.3.0"
-        Unit::TestCase.send(:include, BeforeTestHook)
+        Unit::TestCase.send(:include, AroundTestHooks)
       else
         Unit::TestCase.send(:define_method, :before_setup) do
-          BeforeTestHook.before_test(self)
+          AroundTestHooks.before_test(self)
+        end
+
+        Unit::TestCase.send(:define_method, :after_teardown) do
+          AroundTestHooks.after_test(self)
         end
       end
     end

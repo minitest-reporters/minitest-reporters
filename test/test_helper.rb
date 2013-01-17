@@ -13,7 +13,7 @@ end
 
 if ENV["REPORTER"]
   reporter_klass = MiniTest::Reporters.const_get(ENV["REPORTER"])
-  MiniTest::Reporters.use! [reporter_klass.new]
+  MiniTest::Reporters.use!(reporter_klass.new)
 else
   MiniTest::Reporters.use!(MiniTest::Reporters::DefaultReporter.new)
 end
