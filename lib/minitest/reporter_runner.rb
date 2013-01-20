@@ -1,3 +1,5 @@
+require 'forwardable'
+
 module MiniTest
   # Runner for MiniTest that supports reporters.
   #
