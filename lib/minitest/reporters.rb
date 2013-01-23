@@ -1,5 +1,4 @@
 require "minitest/unit"
-require 'minitest/parallel_each'
 
 module MiniTest
   require "minitest/relative_position"
@@ -76,6 +75,8 @@ module MiniTest
 
     def self.use_parallel_length_method!
       if Unit::VERSION >= "4.2.0"
+        require "minitest/parallel_each"
+
         ParallelEach.send(:define_method, :length) do
           @queue.length
         end
