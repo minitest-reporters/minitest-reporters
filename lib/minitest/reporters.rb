@@ -1,4 +1,5 @@
 require "minitest/unit"
+require 'minitest/parallel_each'
 
 module MiniTest
   require "minitest/relative_position"
