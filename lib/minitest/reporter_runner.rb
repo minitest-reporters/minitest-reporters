@@ -64,6 +64,7 @@ module MiniTest
       runners.each do |runner|
         trigger_callback(runner.result, suite, test.to_sym, runner)
       end
+      trigger_callback(:after_test, suite, test.to_sym)
     end
 
     # Stub out the three IO methods used by the built-in reporter.
