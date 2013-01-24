@@ -57,26 +57,18 @@ module MiniTest
       @test_results[suite][test.to_sym] = runner
       @test_recorder.record(runner)
 
-      # minitest-4.1.0 and earlier send record after all of the
-      # callback hooks, so explicitly call after_test here after
-      # recording.
-      if Unit::VERSION <= "4.1.0"
-        after_test(suite, test)
-      end
+      # MiniTest < 4.1.0 sends #record after all teardown hooks, so explicitly
+      # call #after_test here after recording.
+      after_test(suite, test) if Unit::VERSION <= "4.1.0"
     end
 
     def after_test(suite, test)
-      # minitest-4.1.0 and earlier send this callback before
-      # record, so runners will come back as nil.  In that case
-      # we exit out and rely on the send in record above to call
-      # us again when it is appropriate.
-
       runners = @test_recorder[suite, test.to_sym]
-      return unless(runners)
 
       runners.each do |runner|
         trigger_callback(runner.result, suite, test.to_sym, runner)
       end
+
       trigger_callback(:after_test, suite, test.to_sym)
     end
 

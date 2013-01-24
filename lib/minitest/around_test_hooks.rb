@@ -5,7 +5,11 @@ module MiniTest
     end
 
     def self.after_test(instance)
-      MiniTest::Unit.runner.after_test(instance.class, instance.__name__)
+      # MiniTest < 4.1.0 sends #record after all teardown hooks, so don't call
+      # #after_test here.
+      if MiniTest::Unit::VERSION > "4.1.0"
+        MiniTest::Unit.runner.after_test(instance.class, instance.__name__)
+      end
     end
 
     def before_setup
