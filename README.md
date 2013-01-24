@@ -11,28 +11,36 @@ Death to haphazard monkey-patching! Extend MiniTest through simple hooks.
 
 In your `test_helper.rb` file, add the following lines:
 
-    require "minitest/reporters"
-    MiniTest::Reporters.use!
+```ruby
+require "minitest/reporters"
+MiniTest::Reporters.use!
+```
 
 This will swap out the MiniTest runner to the custom one used by minitest-reporters and use the correct reporters for Textmate, Rubymine, and the console. If you would like to write your own reporter, just `include MiniTest::Reporter` and override the methods you'd like. Take a look at the provided reporters for examples.
 
 Don't like the default progress bar reporter?
 
-    MiniTest::Reporters.use! MiniTest::Reporters::SpecReporter.new
+```ruby
+MiniTest::Reporters.use! MiniTest::Reporters::SpecReporter.new
+```
 
 Want to use multiple reporters?
 
-    MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new, MiniTest::Reporters::GuardReporter.new]
+```ruby
+MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new, MiniTest::Reporters::GuardReporter.new]
+```
 
 The following reporters are provided:
 
-    MiniTest::Reporters::DefaultReporter  # => Redgreen version of standard MiniTest reporter
-    MiniTest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
-    MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
-    MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
-    MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
-    MiniTest::Reporters::GuardReporter    # => Integrates with guard-minitest to provide on-screen notifications
-    MiniTest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
+```ruby
+MiniTest::Reporters::DefaultReporter  # => Redgreen version of standard MiniTest reporter
+MiniTest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
+MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
+MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
+MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
+MiniTest::Reporters::GuardReporter    # => Integrates with guard-minitest to provide on-screen notifications
+MiniTest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
+```
 
 ## Note on Patches/Pull Requests ##
 
