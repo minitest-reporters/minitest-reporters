@@ -12,7 +12,7 @@ module MiniTestReportersTest
 
     def test_callbacks
       [
-        :before_suites, :after_suite, :before_suite, :after_suite, :before_test,
+        :before_suites, :after_suite, :before_suite, :after_suite, :before_test, :after_test,
         :pass, :skip, :failure, :error
       ].each { |method| assert_respond_to @reporter, method }
     end

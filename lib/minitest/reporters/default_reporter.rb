@@ -40,11 +40,11 @@ module MiniTest
       end
 
       def pass(suite, test, test_runner)
-        after_test(green('.'))
+        test_result(green('.'))
       end
 
       def skip(suite, test, test_runner)
-        after_test(yellow('S'))
+        test_result(yellow('S'))
       end
 
       def failure(suite, test, test_runner)
@@ -56,7 +56,7 @@ module MiniTest
           puts
           print_info(test_runner.exception)
         else
-          after_test(red('F'))
+          test_result(red('F'))
         end
       end
 
@@ -69,7 +69,7 @@ module MiniTest
           puts
           print_info(test_runner.exception)
         else
-          after_test(red('E'))
+          test_result(red('E'))
         end
       end
 
@@ -157,7 +157,7 @@ module MiniTest
         end
       end
 
-      def after_test(result)
+      def test_result(result)
         time = Time.now - (runner.test_start_time || Time.now)
         @test_times << [@test_name, time]
 

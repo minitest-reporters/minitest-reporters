@@ -29,6 +29,7 @@ module MiniTest
     def before_suite(suite); end
     def after_suite(suite); end
     def before_test(suite, test); end
+    def after_test(suite, test); end
     def pass(suite, test, test_runner); end
     def skip(suite, test, test_runner); end
     def failure(suite, test, test_runner); end

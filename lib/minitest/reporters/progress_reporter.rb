@@ -43,7 +43,7 @@ module MiniTest
         }, true)
       end
 
-      def pass(suite, test, test_runner)
+      def after_test(suite, test)
         increment
       end
 
@@ -57,7 +57,6 @@ module MiniTest
         end
 
         self.color = YELLOW unless color == RED
-        increment
       end
 
       def failure(suite, test, test_runner)
@@ -69,7 +68,6 @@ module MiniTest
         puts
 
         self.color = RED
-        increment
       end
 
       def error(suite, test, test_runner)
@@ -81,7 +79,6 @@ module MiniTest
         puts
 
         self.color = RED
-        increment
       end
 
       def after_suites(suites, type)

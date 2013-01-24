@@ -95,24 +95,25 @@ else
           log(@message_factory.create_test_started(test, minitest_test_location(fqn)))
         end
 
-        def pass(suite, test, test_runner)
-          test_finished(test, test_runner)
+        def after_test(suite, test)
+          duration_ms = get_current_time_in_ms() - get_time_in_ms(runner.test_start_time || Time.now)
+          log(@message_factory.create_test_finished(test, duration_ms.nil? ? 0 : duration_ms))
         end
 
         def skip(suite, test, test_runner)
-          test_finished(test, test_runner) do |exception_msg, backtrace|
+          with_result(test, test_runner) do |exception_msg, backtrace|
             log(@message_factory.create_test_ignored(test, exception_msg, backtrace))
           end
         end
 
         def failure(suite, test, test_runner)
-          test_finished(test, test_runner) do |exception_msg, backtrace|
+          with_result(test, test_runner) do |exception_msg, backtrace|
             log(@message_factory.create_test_failed(test, exception_msg, backtrace))
           end
         end
 
         def error(suite, test, test_runner)
-          test_finished(test, test_runner) do |exception_msg, backtrace|
+          with_result(test, test_runner) do |exception_msg, backtrace|
             log(@message_factory.create_test_error(test, exception_msg, backtrace))
           end
         end
@@ -132,23 +133,14 @@ else
           "ruby_minitest_qn://#{fqn}"
         end
 
-        def test_finished(test, test_runner)
-          duration_ms = get_current_time_in_ms() - get_time_in_ms(runner.test_start_time || Time.now)
+        def with_result(test, test_runner)
+          exception = test_runner.exception
+          msg = exception.nil? ? "" : "#{exception.class.name}: #{exception.message}"
+          backtrace = exception.nil? ? "" : filter_backtrace(exception.backtrace).join("\n")
 
-          begin
-            if block_given?
-              exception = test_runner.exception
-              msg = exception.nil? ? "" : "#{exception.class.name}: #{exception.message}"
-              backtrace = exception.nil? ? "" : filter_backtrace(exception.backtrace).join("\n")
-
-              yield(msg, backtrace)
-            end
-          ensure
-            log(@message_factory.create_test_finished(test, duration_ms.nil? ? 0 : duration_ms))
-          end
+          yield(msg, backtrace)
         end
       end
     end
   end
 end
-
