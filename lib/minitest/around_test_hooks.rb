@@ -1,17 +1,21 @@
 module MiniTest
   module AroundTestHooks
-    def self.included(base)
-      base.instance_eval do
-        alias_method :run_without_hooks, :run
-        alias_method :run, :run_with_hooks
-      end
+    def self.before_test(instance)
+      MiniTest::Unit.runner.before_test(instance.class, instance.__name__)
     end
 
-    def run_with_hooks(runner)
-      runner.before_test(self.class, self.__name__)
-      run_without_hooks(runner)
-    ensure
-      runner.after_test(self.class, self.__name__)
+    def self.after_test(instance)
+      MiniTest::Unit.runner.after_test(instance.class, instance.__name__)
+    end
+
+    def before_setup
+      AroundTestHooks.before_test(self)
+      super
+    end
+
+    def after_teardown
+      super
+      AroundTestHooks.after_test(self)
     end
   end
 end
