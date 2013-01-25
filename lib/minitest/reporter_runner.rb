@@ -25,6 +25,8 @@ module MiniTest
     end
 
     def _run_suites(suites, type)
+      MiniTest::Unit.runner.output.puts "# Run options: #{@help}"
+
       @suites_start_time = Time.now
       count_tests!(suites, type)
       trigger_callback(:before_suites, suites, type)
