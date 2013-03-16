@@ -33,13 +33,20 @@ MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new, MiniTest::Repor
 The following reporters are provided:
 
 ```ruby
-MiniTest::Reporters::DefaultReporter  # => Redgreen version of standard MiniTest reporter
+MiniTest::Reporters::DefaultReporter  # => Redgreen-capable version of standard MiniTest reporter
 MiniTest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
 MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
 MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
 MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
 MiniTest::Reporters::GuardReporter    # => Integrates with guard-minitest to provide on-screen notifications
 MiniTest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
+```
+
+Options can be passed to these reporters at construction-time, e.g. to force 
+color output from `DefaultReporter`:
+
+```ruby
+MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new(color: true)]
 ```
 
 ## Note on Patches/Pull Requests ##
