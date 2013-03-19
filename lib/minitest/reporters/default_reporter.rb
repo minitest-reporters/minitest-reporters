@@ -201,6 +201,7 @@ module MiniTest
       end
 
       def print_info(e)
+        print "#{e.exception.class.to_s}: "
         e.message.each_line { |line| print_with_info_padding(line) }
         filter_backtrace(e.backtrace).each { |line| print_with_info_padding(line) }
       end
