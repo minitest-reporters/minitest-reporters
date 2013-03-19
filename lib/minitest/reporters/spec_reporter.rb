@@ -13,6 +13,10 @@ module MiniTest
       include ANSI::Code
       include RelativePosition
 
+      def initialize
+        @suites = []
+      end
+
       def before_suites(suites, type)
         puts 'Started'
         puts
@@ -28,31 +32,29 @@ module MiniTest
         puts
       end
 
-      def before_suite(suite)
-        puts suite.name
-      end
-
       def after_suite(suite)
-        puts
-      end
-
-      def before_test(suite, test)
-        print pad_test(test)
+        puts if @suites.include?(suite)
       end
 
       def pass(suite, test, test_runner)
+        print_suite(suite) unless @suites.include?(suite)
+        print pad_test(test)
         print(green { pad_mark('PASS') })
         print_time(test)
         puts
       end
 
       def skip(suite, test, test_runner)
+        print_suite(suite) unless @suites.include?(suite)
+        print pad_test(test)
         print(yellow { pad_mark('SKIP') })
         print_time(test)
         puts
       end
 
       def failure(suite, test, test_runner)
+        print_suite(suite) unless @suites.include?(suite)
+        print pad_test(test)
         print(red { pad_mark('FAIL') })
         print_time(test)
         puts
@@ -61,6 +63,8 @@ module MiniTest
       end
 
       def error(suite, test, test_runner)
+        print_suite(suite) unless @suites.include?(suite)
+        print pad_test(test)
         print(red { pad_mark('ERROR') })
         print_time(test)
         puts
@@ -69,6 +73,11 @@ module MiniTest
       end
 
       private
+
+      def print_suite(suite)
+        puts suite.name
+        @suites << suite
+      end
 
       def print_time(test)
         total_time = Time.now - (runner.test_start_time || Time.now)
