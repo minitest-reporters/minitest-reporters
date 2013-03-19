@@ -42,11 +42,11 @@ MiniTest::Reporters::GuardReporter    # => Integrates with guard-minitest to pro
 MiniTest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
 ```
 
-Options can be passed to these reporters at construction-time, e.g. to force 
+Options can be passed to these reporters at construction-time, e.g. to force
 color output from `DefaultReporter`:
 
 ```ruby
-MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new(color: true)]
+MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new(:color => true)]
 ```
 
 ## Note on Patches/Pull Requests ##
