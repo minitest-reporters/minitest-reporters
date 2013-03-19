@@ -55,6 +55,7 @@ module MiniTest
       end
 
       def print_info(e)
+        print "#{e.exception.class.to_s}: "
         e.message.each_line { |line| puts pad(line) }
 
         trace = filter_backtrace(e.backtrace)
