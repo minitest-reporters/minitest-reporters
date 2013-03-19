@@ -21,8 +21,7 @@ module MiniTest
         @suite_times = []
         @color = options.fetch(:color) do
           output.tty? && (
-            ENV["TERM"] == "screen" ||
-            ENV["TERM"] =~ /term(?:-(?:256)?color)?\z/ ||
+            ENV["TERM"] =~ /^screen|color/ ||
             ENV["EMACS"] == "t"
           )
         end
