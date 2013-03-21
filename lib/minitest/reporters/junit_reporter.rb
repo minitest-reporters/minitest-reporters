@@ -12,9 +12,10 @@ module MiniTest
     class JUnitReporter
       include Reporter
 
-      def initialize(reports_dir = "test/reports", empty=true)
+      def initialize(reports_dir = "test/reports", empty = true)
         @reports_path = File.absolute_path(reports_dir)
-        if(empty)
+
+        if empty
           puts "Emptying #{@reports_path}"
           FileUtils.remove_dir(@reports_path) if File.exists?(@reports_path)
           FileUtils.mkdir_p(@reports_path)
