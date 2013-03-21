@@ -24,7 +24,7 @@ module MiniTest
         print 'FAIL'
         print_test_with_time(suite, test)
         puts
-        print_info(test_runner.exception)
+        print_info(test_runner.exception, false)
         puts
       end
 
@@ -54,8 +54,8 @@ module MiniTest
         print(" #{suite}##{test} (%.2fs)" % total_time)
       end
 
-      def print_info(e)
-        print "#{e.exception.class.to_s}: "
+      def print_info(e, name = true)
+        print "#{e.exception.class.to_s}: " if name
         e.message.each_line { |line| puts pad(line) }
 
         trace = filter_backtrace(e.backtrace)

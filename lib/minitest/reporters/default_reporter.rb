@@ -53,7 +53,7 @@ module MiniTest
           print pad_test(test)
           print(red(pad_mark('FAIL')))
           puts
-          print_info(test_runner.exception)
+          print_info(test_runner.exception, false)
         else
           test_result(red('F'))
         end
@@ -199,8 +199,8 @@ module MiniTest
           [runner.test_count, runner.assertion_count, runner.failures, runner.errors, runner.skips]
       end
 
-      def print_info(e)
-        print "#{e.exception.class.to_s}: "
+      def print_info(e, name = true)
+        print "#{e.exception.class.to_s}: " if name
         e.message.each_line { |line| print_with_info_padding(line) }
         filter_backtrace(e.backtrace).each { |line| print_with_info_padding(line) }
       end
