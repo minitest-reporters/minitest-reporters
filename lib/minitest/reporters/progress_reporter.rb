@@ -32,10 +32,17 @@ module MiniTest
         puts
 
         @finished_count = 0
+        show
       end
 
       def increment
         @finished_count += 1
+        show
+      end
+
+      def show
+        return if runner.test_count == 0
+
         @progress.show({
           :msg => "#{@finished_count}/#{runner.test_count}",
           :done => @finished_count,
