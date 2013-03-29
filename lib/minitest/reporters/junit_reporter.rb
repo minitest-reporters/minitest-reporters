@@ -29,9 +29,12 @@ module MiniTest
 
           xml = Builder::XmlMarkup.new(:indent => 2)
           xml.instruct!
-          xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:failure_count], :errors => suite_result[:error_count], :tests => suite_result[:test_count], :assertions => suite_result[:assertion_count]) do
+          xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:failure_count],
+                        :errors => suite_result[:error_count], :tests => suite_result[:test_count],
+                        :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
             tests.each do |test, test_runner|
-              xml.testcase(:name => test_runner.test, :classname => suite, :assertions => test_runner.assertions) do
+              xml.testcase(:name => test_runner.test, :classname => suite, :assertions => test_runner.assertions,
+                           :time => test_runner.time) do
                 xml << xml_message_for(test_runner) if test_runner.result != :pass
               end
             end
@@ -40,11 +43,12 @@ module MiniTest
         end
       end
 
-    private
+      private
 
       def xml_message_for(test_runner)
         # This is a trick lifted from ci_reporter
         xml = Builder::XmlMarkup.new(:indent => 2, :margin => 2)
+
         def xml.trunc!(txt)
           txt.sub(/\n.*/m, '...')
         end
@@ -53,16 +57,16 @@ module MiniTest
         e = test_runner.exception
 
         case test_runner.result
-        when :skip
-          xml.skipped(:type => test)
-        when :error
-          xml.error(:type => test, :message => xml.trunc!(e.message)) do
-            xml.text!(message_for(test_runner))
-          end
-        when :failure
-          xml.failure(:type => test, :message => xml.trunc!(e.message)) do
-            xml.text!(message_for(test_runner))
-          end
+          when :skip
+            xml.skipped(:type => test)
+          when :error
+            xml.error(:type => test, :message => xml.trunc!(e.message)) do
+              xml.text!(message_for(test_runner))
+            end
+          when :failure
+            xml.failure(:type => test, :message => xml.trunc!(e.message)) do
+              xml.text!(message_for(test_runner))
+            end
         end
       end
 
@@ -72,12 +76,15 @@ module MiniTest
         e = test_runner.exception
 
         case test_runner.result
-        when :pass then nil
-        when :skip then "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
-        when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
-        when :error
-          bt = filter_backtrace(test_runner.exception.backtrace).join "\n    "
-          "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
+          when :pass then
+            nil
+          when :skip then
+            "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+          when :failure then
+            "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+          when :error
+            bt = filter_backtrace(test_runner.exception.backtrace).join "\n    "
+            "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
         end
       end
 
@@ -97,6 +104,7 @@ module MiniTest
           result[:"#{test_runner.result}_count"] += 1
           result[:assertion_count] += test_runner.assertions
           result[:test_count] += 1
+          result[:time] += test_runner.time
         end
         result
       end
