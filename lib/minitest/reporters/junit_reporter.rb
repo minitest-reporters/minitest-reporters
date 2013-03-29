@@ -57,16 +57,16 @@ module MiniTest
         e = test_runner.exception
 
         case test_runner.result
-          when :skip
-            xml.skipped(:type => test)
-          when :error
-            xml.error(:type => test, :message => xml.trunc!(e.message)) do
-              xml.text!(message_for(test_runner))
-            end
-          when :failure
-            xml.failure(:type => test, :message => xml.trunc!(e.message)) do
-              xml.text!(message_for(test_runner))
-            end
+        when :skip
+          xml.skipped(:type => test)
+        when :error
+          xml.error(:type => test, :message => xml.trunc!(e.message)) do
+            xml.text!(message_for(test_runner))
+          end
+        when :failure
+          xml.failure(:type => test, :message => xml.trunc!(e.message)) do
+            xml.text!(message_for(test_runner))
+          end
         end
       end
 
@@ -76,15 +76,15 @@ module MiniTest
         e = test_runner.exception
 
         case test_runner.result
-          when :pass then
-            nil
-          when :skip then
-            "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
-          when :failure then
-            "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
-          when :error
-            bt = filter_backtrace(test_runner.exception.backtrace).join "\n    "
-            "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
+        when :pass then
+          nil
+        when :skip then
+          "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+        when :failure then
+          "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+        when :error
+          bt = filter_backtrace(test_runner.exception.backtrace).join "\n    "
+          "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
         end
       end
 
