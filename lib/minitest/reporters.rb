@@ -22,7 +22,7 @@ module MiniTest
 
     def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = ExtensibleBacktraceFilter.default_filter)
       use_runner!(console_reporters, env)
-      use_before_test_hook!
+      use_around_test_hooks!
       use_backtrace_filter!(backtrace_filter)
       use_parallel_length_method!
     end
@@ -33,17 +33,17 @@ module MiniTest
       Unit.runner = runner
     end
 
-    def self.use_before_test_hook!
-      if Unit::VERSION >= "3.3.0"
-        Unit::TestCase.send(:include, AroundTestHooks)
-      else
-        Unit::TestCase.send(:define_method, :before_setup) do
+    def self.use_around_test_hooks!
+      Unit::TestCase.class_eval do
+        def run_with_hooks(runner)
           AroundTestHooks.before_test(self)
+          result = run_without_hooks(runner)
+          AroundTestHooks.after_test(self)
+          result
         end
 
-        Unit::TestCase.send(:define_method, :after_teardown) do
-          AroundTestHooks.after_test(self)
-        end
+        alias_method :run_without_hooks, :run
+        alias_method :run, :run_with_hooks
       end
     end
 

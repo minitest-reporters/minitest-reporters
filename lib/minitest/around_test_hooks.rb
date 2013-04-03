@@ -11,15 +11,5 @@ module MiniTest
         MiniTest::Unit.runner.after_test(instance.class, instance.__name__)
       end
     end
-
-    def before_setup
-      AroundTestHooks.before_test(self)
-      super
-    end
-
-    def after_teardown
-      super
-      AroundTestHooks.after_test(self)
-    end
   end
 end
