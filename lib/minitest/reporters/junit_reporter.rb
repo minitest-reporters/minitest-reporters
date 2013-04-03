@@ -33,7 +33,7 @@ module MiniTest
                         :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                         :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
             tests.each do |test, test_runner|
-              xml.testcase(:name => test_runner.test, :classname => suite, :assertions => test_runner.assertions,
+              xml.testcase(:name => test_runner.test.to_s, :classname => suite, :assertions => test_runner.assertions,
                            :time => test_runner.time) do
                 xml << xml_message_for(test_runner) if test_runner.result != :pass
               end
