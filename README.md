@@ -1,6 +1,5 @@
 # minitest-reporters - create customizable MiniTest output formats [![Build Status](https://secure.travis-ci.org/CapnKernul/minitest-reporters.png)](http://travis-ci.org/CapnKernul/minitest-reporters)
 
-
 Death to haphazard monkey-patching! Extend MiniTest through simple hooks.
 
 ## Installation ##
@@ -48,6 +47,10 @@ color output from `DefaultReporter`:
 ```ruby
 MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new(:color => true)]
 ```
+
+## Caveats ##
+
+If you are using minitest-reporters with ActiveSupport 3.x, make sure that you require ActiveSupport before invoking `MiniTest::Reporters.use!`. Minitest-reporters fixes incompatibilities caused by monkey patches in ActiveSupport 3.x. ActiveSupport 4.x is unaffected.
 
 ## Note on Patches/Pull Requests ##
 
