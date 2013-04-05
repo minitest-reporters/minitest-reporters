@@ -85,7 +85,7 @@ module MiniTest
     end
 
     def self.use_old_activesupport_fix!
-      if defined?(ActiveSupport) && ActiveSupport::VERSION::MAJOR < 4
+      if defined?(ActiveSupport::VERSION) && ActiveSupport::VERSION::MAJOR < 4
         require "minitest/old_activesupport_fix"
       end
     end
