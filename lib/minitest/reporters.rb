@@ -25,6 +25,7 @@ module MiniTest
       use_around_test_hooks!
       use_backtrace_filter!(backtrace_filter)
       use_parallel_length_method!
+      use_old_activesupport_fix!
     end
 
     def self.use_runner!(console_reporters, env)
@@ -80,6 +81,12 @@ module MiniTest
         ParallelEach.send(:define_method, :length) do
           @queue.length
         end
+      end
+    end
+
+    def self.use_old_activesupport_fix!
+      if defined?(ActiveSupport) && ActiveSupport::VERSION::MAJOR < 4
+        require "minitest/old_activesupport_fix"
       end
     end
   end
