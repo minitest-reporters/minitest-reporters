@@ -22,16 +22,37 @@ module MiniTest
 
     def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = ExtensibleBacktraceFilter.default_filter)
       use_runner!(console_reporters, env)
-      use_around_test_hooks!
       use_backtrace_filter!(backtrace_filter)
-      use_parallel_length_method!
-      use_old_activesupport_fix!
+
+      unless defined?(@@loaded)
+        use_around_test_hooks!
+        use_parallel_length_method!
+        use_old_activesupport_fix!
+      end
+
+      @@loaded = true
     end
 
     def self.use_runner!(console_reporters, env)
       runner = ReporterRunner.new
       runner.reporters = choose_reporters(console_reporters, env)
       Unit.runner = runner
+    end
+
+    def self.use_backtrace_filter!(backtrace_filter)
+      if Unit::VERSION < "4.1.0" && !defined?(@@loaded)
+        MiniTest.class_eval do
+          class << self
+            attr_accessor :backtrace_filter
+          end
+
+          def self.filter_backtrace(backtrace)
+            backtrace_filter.filter(backtrace)
+          end
+        end
+      end
+
+      MiniTest.backtrace_filter = backtrace_filter
     end
 
     def self.use_around_test_hooks!
@@ -46,22 +67,6 @@ module MiniTest
         alias_method :run_without_hooks, :run
         alias_method :run, :run_with_hooks
       end
-    end
-
-    def self.use_backtrace_filter!(backtrace_filter)
-      if Unit::VERSION < "4.1.0"
-        MiniTest.class_eval do
-          class << self
-            attr_accessor :backtrace_filter
-          end
-
-          def self.filter_backtrace(backtrace)
-            backtrace_filter.filter(backtrace)
-          end
-        end
-      end
-
-      MiniTest.backtrace_filter = backtrace_filter
     end
 
     def self.choose_reporters(console_reporters, env)

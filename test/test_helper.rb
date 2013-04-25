@@ -16,4 +16,5 @@ if ENV["REPORTER"]
   MiniTest::Reporters.use!(reporter_klass.new)
 else
   MiniTest::Reporters.use!(MiniTest::Reporters::DefaultReporter.new)
+  MiniTest::Reporters.use!(MiniTest::Reporters::DefaultReporter.new)
 end
