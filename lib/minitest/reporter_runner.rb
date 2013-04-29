@@ -22,11 +22,15 @@ module MiniTest
       self.reporters = []
       @test_results = {}
       @test_recorder = TestRecorder.new
+      @allow_default_output = true
+    end
+
+    def run_tests
+      @allow_default_output = false
+      super
     end
 
     def _run_suites(suites, type)
-      output.puts "# Run options: #{@help}"
-
       @suites_start_time = Time.now
       count_tests!(suites, type)
       trigger_callback(:before_suites, suites, type)
@@ -75,9 +79,17 @@ module MiniTest
     end
 
     # Stub out the three IO methods used by the built-in reporter.
-    def puts(*args); end
-    def print(*args); end
-    def status(io = output); end
+    def puts(*args)
+      super if @allow_default_output
+    end
+
+    def print(*args)
+      super if @allow_default_output
+    end
+
+    def status(io = output)
+      super if @allow_default_output
+    end
 
     private
 
