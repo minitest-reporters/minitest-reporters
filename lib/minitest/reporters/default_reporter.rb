@@ -1,6 +1,7 @@
+require_relative '../reporter_base'
 require 'ansi/code'
 
-module MiniTest
+module Minitest
   module Reporters
     # A reporter identical to the standard MiniTest reporter except with more
     # colors.
@@ -8,8 +9,7 @@ module MiniTest
     # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
     #
     # @see https://github.com/seattlerb/minitest MiniTest
-    class DefaultReporter < Minitest::Reporter
-      include Reporter
+    class DefaultReporter < ReporterBase
       include RelativePosition
 
       def initialize(options = {})
@@ -39,15 +39,15 @@ module MiniTest
         print "#{@test_name} = " if verbose?
       end
 
-      def pass(suite, test, test_runner)
-        test_result(green('.'))
+      def pass(result)
+        test_result(result, green('.'))
       end
 
-      def skip(suite, test, test_runner)
-        test_result(yellow('S'))
+      def skip(result)
+        test_result(result, yellow('S'))
       end
 
-      def failure(suite, test, test_runner)
+      def failure(result)
         if @fast_fail
           puts
           puts suite.name
@@ -56,11 +56,11 @@ module MiniTest
           puts
           print_info(test_runner.exception, false)
         else
-          test_result(red('F'))
+          test_result(result, red('F'))
         end
       end
 
-      def error(suite, test, test_runner)
+      def error(result)
         if @fast_fail
           puts
           puts suite.name
@@ -69,15 +69,18 @@ module MiniTest
           puts
           print_info(test_runner.exception)
         else
-          test_result(red('E'))
+          test_result(result, red('E'))
         end
       end
 
+      # Dead code?
       def after_suite(suite)
         time = Time.now - runner.suite_start_time
         @suite_times << [suite.name, time]
       end
 
+      # Dead code?
+      # Or perhaps this should be the #report function instead?
       def after_suites(suites, type)
         time = Time.now - runner.suites_start_time
         status_line = "Finished %ss in %.6fs, %.4f tests/s, %.4f assertions/s." %
@@ -149,6 +152,7 @@ module MiniTest
         end
       end
 
+      # Dead Code
       def suite_result
         case
         when runner.failures > 0; :failure
@@ -158,15 +162,15 @@ module MiniTest
         end
       end
 
-      def test_result(result)
-        time = Time.now - (runner.test_start_time || Time.now)
-        @test_times << [@test_name, time]
+      def test_result(result, message)
+        @test_times << [@test_name, result.time]
 
-        print '%.2f s = ' % time if verbose?
-        print result
+        print '%.2f s = ' % result.time if verbose?
+        print message
         puts if verbose?
       end
 
+      # Dead Code
       def location(exception)
         last_before_assertion = ''
 
@@ -178,6 +182,7 @@ module MiniTest
         last_before_assertion.sub(/:in .*$/, '')
       end
 
+      # Dead Code?
       def message_for(test_runner)
         suite = test_runner.suite
         test = test_runner.test
@@ -196,6 +201,7 @@ module MiniTest
         end
       end
 
+      # Dead Code?
       def result_line
         '%d tests, %d assertions, %d failures, %d errors, %d skips' %
           [runner.test_count, runner.assertion_count, runner.failures, runner.errors, runner.skips]
