@@ -123,6 +123,7 @@ module MiniTest
 
         puts
         print colored_for(suite_result, result_line)
+        puts
       end
 
       private
