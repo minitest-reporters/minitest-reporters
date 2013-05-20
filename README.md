@@ -2,10 +2,6 @@
 
 Death to haphazard monkey-patching! Extend MiniTest through simple hooks.
 
-## Looking for a new maintainer! ##
-
-I no longer use `minitest-reporters`, and would like to pass on the project to someone else who will be able to dedicate more time to it. Contact me via [email](mailto:alex@kernul.com) or [Twitter](https://twitter.com/CapnKernul) if you're interested in maintaining this project.
-
 ## Installation ##
 
     gem install minitest-reporters
