@@ -3,7 +3,7 @@ require "rake/testtask"
 
 task :default => :test
 Rake::TestTask.new do |t|
-  t.pattern = "test/unit/**/*_test.rb"
+  t.pattern = "test/{unit,integration}/**/*_test.rb"
   t.verbose = true
 end
 
