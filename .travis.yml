@@ -1,5 +1,6 @@
 script: 'rake test'
 rvm:
+  - 2.0.0
   - 1.9.3
   - rbx-19mode
   - jruby-19mode
