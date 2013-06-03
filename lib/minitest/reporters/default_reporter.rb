@@ -8,11 +8,12 @@ module MiniTest
     # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
     #
     # @see https://github.com/seattlerb/minitest MiniTest
-    class DefaultReporter
+    class DefaultReporter < Minitest::Reporter
       include Reporter
       include RelativePosition
 
       def initialize(options = {})
+        super
         @detailed_skip = options.fetch(:detailed_skip, true)
         @slow_count = options.fetch(:slow_count, 0)
         @slow_suite_count = options.fetch(:slow_suite_count, 0)
@@ -20,10 +21,10 @@ module MiniTest
         @test_times = []
         @suite_times = []
         @color = options.fetch(:color) do
-          output.tty? && (
-            ENV["TERM"] =~ /^screen|color/ ||
-            ENV["EMACS"] == "t"
-          )
+          #output.tty? && (
+          #  ENV["TERM"] =~ /^screen|color/ ||
+          #  ENV["EMACS"] == "t"
+          #)
         end
       end
 

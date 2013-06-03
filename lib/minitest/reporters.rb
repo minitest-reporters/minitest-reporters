@@ -36,27 +36,14 @@ module MiniTest
     def self.use_runner!(console_reporters, env)
       runner = ReporterRunner.new
       runner.reporters = choose_reporters(console_reporters, env)
-      Unit.runner = runner
     end
 
     def self.use_backtrace_filter!(backtrace_filter)
-      if Unit::VERSION < "4.1.0" && !defined?(@@loaded)
-        MiniTest.class_eval do
-          class << self
-            attr_accessor :backtrace_filter
-          end
-
-          def self.filter_backtrace(backtrace)
-            backtrace_filter.filter(backtrace)
-          end
-        end
-      end
-
-      MiniTest.backtrace_filter = backtrace_filter
+      Minitest.backtrace_filter = backtrace_filter
     end
 
     def self.use_around_test_hooks!
-      Unit::TestCase.class_eval do
+      Minitest::Unit::TestCase.class_eval do
         def run_with_hooks(runner)
           AroundTestHooks.before_test(self)
           result = run_without_hooks(runner)
@@ -80,10 +67,10 @@ module MiniTest
     end
 
     def self.use_parallel_length_method!
-      if Unit::VERSION >= "4.2.0"
+      if Minitest::VERSION >= "4.2.0"
         require "minitest/parallel_each"
 
-        ParallelEach.send(:define_method, :length) do
+        Minitest::ParallelEach.send(:define_method, :length) do
           @queue.length
         end
       end

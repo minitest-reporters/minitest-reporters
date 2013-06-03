@@ -9,14 +9,14 @@ module MiniTest
     # Inspired by ci_reporter (see https://github.com/nicksieger/ci_reporter)
     # Also inspired by Marc Seeger's attempt at producing a JUnitReporter (see https://github.com/rb2k/minitest-reporters/commit/e13d95b5f884453a9c77f62bc5cba3fa1df30ef5)
     # Also inspired by minitest-ci (see https://github.com/bhenderson/minitest-ci)
-    class JUnitReporter
+    class JUnitReporter < Minitest::Test
       include Reporter
 
       def initialize(reports_dir = "test/reports", empty = true)
         @reports_path = File.absolute_path(reports_dir)
 
         if empty
-          puts "Emptying #{@reports_path}"
+          Kernel::puts "Emptying #{@reports_path}"
           FileUtils.remove_dir(@reports_path) if File.exists?(@reports_path)
           FileUtils.mkdir_p(@reports_path)
         end

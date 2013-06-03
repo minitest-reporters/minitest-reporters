@@ -3,7 +3,7 @@ require "minitest/autorun"
 require "minitest/reporters"
 
 module MiniTestReportersTest
-  class TestCase < MiniTest::Unit::TestCase
+  class TestCase < Minitest::Test
   end
 end
 

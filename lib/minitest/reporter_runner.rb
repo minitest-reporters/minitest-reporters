@@ -6,7 +6,7 @@ module MiniTest
   # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
   #
   # @see https://github.com/seattlerb/minitest MiniTest
-  class ReporterRunner < Unit
+  class ReporterRunner
     extend Forwardable
 
     attr_accessor :reporters

@@ -1,7 +1,11 @@
 module MiniTest
   module Reporter
     def runner
-      Unit.runner
+      reporter
+    end
+
+    def reporter
+      self
     end
 
     def filter_backtrace(backtrace)
@@ -9,19 +13,23 @@ module MiniTest
     end
 
     def output
-      runner.output
+      io
     end
 
     def verbose?
-      runner.verbose
+      !!@verbose
+    end
+
+    def verbose=(verbose)
+      @verbose = verbose
     end
 
     def print(*args)
-      runner.output.print(*args)
+      io.print(*args)
     end
 
     def puts(*args)
-      runner.output.puts(*args)
+      io.puts(*args)
     end
 
     def before_suites(suites, type); end

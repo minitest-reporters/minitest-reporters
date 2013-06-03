@@ -17,14 +17,6 @@ module MiniTestReportersTest
       ].each { |method| assert_respond_to @reporter, method }
     end
 
-    def test_runner
-      assert_kind_of MiniTest::Unit, @reporter.runner
-    end
-
-    def test_output
-      assert_equal MiniTest::Unit.output, @reporter.output
-    end
-
     def test_verbose
       refute @reporter.verbose?
 
