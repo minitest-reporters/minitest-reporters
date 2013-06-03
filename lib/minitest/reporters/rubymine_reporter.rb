@@ -25,7 +25,7 @@ rescue LoadError
 else
   module MiniTest
     module Reporters
-      class RubyMineReporter
+      class RubyMineReporter < Minitest::Reporter
         include Reporter
         include ANSI::Code
 
@@ -33,24 +33,8 @@ else
         include ::Rake::TeamCity::RunnerUtils
         include ::Rake::TeamCity::Utils::UrlFormatter
 
-        def runner
-          #MiniTest::Unit.runner
-        end
-
-        def output
-          runner.output
-        end
-
-        def verbose?
-          runner.verbose
-        end
-
-        def print(*args)
-          runner.output.print(*args)
-        end
-
-        def puts(*args)
-          runner.output.puts(*args)
+        def initialize(options = {})
+          super(options[:io], options)
         end
 
         def before_suites(suites, type)

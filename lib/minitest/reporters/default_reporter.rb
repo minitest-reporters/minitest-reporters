@@ -13,7 +13,7 @@ module MiniTest
       include RelativePosition
 
       def initialize(options = {})
-        super
+        super(options[:io], options)
         @detailed_skip = options.fetch(:detailed_skip, true)
         @slow_count = options.fetch(:slow_count, 0)
         @slow_suite_count = options.fetch(:slow_suite_count, 0)

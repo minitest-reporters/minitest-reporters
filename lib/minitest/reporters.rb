@@ -56,11 +56,11 @@ module MiniTest
       end
     end
 
-    def self.choose_reporters(console_reporters, env)
+    def self.choose_reporters(console_reporters, env, options = {})
       if env["TM_PID"]
         [RubyMateReporter.new]
       elsif env["RM_INFO"] || env["TEAMCITY_VERSION"]
-        [RubyMineReporter.new]
+        [RubyMineReporter.new(options)]
       else
         Array(console_reporters)
       end
