@@ -7,6 +7,5 @@ module Minitest
   def self.plugin_minitest_reporter_init(options)
     self.reporter.reporters.clear
     self.reporter.reporters.concat(MiniTest::Reporters.choose_reporters(MiniTest::Reporters::DefaultReporter.new(options), ENV, options))
-    $stderr.puts "reporters: #{self.reporter.reporters}"
   end
 end
