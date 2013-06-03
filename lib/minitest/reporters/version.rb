@@ -1,5 +1,5 @@
 module MiniTest
   module Reporters
-    VERSION = '0.14.20'
+    VERSION = '5.0.0.alpha1'
   end
 end
