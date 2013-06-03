@@ -8,10 +8,10 @@ begin
   require 'teamcity/utils/runner_utils'
   require 'teamcity/utils/url_formatter'
 rescue LoadError
-  $stderr.output.puts("====================================================================================================\n")
-  $stderr.output.puts("RubyMine reporter works only if it test was launched using RubyMine IDE or TeamCity CI server !!!\n")
-  $stderr.output.puts("====================================================================================================\n")
-  $stderr.output.puts("Using default results reporter...\n")
+  $stderr.puts("====================================================================================================\n")
+  $stderr.puts("RubyMine reporter works only if it test was launched using RubyMine IDE or TeamCity CI server !!!\n")
+  $stderr.puts("====================================================================================================\n")
+  $stderr.puts("Using default results reporter...\n")
 
   require "minitest/reporters/default_reporter"
 
