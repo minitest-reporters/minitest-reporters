@@ -5,7 +5,7 @@ require 'powerbar'
 module Minitest
   module Reporters
 
-    class ProgressReporterPlugin < ReporterBase
+    class ProgressReporter < ReporterBase
       # Fuubar-like reporter with a progress bar.
       #
       # Originally based upon Jeff Kreefmeijer's Fuubar (MIT License) and paydro's

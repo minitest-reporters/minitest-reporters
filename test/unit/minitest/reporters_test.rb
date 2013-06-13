@@ -1,4 +1,5 @@
 require_relative "../../test_helper"
+require "stringio"
 
 module MiniTestReportersTest
   class ReportersTest < TestCase

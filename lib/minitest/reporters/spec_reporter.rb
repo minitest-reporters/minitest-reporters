@@ -11,7 +11,7 @@ module MiniTest
     class SpecReporter
       include Reporter
       include ANSI::Code
-      include RelativePosition
+      include Minitest::RelativePosition
 
       def initialize
         @suites = []

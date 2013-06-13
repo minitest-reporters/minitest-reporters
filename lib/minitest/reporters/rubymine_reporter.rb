@@ -14,7 +14,7 @@ rescue LoadError
   # delegate to default reporter
   module MiniTest
     module Reporters
-      class RubyMineReporter < DefaultReporter
+      class RubyMineReporter < Minitest::Reporters::DefaultReporter
         def initialize(options = {})
           super
           io.puts("====================================================================================================\n")

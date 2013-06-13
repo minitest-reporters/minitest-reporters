@@ -10,10 +10,13 @@ module Minitest
     #
     # @see https://github.com/seattlerb/minitest MiniTest
     class DefaultReporter < ReporterBase
-      include RelativePosition
+      include Minitest::RelativePosition
 
       def initialize(options = {})
-        super(options[:io], options)
+        super(options)
+        @count = @assertions = @passes = @failures = @skips = @errors = 0
+        @start_time = Time.now
+        @total_tests = options.fetch(:total_tests, 0)
         @detailed_skip = options.fetch(:detailed_skip, true)
         @slow_count = options.fetch(:slow_count, 0)
         @slow_suite_count = options.fetch(:slow_suite_count, 0)
@@ -28,26 +31,36 @@ module Minitest
         end
       end
 
+      # Dead Code?
       def before_suites(suites, type)
         puts
         puts "# Running #{type}s:"
         puts
       end
 
+      # Dead Code?
       def before_test(suite, test)
         @test_name = "#{suite}##{test}"
         print "#{@test_name} = " if verbose?
       end
 
+      def pre_record(result)
+        @count += 1
+        @assertions += result.assertions
+      end
+
       def pass(result)
+        @passes += 1
         test_result(result, green('.'))
       end
 
       def skip(result)
+        @skips += 1
         test_result(result, yellow('S'))
       end
 
       def failure(result)
+        @failures += 1
         if @fast_fail
           puts
           puts suite.name
@@ -61,6 +74,7 @@ module Minitest
       end
 
       def error(result)
+        @errors += 1
         if @fast_fail
           puts
           puts suite.name
@@ -73,6 +87,17 @@ module Minitest
         end
       end
 
+      def report
+        time = Time.now - @start_time
+        io.puts
+        io.puts
+        io.puts "Finished in %.6fs, %.4f, %.4f assertions/s" %
+          [time, @count / time, @assertions / time]
+
+        io.puts "%d runs, %d assertions, %d failures, %d errors, %d skips" %
+          [@count, @assertions, @failures, @errors, @skips]
+      end
+
       # Dead code?
       def after_suite(suite)
         time = Time.now - runner.suite_start_time
@@ -82,9 +107,9 @@ module Minitest
       # Dead code?
       # Or perhaps this should be the #report function instead?
       def after_suites(suites, type)
-        time = Time.now - runner.suites_start_time
+        time = Time.now - @start_time
         status_line = "Finished %ss in %.6fs, %.4f tests/s, %.4f assertions/s." %
-          [type, time, runner.test_count / time, runner.assertion_count / time]
+          [type, time, @count / time, @assert / time]
 
         puts
         puts
