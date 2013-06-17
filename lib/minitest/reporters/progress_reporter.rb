@@ -1,35 +1,32 @@
+require_relative '../reporter_base'
 require 'ansi/code'
 require 'powerbar'
 
-module MiniTest
+module Minitest
   module Reporters
-    # Fuubar-like reporter with a progress bar.
-    #
-    # Based upon Jeff Kreefmeijer's Fuubar (MIT License) and paydro's
-    # monkey-patch.
-    #
-    # @see https://github.com/jeffkreeftmeijer/fuubar Fuubar
-    # @see https://gist.github.com/356945 paydro's monkey-patch
-    class ProgressReporter
-      include Reporter
+
+    class ProgressReporter < ReporterBase
+      # Fuubar-like reporter with a progress bar.
+      #
+      # Originally based upon Jeff Kreefmeijer's Fuubar (MIT License) and paydro's
+      # monkey-patch but modified to be minitest 5.0 compatible
+      #
+      # @see https://github.com/jeffkreeftmeijer/fuubar Fuubar
+      # @see https://gist.github.com/356945 paydro's monkey-patch
       include ANSI::Code
+
+      attr_accessor :io, :test_count, :assertion_count, :failures, :errors, :skips
 
       INFO_PADDING = 2
 
       def initialize(options = {})
+        super(options)
         @detailed_skip = options.fetch(:detailed_skip, true)
-
-        @progress = PowerBar.new(:msg => "0/#{runner.test_count}")
-        @progress.settings.tty.finite.output = lambda { |s| print(s) }
-        @progress.settings.tty.finite.template.barchar = "="
-        @progress.settings.tty.finite.template.padchar = " "
-        @progress.settings.tty.finite.template.pre = "\e[1000D\e[?25l#{GREEN}"
-        @progress.settings.tty.finite.template.post = CLEAR
+        @progress = setup_progress_bar
       end
 
-      def before_suites(suites, type)
-        puts 'Started'
-        puts
+      def start
+        self.start_time = Time.now
 
         @finished_count = 0
         show
@@ -41,65 +38,61 @@ module MiniTest
       end
 
       def show
-        return if runner.test_count == 0
-
         @progress.show({
-          :msg => "#{@finished_count}/#{runner.test_count}",
+          :msg => "#{@finished_count}/#{@total_tests}",
           :done => @finished_count,
-          :total => runner.test_count,
-        }, true)
+          :total => @total_tests
+          }, true)
       end
 
-      def after_test(suite, test)
+      def post_record(result)
         increment
       end
 
-      def skip(suite, test, test_runner)
+      def report
+        @progress.close
+        super
+      end
+
+      def pass(result)
+      end
+
+      def failure(result)
+        wipe
+        io.print(red { 'FAIL' })
+        print_test_with_time(result)
+        io.puts
+        print_info(result.failure, false)
+        io.puts
+
+        self.color = RED
+      end
+
+      def error(result)
+        wipe
+        io.print(red { 'ERROR' })
+        print_test_with_time(result)
+        io.puts
+        print_info(result.failure)
+        io.puts
+
+        self.color = RED
+      end
+
+      def skip(result)
         if @detailed_skip
           wipe
-          print(yellow { 'SKIP' })
-          print_test_with_time(suite, test)
-          puts
-          puts
+          io.print(yellow { 'SKIP' })
+          print_test_with_time(result)
+          io.puts
+          io.puts
         end
 
         self.color = YELLOW unless color == RED
       end
 
-      def failure(suite, test, test_runner)
-        wipe
-        print(red { 'FAIL' })
-        print_test_with_time(suite, test)
-        puts
-        print_info(test_runner.exception, false)
-        puts
-
-        self.color = RED
-      end
-
-      def error(suite, test, test_runner)
-        wipe
-        print(red { 'ERROR' })
-        print_test_with_time(suite, test)
-        puts
-        print_info(test_runner.exception)
-        puts
-
-        self.color = RED
-      end
-
-      def after_suites(suites, type)
-        @progress.close
-
-        total_time = Time.now - runner.suites_start_time
-
-        wipe
-        puts
-        puts('Finished in %.5fs' % total_time)
-        print('%d tests, %d assertions, ' % [runner.test_count, runner.assertion_count])
-        print(red { '%d failures, %d errors, ' } % [runner.failures, runner.errors])
-        print(yellow { '%d skips' } % runner.skips)
-        puts
+      def passed?
+        @passed
       end
 
       private
@@ -108,17 +101,13 @@ module MiniTest
         @progress.wipe
       end
 
-      def print_test_with_time(suite, test)
-        total_time = Time.now - (runner.test_start_time || Time.now)
-        print(" %s#%s (%.2fs)%s" % [suite, test, total_time, clr])
+      def print_test_with_time(result)
+        io.print(" %s#%s (%.2fs)%s" % [result.class, result.name, result.time, clr])
       end
 
-      def print_info(e, name = true)
-        print pad("#{e.exception.class.to_s}: ") if name
-        e.message.each_line { |line| puts pad(line) }
-
-        trace = filter_backtrace(e.backtrace)
-        trace.each { |line| puts pad(line) }
+      def print_info(result, name=true)
+        io.print pad("#{result.exception.class}: ") if name
+        result.message.each_line { |line| io.puts pad(line) }
       end
 
       def pad(str)
@@ -132,6 +121,31 @@ module MiniTest
       def color=(color)
         @color = color
         @progress.scope.template.pre = "\e[1000D\e[?25l#{@color}"
+      end
+
+      def log(msg)
+        io.flush
+        io.puts("\n#{msg}")
+        io.flush
+        msg
+      end
+
+      def with_result(result)
+        exception = result.failure
+        msg = exception.nil? ? '' : "#{exception.class.name}: #{exception.message}"
+        backtrace = exception.nil? ? '' : Minitest::filter_backtrace(exception.backtrace).join("\n")
+
+        yield(msg, backtrace)
+      end
+
+      def setup_progress_bar
+        progress = PowerBar.new(:msg => "")
+        progress.settings.tty.finite.output = lambda { |s| print(s) }
+        progress.settings.tty.finite.template.barchar = "="
+        progress.settings.tty.finite.template.padchar = " "
+        progress.settings.tty.finite.template.pre = "\e[1000D\e[?25l#{GREEN}"
+        progress.settings.tty.finite.template.post = CLEAR
+        progress
       end
     end
   end
