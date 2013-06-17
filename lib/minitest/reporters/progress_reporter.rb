@@ -111,7 +111,7 @@ module Minitest
       end
 
       def pad(str)
-        '' * INFO_PADDING + str
+        ' ' * INFO_PADDING + str
       end
 
       def color
