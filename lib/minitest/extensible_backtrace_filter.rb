@@ -51,6 +51,7 @@ module MiniTest
     # @note This logic is based off of MiniTest's #filter_backtrace.
     def filter(backtrace)
       result = []
+      return result unless backtrace
 
       backtrace.each do |line|
         break if filters?(line)
