@@ -34,5 +34,9 @@ module MiniTestReportersTest
       assert @default_filter.filters?("lib/minitest/reporters")
       refute @default_filter.filters?("lib/my_gem")
     end
+
+    def test_nil_backtrace
+      assert_equal [], @filter.filter(nil)
+    end
   end
 end
