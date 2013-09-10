@@ -21,3 +21,4 @@ doc/
 
 # Gem-specific
 Gemfile.lock
+.idea/
