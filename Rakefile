@@ -25,7 +25,11 @@ task :gallery do
     "RubyMateReporter",
     "SpecReporter"
   ].each do |reporter|
-    puts "Running gallery tests using #{reporter}..."
+    puts
+    puts "-" * 72
+    puts "#{reporter}:"
+    puts "-" * 72
+    puts
     sh "rake test:gallery REPORTER=#{reporter}" do
       # Ignore failures. They're expected when you are running the gallery
       # test suite.
