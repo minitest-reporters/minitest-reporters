@@ -17,6 +17,18 @@ end
 # of having meaningful output. The guard reporter requires Guard, and I'm not
 # really all that interested in setting it up for automated testing for such a
 # simple reporter.
+def run_gallery(reporter)
+  puts
+  puts "-" * 72
+  puts "#{reporter}:"
+  puts "-" * 72
+  puts
+  sh "rake test:gallery REPORTER=#{reporter}" do
+    # Ignore failures. They're expected when you are running the gallery
+    # test suite.
+  end
+end
+
 task :gallery do
   [
     "DefaultReporter",
@@ -24,15 +36,9 @@ task :gallery do
     "ProgressReporter",
     "RubyMateReporter",
     "SpecReporter"
-  ].each do |reporter|
-    puts
-    puts "-" * 72
-    puts "#{reporter}:"
-    puts "-" * 72
-    puts
-    sh "rake test:gallery REPORTER=#{reporter}" do
-      # Ignore failures. They're expected when you are running the gallery
-      # test suite.
-    end
-  end
+  ].each { |reporter| run_gallery(reporter)  }
+end
+
+task :extended_gallery do
+
 end
