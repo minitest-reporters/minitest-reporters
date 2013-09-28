@@ -23,7 +23,7 @@ module MiniTest
 
       def after_suites(*args)
         duration = Time.now - runner.suites_start_time
-        notifer_class.notify(runner.test_count, runner.assertion_count,
+        notifier_class.notify(runner.test_count, runner.assertion_count,
                              runner.failures, runner.errors,
                              runner.skips, duration)
       end
