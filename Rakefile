@@ -9,7 +9,7 @@ end
 
 rubymine_home = [
   ENV["RUBYMINE_HOME"],
-  "../rubymine-contrib",
+  "../rubymine-contrib/ruby-testing/src/rb/testing/patch/common",
   "/Applications/RubyMine.app/rb/testing/patch/common",
 ].compact.detect { |d| Dir.exist?(d) }
 
@@ -27,6 +27,7 @@ end
 task :gallery do
   unless rubymine_home
     warn "To see RubyMineReporter supply RUBYMINE_HOME= or git clone git://git.jetbrains.org/idea/contrib.git ../rubymine-contrib"
+    exit 1
   end
 
   [
