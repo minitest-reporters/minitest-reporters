@@ -46,7 +46,7 @@ module MiniTest
           end
 
           if @options[:verbose]
-            puts "#{test.suite} #{"%.2f" % test.time} = #{result}"
+            puts "#{test.class} #{"%.2f" % test.time} = #{result}"
           else
             print result
           end
@@ -79,7 +79,7 @@ module MiniTest
           puts
 
           slow_tests.each do |test|
-            puts "%.6fs %s" % [test.time, "#{test.name}##{test.suite}"]
+            puts "%.6fs %s" % [test.time, "#{test.name}##{test.class}"]
           end
         end
 
@@ -154,7 +154,7 @@ module MiniTest
 
       # TODO #when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
       def message_for(test)
-        suite = test.suite
+        suite = test.class
         e = test.failures.last
 
         if test.passed?

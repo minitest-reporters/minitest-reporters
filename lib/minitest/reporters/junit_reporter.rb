@@ -73,7 +73,7 @@ module MiniTest
       end
 
       def message_for(test)
-        suite = test.suite
+        suite = test.class
         test = test.test
         e = test.exception
 

@@ -89,8 +89,8 @@ module MiniTest
       end
 
       def print_test_with_time(test)
-        puts [test.name, test.suite, total_time, ENDCODE].inspect
-        print(" %s#%s (%.2fs)%s" % [test.name, test.suite, total_time, ENDCODE])
+        puts [test.name, test.class, total_time, ENDCODE].inspect
+        print(" %s#%s (%.2fs)%s" % [test.name, test.class, total_time, ENDCODE])
       end
 
       def print_info(e, name)
