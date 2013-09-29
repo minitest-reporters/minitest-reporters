@@ -2,16 +2,16 @@ require "minitest/unit"
 
 module MiniTest
   require "minitest/relative_position"
-  require "minitest/reporter"
-  require "minitest/reporter_runner"
-  require "minitest/around_test_hooks"
-  require "minitest/test_runner"
-  require "minitest/test_recorder"
+  #require "minitest/reporter_runner"
+  #require "minitest/around_test_hooks"
+  #require "minitest/test_runner"
+  #require "minitest/test_recorder"
   require "minitest/extensible_backtrace_filter"
 
   module Reporters
     require "minitest/reporters/version"
 
+    autoload :BaseReporter, "minitest/reporters/base_reporter"
     autoload :DefaultReporter, "minitest/reporters/default_reporter"
     autoload :SpecReporter, "minitest/reporters/spec_reporter"
     autoload :ProgressReporter, "minitest/reporters/progress_reporter"
@@ -20,23 +20,27 @@ module MiniTest
     autoload :GuardReporter, "minitest/reporters/guard_reporter"
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
 
+    class << self
+      attr_accessor :reporters
+    end
+
     def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = ExtensibleBacktraceFilter.default_filter)
       use_runner!(console_reporters, env)
-      use_backtrace_filter!(backtrace_filter)
-
-      unless defined?(@@loaded)
-        use_around_test_hooks!
-        use_parallel_length_method!
-        use_old_activesupport_fix!
-      end
+      #use_backtrace_filter!(backtrace_filter)
+      #
+      #unless defined?(@@loaded)
+      #  use_around_test_hooks!
+      #  use_parallel_length_method!
+      #  use_old_activesupport_fix!
+      #end
 
       @@loaded = true
     end
 
     def self.use_runner!(console_reporters, env)
-      runner = ReporterRunner.new
-      runner.reporters = choose_reporters(console_reporters, env)
-      Unit.runner = runner
+      #runner = ReporterRunner.new
+      #runner.reporters = choose_reporters(console_reporters, env)
+      self.reporters = choose_reporters(console_reporters, env)
     end
 
     def self.use_backtrace_filter!(backtrace_filter)
