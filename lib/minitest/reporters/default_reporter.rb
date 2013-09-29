@@ -35,7 +35,7 @@ module MiniTest
           print pad_test(test.suite)
           print(red(pad_mark('FAIL')))
           puts
-          print_info(test.failures.last, false)
+          print_info(test.failure, false)
         else
           result = if test.passed?
             green('.')
@@ -63,7 +63,7 @@ module MiniTest
         puts colored_for(suite_result, status_line)
 
         unless @fast_fail
-          results.each do |test|
+          tests.each do |test|
             if message = message_for(test)
               puts
               print colored_for(result(test), message)
@@ -72,7 +72,7 @@ module MiniTest
         end
 
         if @slow_count > 0
-          slow_tests = results.sort_by(&:time).reverse.take(@slow_count)
+          slow_tests = tests.sort_by(&:time).reverse.take(@slow_count)
 
           puts
           puts "Slowest tests:"
@@ -155,7 +155,7 @@ module MiniTest
       # TODO #when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
       def message_for(test)
         suite = test.class
-        e = test.failures.last
+        e = test.failure
 
         if test.passed?
           nil

@@ -50,7 +50,7 @@ module MiniTest
           print(red { test.error? ? 'ERROR' : 'FAIL' })
           print_test_with_time(test)
           puts
-          print_info(test.failures.last, test.error?)
+          print_info(test.failure, test.error?)
           puts
 
           self.color = RED
@@ -79,7 +79,7 @@ module MiniTest
 
         @progress.show({
           :msg => "#{total_count}/#{count}",
-          :done => results.count,
+          :done => count,
           :total => total_count,
         }, true)
       end

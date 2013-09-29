@@ -2,13 +2,20 @@ module MiniTest
   module Reporters
     class BaseReporter < Minitest::StatisticsReporter
       attr_accessor :total_count
+      attr_accessor :tests
 
       def initialize(options={})
         super($stdout, options)
+        self.tests = []
       end
 
       def add_defaults(defaults)
         self.options = defaults.merge(options)
+      end
+
+      def record(test)
+        super
+        tests << test
       end
 
       protected

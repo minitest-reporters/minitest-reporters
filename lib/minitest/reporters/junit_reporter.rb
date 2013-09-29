@@ -25,7 +25,7 @@ module MiniTest
         super
 
         puts "Writing XML reports to #{@reports_path}"
-        suites = results.group_by(&:suite)
+        suites = tests.group_by(&:class)
 
         suites.each do |suite, tests|
           suite_result = analyze_suite(tests)
@@ -56,17 +56,16 @@ module MiniTest
           txt.sub(/\n.*/m, '...')
         end
 
-        test = test.name
-        e = test.exception
+        e = test.failure
 
         if test.skipped?
-          xml.skipped(:type => test)
+          xml.skipped(:type => test.name)
         elsif test.error?
-          xml.error(:type => test, :message => xml.trunc!(e.message)) do
+          xml.error(:type => test.name, :message => xml.trunc!(e.message)) do
             xml.text!(message_for(test))
           end
         elsif test.failure
-          xml.failure(:type => test, :message => xml.trunc!(e.message)) do
+          xml.failure(:type => test.name, :message => xml.trunc!(e.message)) do
             xml.text!(message_for(test))
           end
         end
@@ -74,18 +73,18 @@ module MiniTest
 
       def message_for(test)
         suite = test.class
-        test = test.test
-        e = test.exception
+        name = test.name
+        e = test.failure
 
         if test.passed?
           nil
         elsif test.skipped?
-          "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+          "Skipped:\n#{name}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         elsif test.failure
-          "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+          "Failure:\n#{name}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         elsif test.error?
           bt = filter_backtrace(test.exception.backtrace).join "\n    "
-          "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
+          "Error:\n#{name}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
         end
       end
 
