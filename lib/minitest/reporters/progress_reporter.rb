@@ -11,6 +11,7 @@ module MiniTest
     # @see https://github.com/jeffkreeftmeijer/fuubar Fuubar
     # @see https://gist.github.com/356945 paydro's monkey-patch
     class ProgressReporter < BaseReporter
+      include RelativePosition
       include ANSI::Code
 
       INFO_PADDING = 2
@@ -91,18 +92,6 @@ module MiniTest
       def print_test_with_time(test)
         puts [test.name, test.class, total_time, ENDCODE].inspect
         print(" %s#%s (%.2fs)%s" % [test.name, test.class, total_time, ENDCODE])
-      end
-
-      def print_info(e, name)
-        print pad("#{e.exception.class.to_s}: ") if name
-        e.message.each_line { |line| puts pad(line) }
-
-        trace = filter_backtrace(e.backtrace)
-        trace.each { |line| puts pad(line) }
-      end
-
-      def pad(str)
-        ' ' * INFO_PADDING + str
       end
 
       def color

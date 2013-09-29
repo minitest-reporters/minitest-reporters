@@ -11,7 +11,7 @@ module MiniTest
       puts pad(line, INFO_PADDING)
     end
 
-    def pad(str, size)
+    def pad(str, size = INFO_PADDING)
       ' ' * size + str
     end
 

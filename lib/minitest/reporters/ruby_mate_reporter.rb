@@ -4,6 +4,7 @@ module MiniTest
   module Reporters
     # Simple reporter designed for RubyMate.
     class RubyMateReporter < BaseReporter
+      include RelativePosition
 
       INFO_PADDING = 2
 
@@ -48,19 +49,7 @@ module MiniTest
       private
 
       def print_test_with_time(test)
-        print(" #{test.class}##{test.name} (%.2fs)" % total_time)
-      end
-
-      def print_info(e, name = true)
-        print "#{e.exception.class.to_s}: " if name
-        e.message.each_line { |line| puts pad(line) }
-
-        trace = filter_backtrace(e.backtrace)
-        trace.each { |line| puts pad(line) }
-      end
-
-      def pad(str)
-        ' ' * INFO_PADDING + str
+        print(" #{test.class}##{test.name} (%.2fs)" % test.time)
       end
     end
   end

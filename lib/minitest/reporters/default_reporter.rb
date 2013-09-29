@@ -175,12 +175,6 @@ module MiniTest
         '%d tests, %d assertions, %d failures, %d errors, %d skips' %
           [count, assertions, failures, errors, skips]
       end
-
-      def print_info(e, name = true)
-        print "#{e.exception.class.to_s}: " if name
-        e.message.each_line { |line| print_with_info_padding(line) }
-        filter_backtrace(e.backtrace).each { |line| print_with_info_padding(line) }
-      end
     end
   end
 end
