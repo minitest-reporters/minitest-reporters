@@ -28,6 +28,7 @@ module MiniTest
       end
 
       def before_test(test)
+        super
         print "\n#{test.class}##{test.name} " if options[:verbose]
       end
 

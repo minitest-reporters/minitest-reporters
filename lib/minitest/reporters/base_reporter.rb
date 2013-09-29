@@ -13,27 +13,27 @@ module MiniTest
         self.options = defaults.merge(options)
       end
 
-      def record(test)
-        super
+      # called by our own before hooks
+      def before_test(test)
         last_test = tests.last
         if last_test.class != test.class
           after_suite(test.class) if last_test
           before_suite(test.class)
         end
+      end
+
+      def record(test)
+        super
         tests << test
+      end
+
+      # called by our own after hooks
+      def after_test(test)
       end
 
       def report
         super
         after_suite(tests.last.class)
-      end
-
-      # our own before hooks
-      def before_test(test)
-      end
-
-      # our own after hooks
-      def after_test(test)
       end
 
       protected

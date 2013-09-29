@@ -87,11 +87,13 @@ else
         end
 
         def before_test(test)
+          super
           fqn = "#{test.class.name}.#{test.to_s}"
           log(@message_factory.create_test_started(test, minitest_test_location(fqn)))
         end
 
         def after_test(test)
+          super
           log(@message_factory.create_test_finished(test, test.time))
         end
 
