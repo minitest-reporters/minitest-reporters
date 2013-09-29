@@ -41,7 +41,7 @@ module MiniTest
             green('.')
           elsif test.skipped?
             yellow('S')
-          elsif test.error?
+          elsif test.error? || test.failure
             red('F')
           end
 
@@ -65,7 +65,7 @@ module MiniTest
         unless @fast_fail
           results.each do |test|
             if message = message_for(test)
-              result = if test.error?
+              result = if test.error? || test.failure
                 :error
               elsif test.skipped?
                 :skip
@@ -173,6 +173,8 @@ module MiniTest
         elsif test.error?
           bt = filter_backtrace(e.backtrace).join "\n    "
           "Error:\n#{test.name}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
+        else
+          "Failure:\n#{test.name}(#{suite}):\n#{e.class}: #{e.message}"
         end
       end
 

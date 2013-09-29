@@ -45,9 +45,9 @@ module MiniTest
             puts
           end
           self.color = YELLOW unless color == RED
-        elsif test.error?
+        elsif test.error? || test.failure
           wipe
-          print(red { 'FAIL' })
+          print(red { test.error? ? 'ERROR' : 'FAIL' })
           print_test_with_time(test)
           puts
           print_info(test.failures.last)
