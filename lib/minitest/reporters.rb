@@ -2,10 +2,6 @@ require "minitest/unit"
 
 module MiniTest
   require "minitest/relative_position"
-  #require "minitest/reporter_runner"
-  #require "minitest/around_test_hooks"
-  #require "minitest/test_runner"
-  #require "minitest/test_recorder"
   require "minitest/extensible_backtrace_filter"
 
   module Reporters
@@ -29,11 +25,9 @@ module MiniTest
 
       unless defined?(@@loaded)
         use_around_test_hooks!
-      #  use_parallel_length_method!
-      #  use_old_activesupport_fix!
+        use_old_activesupport_fix!
+        @@loaded = true
       end
-
-      @@loaded = true
     end
 
     def self.use_runner!(console_reporters, env)
@@ -65,16 +59,6 @@ module MiniTest
         [RubyMineReporter.new]
       else
         Array(console_reporters)
-      end
-    end
-
-    def self.use_parallel_length_method!
-      if Unit::VERSION >= "4.2.0"
-        require "minitest/parallel_each"
-
-        ParallelEach.send(:define_method, :length) do
-          @queue.length
-        end
       end
     end
 
