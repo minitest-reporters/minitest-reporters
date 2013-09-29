@@ -29,8 +29,7 @@ module MiniTest
 
       def record(test)
         super
-        puts test.class
-        print pad_test(test)
+        print pad_test(test.name)
         print(green { pad_mark( result(test).to_s.upcase ) })
         print(" (%.2fs)" % test.time)
         puts
@@ -42,7 +41,11 @@ module MiniTest
 
       protected
 
-      def after_suite(test)
+      def before_suite(suite)
+        puts suite
+      end
+
+      def after_suite(suite)
         puts
       end
     end
