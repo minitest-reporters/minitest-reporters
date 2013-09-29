@@ -4,7 +4,7 @@ module Minitest
       self.reporter.reporters = MiniTest::Reporters.reporters
       self.reporter.reporters.each do |reporter|
         reporter.io = options[:io]
-        reporter.add_defaults(options)
+        reporter.add_defaults(options.merge(:total_count => Minitest::Runnable.runnables.map(&:runnable_methods).flatten.count))
       end
     end
   end
