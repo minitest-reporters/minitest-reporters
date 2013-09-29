@@ -27,29 +27,26 @@ module MiniTest
         puts
       end
 
+      def before_test(test)
+        print "\n#{test.class}##{test.name} " if options[:verbose]
+      end
+
       def record(test)
         super
-        if @fast_fail
-          puts
-          puts test.name
-          print pad_test(test.suite)
-          print(red(pad_mark('FAIL')))
-          puts
-          print_info(test.failure, false)
-        else
-          result = if test.passed?
-            green('.')
-          elsif test.skipped?
-            yellow('S')
-          elsif test.error? || test.failure
-            red('F')
-          end
 
-          if @options[:verbose]
-            puts "#{test.class} #{"%.2f" % test.time} = #{result}"
-          else
-            print result
-          end
+        print "#{"%.2f" % test.time} = " if options[:verbose]
+
+        print(if test.passed?
+          green('.')
+        elsif test.skipped?
+          yellow('S')
+        elsif test.failure
+          red('F')
+        end)
+
+        if @fast_fail && (test.skipped? || test.failure)
+          puts
+          print_failure(test)
         end
       end
 
@@ -63,11 +60,9 @@ module MiniTest
         puts colored_for(suite_result, status_line)
 
         unless @fast_fail
-          tests.each do |test|
-            if message = message_for(test)
-              puts
-              print colored_for(result(test), message)
-            end
+          tests.reject(&:passed?).each do |test|
+            puts
+            print_failure(test)
           end
         end
 
@@ -98,6 +93,10 @@ module MiniTest
         puts
         print colored_for(suite_result, result_line)
         puts
+      end
+
+      def print_failure(test)
+        puts colored_for(result(test), message_for(test))
       end
 
       private
@@ -152,22 +151,18 @@ module MiniTest
         last_before_assertion.sub(/:in .*$/, '')
       end
 
-      # TODO #when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
       def message_for(test)
-        suite = test.class
         e = test.failure
 
-        if test.passed?
-          nil
-        elsif test.skipped?
+        if test.skipped?
           if @detailed_skip
-            "Skipped:\n#{test.name}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
+            "Skipped:\n#{test.class}##{test.name} [#{location(e)}]:\n#{e.message}"
           end
         elsif test.error?
           bt = filter_backtrace(e.backtrace).join "\n    "
-          "Error:\n#{test.name}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
+          "Error:\n#{test.class}##{test.name}:\n#{e.class}: #{e.message}\n    #{bt}"
         else
-          "Failure:\n#{test.name}(#{suite}):\n#{e.class}: #{e.message}"
+          "Failure:\n#{test.class}##{test.name}:\n#{e.class}: #{e.message}"
         end
       end
 
