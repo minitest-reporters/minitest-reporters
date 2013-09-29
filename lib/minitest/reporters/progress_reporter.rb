@@ -37,23 +37,18 @@ module MiniTest
 
       def record(test)
         super
-        if test.skipped?
-          if @detailed_skip
-            wipe
-            print(yellow { 'SKIP' })
-            print_test_with_time(test)
-            puts
-            puts
-          end
-          self.color = YELLOW unless color == RED
-        elsif test.error? || test.failure
+        if (test.skipped? && @detailed_skip) || test.failure
           wipe
-          print(red { test.error? ? 'ERROR' : 'FAIL' })
+          print(yellow { result(test).to_s.upcase })
           print_test_with_time(test)
           puts
-          print_info(test.failure, test.error?)
+          print_info(test.failure, test.error?) if test.failure
           puts
+        end
 
+        if test.skipped? && color != RED
+          self.color = YELLOW
+        elsif test.failure
           self.color = RED
         end
 
