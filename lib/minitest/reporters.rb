@@ -17,7 +17,6 @@ module MiniTest
     autoload :ProgressReporter, "minitest/reporters/progress_reporter"
     autoload :RubyMateReporter, "minitest/reporters/ruby_mate_reporter"
     autoload :RubyMineReporter, "minitest/reporters/rubymine_reporter"
-    autoload :GuardReporter, "minitest/reporters/guard_reporter"
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
 
     class << self
@@ -26,8 +25,8 @@ module MiniTest
 
     def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = ExtensibleBacktraceFilter.default_filter)
       use_runner!(console_reporters, env)
-      #use_backtrace_filter!(backtrace_filter)
-      #
+      Minitest.backtrace_filter = backtrace_filter
+
       #unless defined?(@@loaded)
       #  use_around_test_hooks!
       #  use_parallel_length_method!
@@ -38,25 +37,7 @@ module MiniTest
     end
 
     def self.use_runner!(console_reporters, env)
-      #runner = ReporterRunner.new
-      #runner.reporters = choose_reporters(console_reporters, env)
       self.reporters = choose_reporters(console_reporters, env)
-    end
-
-    def self.use_backtrace_filter!(backtrace_filter)
-      if Unit::VERSION < "4.1.0" && !defined?(@@loaded)
-        MiniTest.class_eval do
-          class << self
-            attr_accessor :backtrace_filter
-          end
-
-          def self.filter_backtrace(backtrace)
-            backtrace_filter.filter(backtrace)
-          end
-        end
-      end
-
-      MiniTest.backtrace_filter = backtrace_filter
     end
 
     def self.use_around_test_hooks!

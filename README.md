@@ -26,7 +26,7 @@ MiniTest::Reporters.use! MiniTest::Reporters::SpecReporter.new
 Want to use multiple reporters?
 
 ```ruby
-MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new, MiniTest::Reporters::GuardReporter.new]
+MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new, MiniTest::Reporters::JUnitReporter]
 ```
 
 The following reporters are provided:
@@ -37,7 +37,6 @@ MiniTest::Reporters::SpecReporter     # => Turn-like output that reads like a sp
 MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
 MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
 MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
-MiniTest::Reporters::GuardReporter    # => Integrates with guard-minitest to provide on-screen notifications
 MiniTest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
 ```
 
