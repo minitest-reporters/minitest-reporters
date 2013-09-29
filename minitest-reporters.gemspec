@@ -14,14 +14,13 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = 'minitest-reporters'
 
-  s.add_dependency 'minitest', '>= 2.12', '< 5.0'
+  s.add_dependency 'minitest', '>= 5.0'
   s.add_dependency 'ansi'
   s.add_dependency 'powerbar'
   s.add_dependency 'builder'
 
   s.add_development_dependency 'maruku'
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'guard-minitest'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
