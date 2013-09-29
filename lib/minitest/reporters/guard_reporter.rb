@@ -7,9 +7,7 @@ end
 
 module MiniTest
   module Reporters
-    class GuardReporter
-      include Reporter
-
+    class GuardReporter < BaseReporter
       def notifier_class
         if ::Guard.const_defined? "MinitestNotifier"
           # old guard-minitest API prior to 1.0.0.beta.2
@@ -21,11 +19,8 @@ module MiniTest
         end
       end
 
-      def after_suites(*args)
-        duration = Time.now - runner.suites_start_time
-        notifier_class.notify(runner.test_count, runner.assertion_count,
-                             runner.failures, runner.errors,
-                             runner.skips, duration)
+      def report
+        notifier_class.notify(count, assertions, failures, errors, skips, total_time)
       end
     end
   end

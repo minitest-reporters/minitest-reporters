@@ -1,7 +1,7 @@
 module MiniTest
   module Reporters
     class BaseReporter < Minitest::StatisticsReporter
-      def initialize(options)
+      def initialize(options={})
         super($stdout, options)
       end
 
