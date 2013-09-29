@@ -62,7 +62,6 @@ else
 
         def record(test)
           super
-          before_test(test) # TODO not before technically ...
           unless test.passed?
             with_result(test) do |exception_msg, backtrace|
               if test.skipped?
@@ -74,7 +73,6 @@ else
               end
             end
           end
-          after_test(test)
         end
 
         alias_method :output, :io

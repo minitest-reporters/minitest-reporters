@@ -27,11 +27,11 @@ module MiniTest
       use_runner!(console_reporters, env)
       Minitest.backtrace_filter = backtrace_filter
 
-      #unless defined?(@@loaded)
-      #  use_around_test_hooks!
+      unless defined?(@@loaded)
+        use_around_test_hooks!
       #  use_parallel_length_method!
       #  use_old_activesupport_fix!
-      #end
+      end
 
       @@loaded = true
     end
@@ -41,12 +41,16 @@ module MiniTest
     end
 
     def self.use_around_test_hooks!
-      Unit::TestCase.class_eval do
-        def run_with_hooks(runner)
-          AroundTestHooks.before_test(self)
-          result = run_without_hooks(runner)
-          AroundTestHooks.after_test(self)
-          result
+      Minitest::Test.class_eval do
+        def run_with_hooks(*args)
+          if defined?(MiniTest::Reporters) && reporters = MiniTest::Reporters.reporters
+            reporters.each { |r| r.before_test(self) }
+            result = run_without_hooks(*args)
+            reporters.each { |r| r.after_test(self) }
+            result
+          else
+            run_without_hooks(*args)
+          end
         end
 
         alias_method :run_without_hooks, :run

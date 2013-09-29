@@ -28,6 +28,14 @@ module MiniTest
         after_suite(tests.last.class)
       end
 
+      # our own before hooks
+      def before_test(test)
+      end
+
+      # our own after hooks
+      def after_test(test)
+      end
+
       protected
 
       def after_suite(test)
