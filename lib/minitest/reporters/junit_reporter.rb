@@ -32,7 +32,7 @@ module MiniTest
 
           xml = Builder::XmlMarkup.new(:indent => 2)
           xml.instruct!
-          xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:failure_count],
+          xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
                         :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                         :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
             tests.each do |test|

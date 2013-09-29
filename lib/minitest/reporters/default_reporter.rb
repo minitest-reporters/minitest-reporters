@@ -126,7 +126,7 @@ module MiniTest
 
       def colored_for(result, string)
         case result
-        when :failure, :error; red(string)
+        when :fail, :error; red(string)
         when :skip; yellow(string)
         else green(string)
         end
@@ -134,7 +134,7 @@ module MiniTest
 
       def suite_result
         case
-        when failures > 0; :failure
+        when failures > 0; :fail
         when errors > 0; :error
         when skips > 0; :skip
         else :pass

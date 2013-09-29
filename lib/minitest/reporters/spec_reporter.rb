@@ -29,19 +29,9 @@ module MiniTest
 
       def record(test)
         super
-        verb = if test.passed? # TODO make normal thingy return fail
-          'PASS'
-        elsif test.skipped?
-          'SKIP'
-        elsif test.error?
-          'ERROR'
-        else
-          'FAIL'
-        end
-
         puts test.class
         print pad_test(test)
-        print(green { pad_mark( verb ) })
+        print(green { pad_mark( result(test).to_s.upcase ) })
         print(" (%.2fs)" % test.time)
         puts
         if test.failure

@@ -40,7 +40,7 @@ module MiniTest
         if test.error?
           :error
         elsif test.failure
-          :failure
+          :fail
         elsif test.skipped?
           :skip
         else
