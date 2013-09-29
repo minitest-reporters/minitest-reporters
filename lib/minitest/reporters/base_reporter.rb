@@ -15,10 +15,26 @@ module MiniTest
 
       def record(test)
         super
+        last_test = tests.last
+        if last_test.class != test.class
+          after_suite(test.class) if last_test
+          before_suite(test.class)
+        end
         tests << test
       end
 
+      def report
+        super
+        after_suite(tests.last.class)
+      end
+
       protected
+
+      def after_suite(test)
+      end
+
+      def before_suite(test)
+      end
 
       def result(test)
         if test.error?
