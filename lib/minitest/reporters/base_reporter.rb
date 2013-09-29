@@ -13,6 +13,18 @@ module MiniTest
 
       protected
 
+      def result(test)
+        if test.error?
+          :error
+        elsif test.failure
+          :failure
+        elsif test.skipped?
+          :skip
+        else
+          :pass
+        end
+      end
+
       def total_time
         super || Time.now - start_time
       end

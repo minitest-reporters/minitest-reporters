@@ -32,7 +32,7 @@ module MiniTest
         if @fast_fail
           puts
           puts test.name
-          print pad_test(test.location)
+          print pad_test(test.suite)
           print(red(pad_mark('FAIL')))
           puts
           print_info(test.failures.last, false)
@@ -46,7 +46,7 @@ module MiniTest
           end
 
           if @options[:verbose]
-            puts "#{test.location} #{"%.2f" % test.time} = #{result}"
+            puts "#{test.suite} #{"%.2f" % test.time} = #{result}"
           else
             print result
           end
@@ -65,15 +65,8 @@ module MiniTest
         unless @fast_fail
           results.each do |test|
             if message = message_for(test)
-              result = if test.error? || test.failure
-                :error
-              elsif test.skipped?
-                :skip
-              else
-                :pass
-              end
               puts
-              print colored_for(result, message)
+              print colored_for(result(test), message)
             end
           end
         end
@@ -86,7 +79,7 @@ module MiniTest
           puts
 
           slow_tests.each do |test|
-            puts "%.6fs %s" % [test.time, "#{test.name}##{test.location}"]
+            puts "%.6fs %s" % [test.time, "#{test.name}##{test.suite}"]
           end
         end
 
@@ -161,7 +154,7 @@ module MiniTest
 
       # TODO #when :failure then "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
       def message_for(test)
-        suite = test.location
+        suite = test.suite
         e = test.failures.last
 
         if test.passed?

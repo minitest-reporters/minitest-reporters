@@ -9,10 +9,9 @@ module MiniTest
     # Inspired by ci_reporter (see https://github.com/nicksieger/ci_reporter)
     # Also inspired by Marc Seeger's attempt at producing a JUnitReporter (see https://github.com/rb2k/minitest-reporters/commit/e13d95b5f884453a9c77f62bc5cba3fa1df30ef5)
     # Also inspired by minitest-ci (see https://github.com/bhenderson/minitest-ci)
-    class JUnitReporter
-      include Reporter
-
+    class JUnitReporter < BaseReporter
       def initialize(reports_dir = "test/reports", empty = true)
+        super({})
         @reports_path = File.absolute_path(reports_dir)
 
         if empty
@@ -22,20 +21,24 @@ module MiniTest
         end
       end
 
-      def after_suites(suites, type)
+      def report
+        super
+
         puts "Writing XML reports to #{@reports_path}"
-        runner.test_results.each do |suite, tests|
-          suite_result = analyze_suite(suite, tests)
+        suites = results.group_by(&:suite)
+
+        suites.each do |suite, tests|
+          suite_result = analyze_suite(tests)
 
           xml = Builder::XmlMarkup.new(:indent => 2)
           xml.instruct!
           xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:failure_count],
                         :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                         :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
-            tests.each do |test, test_runner|
-              xml.testcase(:name => test_runner.test.to_s, :classname => suite, :assertions => test_runner.assertions,
-                           :time => test_runner.time) do
-                xml << xml_message_for(test_runner) if test_runner.result != :pass
+            tests.each do |test|
+              xml.testcase(:name => test.name, :classname => suite, :assertions => test.assertions,
+                           :time => test.time) do
+                xml << xml_message_for(test) unless test.passed?
               end
             end
           end
@@ -45,7 +48,7 @@ module MiniTest
 
       private
 
-      def xml_message_for(test_runner)
+      def xml_message_for(test)
         # This is a trick lifted from ci_reporter
         xml = Builder::XmlMarkup.new(:indent => 2, :margin => 2)
 
@@ -53,41 +56,38 @@ module MiniTest
           txt.sub(/\n.*/m, '...')
         end
 
-        test = test_runner.test
-        e = test_runner.exception
+        test = test.name
+        e = test.exception
 
-        case test_runner.result
-        when :skip
+        if test.skipped?
           xml.skipped(:type => test)
-        when :error
+        elsif test.error?
           xml.error(:type => test, :message => xml.trunc!(e.message)) do
-            xml.text!(message_for(test_runner))
+            xml.text!(message_for(test))
           end
-        when :failure
+        elsif test.failure
           xml.failure(:type => test, :message => xml.trunc!(e.message)) do
-            xml.text!(message_for(test_runner))
+            xml.text!(message_for(test))
           end
         end
       end
 
-      def message_for(test_runner)
-        suite = test_runner.suite
-        test = test_runner.test
-        e = test_runner.exception
+      def message_for(test)
+        suite = test.suite
+        test = test.test
+        e = test.exception
 
-        case test_runner.result
-        when :pass then
+        if test.passed?
           nil
-        when :skip then
+        elsif test.skipped?
           "Skipped:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
-        when :failure then
+        elsif test.failure
           "Failure:\n#{test}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
-        when :error
-          bt = filter_backtrace(test_runner.exception.backtrace).join "\n    "
+        elsif test.error?
+          bt = filter_backtrace(test.exception.backtrace).join "\n    "
           "Error:\n#{test}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
         end
       end
-
 
       def location(exception)
         last_before_assertion = ''
@@ -98,13 +98,13 @@ module MiniTest
         last_before_assertion.sub(/:in .*$/, '')
       end
 
-      def analyze_suite(suite, tests)
+      def analyze_suite(tests)
         result = Hash.new(0)
-        tests.each do |test, test_runner|
-          result[:"#{test_runner.result}_count"] += 1
-          result[:assertion_count] += test_runner.assertions
+        tests.each do |test|
+          result[:"#{result(test)}_count"] += 1
+          result[:assertion_count] += test.assertions
           result[:test_count] += 1
-          result[:time] += test_runner.time
+          result[:time] += test.time
         end
         result
       end

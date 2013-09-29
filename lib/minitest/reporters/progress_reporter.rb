@@ -50,7 +50,7 @@ module MiniTest
           print(red { test.error? ? 'ERROR' : 'FAIL' })
           print_test_with_time(test)
           puts
-          print_info(test.failures.last)
+          print_info(test.failures.last, test.error?)
           puts
 
           self.color = RED
@@ -89,12 +89,12 @@ module MiniTest
       end
 
       def print_test_with_time(test)
-        puts [test.name, test.location, total_time, ENDCODE].inspect
-        print(" %s#%s (%.2fs)%s" % [test.name, test.location, total_time, ENDCODE])
+        puts [test.name, test.suite, total_time, ENDCODE].inspect
+        print(" %s#%s (%.2fs)%s" % [test.name, test.suite, total_time, ENDCODE])
       end
 
-      def print_info(e)
-        print pad("#{e.exception.class.to_s}: ")
+      def print_info(e, name)
+        print pad("#{e.exception.class.to_s}: ") if name
         e.message.each_line { |line| puts pad(line) }
 
         trace = filter_backtrace(e.backtrace)
