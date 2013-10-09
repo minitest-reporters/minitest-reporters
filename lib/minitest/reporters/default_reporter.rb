@@ -53,7 +53,7 @@ module Minitest
 
       def report
         super
-        status_line = "Finished testss in %.6fs, %.4f tests/s, %.4f assertions/s." %
+        status_line = "Finished tests in %.6fs, %.4f tests/s, %.4f assertions/s." %
           [total_time, count / total_time, assertions / total_time]
 
         puts
