@@ -3,7 +3,7 @@ require "minitest/autorun"
 require "minitest/reporters"
 
 module MiniTestReportersTest
-  class TestCase < MiniTest::Unit::TestCase
+  class TestCase < Minitest::Test
   end
 end
 
@@ -15,6 +15,5 @@ if ENV["REPORTER"]
   reporter_klass = MiniTest::Reporters.const_get(ENV["REPORTER"])
   MiniTest::Reporters.use!(reporter_klass.new)
 else
-  MiniTest::Reporters.use!(MiniTest::Reporters::DefaultReporter.new)
   MiniTest::Reporters.use!(MiniTest::Reporters::DefaultReporter.new)
 end

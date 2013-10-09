@@ -21,9 +21,6 @@ end
 
 # - RubyMineReporter must be tested separately inside of RubyMine
 # - JUnitReporter normally writes to `test/reports` instead of stdout
-# - GuardReporter requires Guard, and I'm not
-#   really all that interested in setting it up for automated testing for such a
-#   simple reporter.
 task :gallery do
   unless rubymine_home
     warn "To see RubyMineReporter supply RUBYMINE_HOME= or git clone git://git.jetbrains.org/idea/contrib.git ../rubymine-contrib"
@@ -36,8 +33,7 @@ task :gallery do
     "ProgressReporter",
     "RubyMateReporter",
     "SpecReporter",
-    "RubyMineReporter",
-    "GuardReporter"
+    "RubyMineReporter"
   ].each do |reporter|
     puts
     puts "-" * 72

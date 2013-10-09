@@ -10,16 +10,17 @@ module MiniTest
     #
     # @see https://github.com/jeffkreeftmeijer/fuubar Fuubar
     # @see https://gist.github.com/356945 paydro's monkey-patch
-    class ProgressReporter
-      include Reporter
+    class ProgressReporter < BaseReporter
+      include RelativePosition
       include ANSI::Code
 
       INFO_PADDING = 2
 
       def initialize(options = {})
+        super
         @detailed_skip = options.fetch(:detailed_skip, true)
 
-        @progress = PowerBar.new(:msg => "0/#{runner.test_count}")
+        @progress = PowerBar.new(:msg => "0/#{count}")
         @progress.settings.tty.finite.output = lambda { |s| print(s) }
         @progress.settings.tty.finite.template.barchar = "="
         @progress.settings.tty.finite.template.padchar = " "
@@ -27,102 +28,65 @@ module MiniTest
         @progress.settings.tty.finite.template.post = CLEAR
       end
 
-      def before_suites(suites, type)
+      def start
+        super
         puts 'Started'
         puts
-
-        @finished_count = 0
         show
       end
 
-      def increment
-        @finished_count += 1
-        show
-      end
-
-      def show
-        return if runner.test_count == 0
-
-        @progress.show({
-          :msg => "#{@finished_count}/#{runner.test_count}",
-          :done => @finished_count,
-          :total => runner.test_count,
-        }, true)
-      end
-
-      def after_test(suite, test)
-        increment
-      end
-
-      def skip(suite, test, test_runner)
-        if @detailed_skip
+      def record(test)
+        super
+        if (test.skipped? && @detailed_skip) || test.failure
           wipe
-          print(yellow { 'SKIP' })
-          print_test_with_time(suite, test)
+          print(yellow { result(test).to_s.upcase })
+          print_test_with_time(test)
           puts
+          print_info(test.failure, test.error?) if test.failure
           puts
         end
 
-        self.color = YELLOW unless color == RED
+        if test.skipped? && color != RED
+          self.color = YELLOW
+        elsif test.failure
+          self.color = RED
+        end
+
+        show
       end
 
-      def failure(suite, test, test_runner)
-        wipe
-        print(red { 'FAIL' })
-        print_test_with_time(suite, test)
-        puts
-        print_info(test_runner.exception, false)
-        puts
-
-        self.color = RED
-      end
-
-      def error(suite, test, test_runner)
-        wipe
-        print(red { 'ERROR' })
-        print_test_with_time(suite, test)
-        puts
-        print_info(test_runner.exception)
-        puts
-
-        self.color = RED
-      end
-
-      def after_suites(suites, type)
+      def report
+        super
         @progress.close
-
-        total_time = Time.now - runner.suites_start_time
 
         wipe
         puts
         puts('Finished in %.5fs' % total_time)
-        print('%d tests, %d assertions, ' % [runner.test_count, runner.assertion_count])
-        print(red { '%d failures, %d errors, ' } % [runner.failures, runner.errors])
-        print(yellow { '%d skips' } % runner.skips)
+        print('%d tests, %d assertions, ' % [count, assertions])
+        print(red { '%d failures, %d errors, ' } % [failures, errors])
+        print(yellow { '%d skips' } % skips)
         puts
       end
 
       private
 
+      def show
+        return if count == 0
+
+        @progress.show({
+          :msg => "#{total_count}/#{count}",
+          :done => count,
+          :total => total_count,
+        }, true)
+      end
+
       def wipe
         @progress.wipe
       end
 
-      def print_test_with_time(suite, test)
-        total_time = Time.now - (runner.test_start_time || Time.now)
-        print(" %s#%s (%.2fs)%s" % [suite, test, total_time, clr])
-      end
-
-      def print_info(e, name = true)
-        print pad("#{e.exception.class.to_s}: ") if name
-        e.message.each_line { |line| puts pad(line) }
-
-        trace = filter_backtrace(e.backtrace)
-        trace.each { |line| puts pad(line) }
-      end
-
-      def pad(str)
-        ' ' * INFO_PADDING + str
+      def print_test_with_time(test)
+        puts [test.name, test.class, total_time, ENDCODE].inspect
+        print(" %s#%s (%.2fs)%s" % [test.name, test.class, total_time, ENDCODE])
       end
 
       def color
