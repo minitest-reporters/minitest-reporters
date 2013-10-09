@@ -1,6 +1,6 @@
-# minitest-reporters - create customizable MiniTest output formats [![Build Status](https://secure.travis-ci.org/axskern/minitest-reporters.png)](http://travis-ci.org/axskern/minitest-reporters)
+# minitest-reporters - create customizable Minitest output formats [![Build Status](https://secure.travis-ci.org/axskern/minitest-reporters.png)](http://travis-ci.org/axskern/minitest-reporters)
 
-Death to haphazard monkey-patching! Extend MiniTest through simple hooks.
+Death to haphazard monkey-patching! Extend Minitest through simple hooks.
 
 ## Installation ##
 
@@ -12,44 +12,44 @@ In your `test_helper.rb` file, add the following lines:
 
 ```ruby
 require "minitest/reporters"
-MiniTest::Reporters.use!
+Minitest::Reporters.use!
 ```
 
-This will swap out the MiniTest runner to the custom one used by minitest-reporters and use the correct reporters for Textmate, Rubymine, and the console. If you would like to write your own reporter, just `include MiniTest::Reporter` and override the methods you'd like. Take a look at the provided reporters for examples.
+This will swap out the Minitest runner to the custom one used by minitest-reporters and use the correct reporters for Textmate, Rubymine, and the console. If you would like to write your own reporter, just `include Minitest::Reporter` and override the methods you'd like. Take a look at the provided reporters for examples.
 
 Don't like the default progress bar reporter?
 
 ```ruby
-MiniTest::Reporters.use! MiniTest::Reporters::SpecReporter.new
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 ```
 
 Want to use multiple reporters?
 
 ```ruby
-MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new, MiniTest::Reporters::JUnitReporter]
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, Minitest::Reporters::JUnitReporter]
 ```
 
 The following reporters are provided:
 
 ```ruby
-MiniTest::Reporters::DefaultReporter  # => Redgreen-capable version of standard MiniTest reporter
-MiniTest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
-MiniTest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
-MiniTest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
-MiniTest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
-MiniTest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
+Minitest::Reporters::DefaultReporter  # => Redgreen-capable version of standard Minitest reporter
+Minitest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
+Minitest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
+Minitest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
+Minitest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
+Minitest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
 ```
 
 Options can be passed to these reporters at construction-time, e.g. to force
 color output from `DefaultReporter`:
 
 ```ruby
-MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new(:color => true)]
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new(:color => true)]
 ```
 
 ## Caveats ##
 
-If you are using minitest-reporters with ActiveSupport 3.x, make sure that you require ActiveSupport before invoking `MiniTest::Reporters.use!`. Minitest-reporters fixes incompatibilities caused by monkey patches in ActiveSupport 3.x. ActiveSupport 4.x is unaffected.
+If you are using minitest-reporters with ActiveSupport 3.x, make sure that you require ActiveSupport before invoking `Minitest::Reporters.use!`. Minitest-reporters fixes incompatibilities caused by monkey patches in ActiveSupport 3.x. ActiveSupport 4.x is unaffected.
 
 ## Note on Patches/Pull Requests ##
 

@@ -1,7 +1,7 @@
 require 'ansi/code'
 require 'builder'
 require 'fileutils'
-module MiniTest
+module Minitest
   module Reporters
     # A reporter for writing JUnit test reports
     # Intended for easy integration with CI servers - tested on JetBrains TeamCity

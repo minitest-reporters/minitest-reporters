@@ -4,13 +4,13 @@ require 'minitest/reporters/version'
 
 Gem::Specification.new do |s|
   s.name        = 'minitest-reporters'
-  s.version     = MiniTest::Reporters::VERSION
+  s.version     = Minitest::Reporters::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Alexander Kern']
   s.email       = ['alex@kernul.com']
   s.homepage    = 'https://github.com/CapnKernul/minitest-reporters'
-  s.summary     = %q{Create customizable MiniTest output formats}
-  s.description = %q{Death to haphazard monkey-patching! Extend MiniTest through simple hooks.}
+  s.summary     = %q{Create customizable Minitest output formats}
+  s.description = %q{Death to haphazard monkey-patching! Extend Minitest through simple hooks.}
 
   s.rubyforge_project = 'minitest-reporters'
 

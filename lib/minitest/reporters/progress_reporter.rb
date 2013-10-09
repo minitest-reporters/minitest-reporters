@@ -1,7 +1,7 @@
 require 'ansi/code'
 require 'powerbar'
 
-module MiniTest
+module Minitest
   module Reporters
     # Fuubar-like reporter with a progress bar.
     #

@@ -1,10 +1,10 @@
 require_relative "../../test_helper"
 
-module MiniTestReportersTest
+module MinitestReportersTest
   class ExtensibleBacktraceFilterTest < TestCase
     def setup
-      @default_filter = MiniTest::ExtensibleBacktraceFilter.default_filter
-      @filter = MiniTest::ExtensibleBacktraceFilter.new
+      @default_filter = Minitest::ExtensibleBacktraceFilter.default_filter
+      @filter = Minitest::ExtensibleBacktraceFilter.new
       @backtrace = ["foo", "bar", "baz"]
     end
 

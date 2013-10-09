@@ -1,6 +1,6 @@
 require_relative "../../test_helper"
 
-module MiniTestReportersTest
+module MinitestReportersTest
   class JUnitReporterTest < TestCase
     def test_replaces_special_characters_for_filenames_and_doesnt_crash
       fixtures_directory = File.expand_path('../../fixtures', __FILE__)

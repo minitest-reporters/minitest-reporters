@@ -1,4 +1,4 @@
-module MiniTest
+module Minitest
   module RelativePosition
     TEST_PADDING = 2
     TEST_SIZE = 63

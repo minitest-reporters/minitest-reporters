@@ -16,14 +16,14 @@ rescue LoadError
   require "minitest/reporters/default_reporter"
 
   # delegate to default reporter
-  module MiniTest
+  module Minitest
     module Reporters
       class RubyMineReporter < DefaultReporter
       end
     end
   end
 else
-  module MiniTest
+  module Minitest
     module Reporters
       class RubyMineReporter < BaseReporter
         include ANSI::Code

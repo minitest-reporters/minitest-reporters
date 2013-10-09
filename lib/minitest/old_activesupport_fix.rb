@@ -3,7 +3,7 @@ require "active_support/testing/setup_and_teardown"
 module ActiveSupport
   module Testing
     module SetupAndTeardown
-      module ForMiniTest
+      module ForMinitest
         remove_method :run
 
         def before_setup

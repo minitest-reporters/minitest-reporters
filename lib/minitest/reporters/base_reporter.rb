@@ -1,4 +1,4 @@
-module MiniTest
+module Minitest
   module Reporters
     class BaseReporter < Minitest::StatisticsReporter
       attr_accessor :total_count

@@ -1,8 +1,8 @@
 module Minitest
   class << self
     def plugin_minitest_reporter_init(options)
-      if defined?(MiniTest::Reporters) && MiniTest::Reporters.reporters
-        reporter.reporters = MiniTest::Reporters.reporters + guard_reporter
+      if defined?(Minitest::Reporters) && Minitest::Reporters.reporters
+        reporter.reporters = Minitest::Reporters.reporters + guard_reporter
         reporter.reporters.each do |reporter|
           reporter.io = options[:io]
           reporter.add_defaults(options.merge(:total_count => total_count(options)))

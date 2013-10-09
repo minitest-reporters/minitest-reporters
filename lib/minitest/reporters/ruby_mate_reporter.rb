@@ -1,6 +1,6 @@
 require 'ansi/code'
 
-module MiniTest
+module Minitest
   module Reporters
     # Simple reporter designed for RubyMate.
     class RubyMateReporter < BaseReporter

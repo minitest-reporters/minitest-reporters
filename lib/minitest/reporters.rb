@@ -1,6 +1,6 @@
 require "minitest/unit"
 
-module MiniTest
+module Minitest
   require "minitest/relative_position"
   require "minitest/extensible_backtrace_filter"
 
@@ -37,7 +37,7 @@ module MiniTest
     def self.use_around_test_hooks!
       Minitest::Test.class_eval do
         def run_with_hooks(*args)
-          if defined?(MiniTest::Reporters) && reporters = MiniTest::Reporters.reporters
+          if defined?(Minitest::Reporters) && reporters = Minitest::Reporters.reporters
             reporters.each { |r| r.before_test(self) }
             result = run_without_hooks(*args)
             reporters.each { |r| r.after_test(self) }

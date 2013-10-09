@@ -1,13 +1,13 @@
 require 'ansi/code'
 
-module MiniTest
+module Minitest
   module Reporters
-    # A reporter identical to the standard MiniTest reporter except with more
+    # A reporter identical to the standard Minitest reporter except with more
     # colors.
     #
-    # Based upon Ryan Davis of Seattle.rb's MiniTest (MIT License).
+    # Based upon Ryan Davis of Seattle.rb's Minitest (MIT License).
     #
-    # @see https://github.com/seattlerb/minitest MiniTest
+    # @see https://github.com/seattlerb/minitest Minitest
     class DefaultReporter < BaseReporter
       include RelativePosition
 

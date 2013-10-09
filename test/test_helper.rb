@@ -2,7 +2,7 @@ require "bundler/setup"
 require "minitest/autorun"
 require "minitest/reporters"
 
-module MiniTestReportersTest
+module MinitestReportersTest
   class TestCase < Minitest::Test
   end
 end
@@ -12,8 +12,8 @@ end
 # all the reporters sequentially on a fake test suite, run `rake gallery`.
 
 if ENV["REPORTER"]
-  reporter_klass = MiniTest::Reporters.const_get(ENV["REPORTER"])
-  MiniTest::Reporters.use!(reporter_klass.new)
+  reporter_klass = Minitest::Reporters.const_get(ENV["REPORTER"])
+  Minitest::Reporters.use!(reporter_klass.new)
 else
-  MiniTest::Reporters.use!(MiniTest::Reporters::DefaultReporter.new)
+  Minitest::Reporters.use!(Minitest::Reporters::DefaultReporter.new)
 end

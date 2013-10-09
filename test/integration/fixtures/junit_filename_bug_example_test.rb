@@ -6,7 +6,7 @@ require 'bundler/setup'
 require 'minitest/autorun'
 require 'minitest/reporters'
 
-MiniTest::Reporters.use! MiniTest::Reporters::JUnitReporter.new
+Minitest::Reporters.use! Minitest::Reporters::JUnitReporter.new
 
 describe 'something/other' do
   it 'does something' do
