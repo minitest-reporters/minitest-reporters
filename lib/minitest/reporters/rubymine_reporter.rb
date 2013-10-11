@@ -94,7 +94,7 @@ else
 
         def after_test(test)
           super
-          log(@message_factory.create_test_finished(test.name, get_time_in_ms((test.time))
+          log(@message_factory.create_test_finished(test.name, get_time_in_ms(test.time)))
         end
 
         #########
