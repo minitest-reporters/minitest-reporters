@@ -65,11 +65,11 @@ else
           unless test.passed?
             with_result(test) do |exception_msg, backtrace|
               if test.skipped?
-                log(@message_factory.create_test_ignored(test, exception_msg, backtrace))
+                log(@message_factory.create_test_ignored(test.name, exception_msg, backtrace))
               elsif test.error?
-                log(@message_factory.create_test_error(test, exception_msg, backtrace))
+                log(@message_factory.create_test_error(test.name, exception_msg, backtrace))
               else
-                log(@message_factory.create_test_failed(test, exception_msg, backtrace))
+                log(@message_factory.create_test_failed(test.name, exception_msg, backtrace))
               end
             end
           end
@@ -78,7 +78,7 @@ else
         alias_method :output, :io
 
         def before_suite(suite)
-          fqn = suite.class
+          fqn = suite.name
           log(@message_factory.create_suite_started(suite.name, location_from_ruby_qualified_name(fqn)))
         end
 
@@ -88,13 +88,13 @@ else
 
         def before_test(test)
           super
-          fqn = "#{test.class.name}.#{test.to_s}"
-          log(@message_factory.create_test_started(test, minitest_test_location(fqn)))
+          fqn = "#{test.class.name}.#{test.name}"
+          log(@message_factory.create_test_started(test.name, minitest_test_location(fqn)))
         end
 
         def after_test(test)
           super
-          log(@message_factory.create_test_finished(test, test.time))
+          log(@message_factory.create_test_finished(test.name, get_time_in_ms((test.time))
         end
 
         #########
