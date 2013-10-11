@@ -17,7 +17,7 @@ module Minitest
       def before_test(test)
         last_test = tests.last
         if last_test.class != test.class
-          after_suite(test.class) if last_test
+          after_suite(last_test.class) if last_test
           before_suite(test.class)
         end
       end
