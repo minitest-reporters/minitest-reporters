@@ -47,12 +47,22 @@ module Minitest
       def result(test)
         if test.error?
           :error
-        elsif test.failure
-          :fail
         elsif test.skipped?
           :skip
+        elsif test.failure
+          :fail
         else
           :pass
+        end
+      end
+
+      def print_colored_status(test)
+        if test.passed?
+          print(green { pad_mark( result(test).to_s.upcase ) })
+        elsif test.skipped?
+          print(yellow { pad_mark( result(test).to_s.upcase ) })
+        else
+          print(red { pad_mark( result(test).to_s.upcase ) })
         end
       end
 

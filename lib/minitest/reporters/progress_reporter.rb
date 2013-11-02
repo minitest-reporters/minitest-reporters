@@ -39,7 +39,7 @@ module Minitest
         super
         if (test.skipped? && @detailed_skip) || test.failure
           wipe
-          print(yellow { result(test).to_s.upcase })
+          print_colored_status(test)
           print_test_with_time(test)
           puts
           print_info(test.failure, test.error?) if test.failure

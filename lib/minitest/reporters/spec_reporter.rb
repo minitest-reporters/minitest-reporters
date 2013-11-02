@@ -30,7 +30,7 @@ module Minitest
       def record(test)
         super
         print pad_test(test.name)
-        print(green { pad_mark( result(test).to_s.upcase ) })
+        print_colored_status(test)
         print(" (%.2fs)" % test.time)
         puts
         if test.failure
