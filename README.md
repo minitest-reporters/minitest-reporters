@@ -26,7 +26,7 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 Want to use multiple reporters?
 
 ```ruby
-Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, Minitest::Reporters::JUnitReporter]
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, Minitest::Reporters::JUnitReporter.new]
 ```
 
 The following reporters are provided:
