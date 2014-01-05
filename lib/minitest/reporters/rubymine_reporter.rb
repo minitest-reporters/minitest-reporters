@@ -45,7 +45,7 @@ else
           if ::Rake::TeamCity.is_in_idea_mode
             log(@message_factory.create_tests_count(total_count))
           elsif ::Rake::TeamCity.is_in_buildserver_mode
-            log(@message_factory.create_progress_message("Starting.. (#{test_count} tests)"))
+            log(@message_factory.create_progress_message("Starting.. (#{total_count} tests)"))
           end
 
         end
