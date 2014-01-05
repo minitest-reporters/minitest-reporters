@@ -39,7 +39,7 @@ else
 
           # Setup test runner's MessageFactory
           set_message_factory(Rake::TeamCity::MessageFactory)
-          log_test_reporter_attached()
+          log_test_reporter_attached
 
           # Report tests count:
           if ::Rake::TeamCity.is_in_idea_mode
