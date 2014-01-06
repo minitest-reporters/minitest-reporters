@@ -47,6 +47,20 @@ color output from `DefaultReporter`:
 Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new(:color => true)]
 ```
 
+## Screenshots ##
+
+**Default Reporter**
+
+![Default Reporter](./assets/default-reporter.png?raw=true)
+
+**Spec Reporter**
+
+![Spec Reporter](./assets/spec-reporter.png?raw=true)
+
+**Progress Reporter**
+
+![Progress Reporter](./assets/progress-reporter.png?raw=true)
+
 ## Caveats ##
 
 If you are using minitest-reporters with ActiveSupport 3.x, make sure that you require ActiveSupport before invoking `Minitest::Reporters.use!`. Minitest-reporters fixes incompatibilities caused by monkey patches in ActiveSupport 3.x. ActiveSupport 4.x is unaffected.
