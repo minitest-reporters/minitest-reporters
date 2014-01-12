@@ -140,6 +140,13 @@ else
 
           yield(msg, backtrace)
         end
+
+        def filter_backtrace(bt)
+          result = super
+          return result if result.nil? || result.empty?
+          # let's reject test/unit/assetions from the backtrace
+          result.reject { |line| line =~ /\/lib\/ruby\/[0-9.]+\/test\/unit\//}
+        end
       end
     end
   end
