@@ -160,8 +160,7 @@ module Minitest
             "Skipped:\n#{test.class}##{test.name} [#{location(e)}]:\n#{e.message}"
           end
         elsif test.error?
-          bt = filter_backtrace(e.backtrace).join "\n    "
-          "Error:\n#{test.class}##{test.name}:\n#{e.class}: #{e.message}\n    #{bt}"
+          "Error:\n#{test.class}##{test.name}:\n#{e.message}"
         else
           "Failure:\n#{test.class}##{test.name}:\n#{e.class}: #{e.message}"
         end
