@@ -83,8 +83,7 @@ module Minitest
         elsif test.failure
           "Failure:\n#{name}(#{suite}) [#{location(e)}]:\n#{e.message}\n"
         elsif test.error?
-          bt = filter_backtrace(test.exception.backtrace).join "\n    "
-          "Error:\n#{name}(#{suite}):\n#{e.class}: #{e.message}\n    #{bt}\n"
+          "Error:\n#{name}(#{suite}):\n#{e.message}"
         end
       end
 
