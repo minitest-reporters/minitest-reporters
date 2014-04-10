@@ -1,4 +1,8 @@
-require "minitest/autorun"
+begin
+  require "minitest/autorun"
+rescue
+  require "minitest/unit"
+end
 
 module Minitest
   require "minitest/relative_position"
