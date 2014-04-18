@@ -44,7 +44,7 @@ Options can be passed to these reporters at construction-time, e.g. to force
 color output from `DefaultReporter`:
 
 ```ruby
-Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new(:color => true)]
+Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => true)]
 ```
 
 ## Screenshots ##
