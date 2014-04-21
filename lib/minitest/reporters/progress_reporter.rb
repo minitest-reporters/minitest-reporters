@@ -1,5 +1,5 @@
 require 'ansi/code'
-require 'powerbar'
+require 'ruby-progressbar'
 
 module Minitest
   module Reporters
@@ -14,31 +14,33 @@ module Minitest
       include RelativePosition
       include ANSI::Code
 
-      INFO_PADDING = 2
+      PROGRESS_MARK = '='
 
       def initialize(options = {})
         super
         @detailed_skip = options.fetch(:detailed_skip, true)
 
-        @progress = PowerBar.new(:msg => "0/#{count}")
-        @progress.settings.tty.finite.output = lambda { |s| print(s) }
-        @progress.settings.tty.finite.template.barchar = "="
-        @progress.settings.tty.finite.template.padchar = " "
-        @progress.settings.tty.finite.template.pre = "\e[1000D#{GREEN}"
-        @progress.settings.tty.finite.template.post = CLEAR
+        @progress = ProgressBar.create({
+          total:          total_count,
+          starting_at:    count,
+          progress_mark:  green(PROGRESS_MARK),
+          remainder_mark: ' ',
+          format:         '  %C/%c: [%B] %p%% %a, %e',
+          autostart:      false
+        })
       end
 
       def start
         super
         puts 'Started'
         puts
+        @progress.start
         show
       end
 
       def record(test)
         super
         if (test.skipped? && @detailed_skip) || test.failure
-          wipe
           print_colored_status(test)
           print_test_with_time(test)
           puts
@@ -46,10 +48,10 @@ module Minitest
           puts
         end
 
-        if test.skipped? && color != RED
-          self.color = YELLOW
+        if test.skipped? && color != "red"
+          self.color = "yellow"
         elsif test.failure
-          self.color = RED
+          self.color = "red"
         end
 
         show
@@ -57,9 +59,8 @@ module Minitest
 
       def report
         super
-        @progress.close
+        @progress.finish
 
-        wipe
         puts
         puts('Finished in %.5fs' % total_time)
         print('%d tests, %d assertions, ' % [count, assertions])
@@ -73,15 +74,8 @@ module Minitest
       def show
         return if count == 0
 
-        @progress.show({
-          :msg => "#{total_count}/#{count}",
-          :done => count,
-          :total => total_count,
-        }, true)
-      end
-
-      def wipe
-        @progress.wipe
+        @progress.total = total_count
+        @progress.increment
       end
 
       def print_test_with_time(test)
@@ -90,12 +84,12 @@ module Minitest
       end
 
       def color
-        @color ||= GREEN
+        @color ||= "green"
       end
 
       def color=(color)
         @color = color
-        @progress.scope.template.pre = "\e[1000D#{@color}"
+        @progress.progress_mark = send(color, PROGRESS_MARK)
       end
     end
   end

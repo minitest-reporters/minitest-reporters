@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'minitest', '>= 5.0'
   s.add_dependency 'ansi'
-  s.add_dependency 'powerbar'
+  s.add_dependency 'ruby-progressbar'
   s.add_dependency 'builder'
 
   s.add_development_dependency 'maruku'
