@@ -34,7 +34,7 @@ module Minitest
         print_colored_status(test)
         print(" (%.2fs)" % test.time)
         puts
-        if test.failure
+        if !test.skipped? && test.failure
           print_info(test.failure)
           puts
         end
