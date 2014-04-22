@@ -22,3 +22,5 @@ doc/
 # Gem-specific
 Gemfile.lock
 .idea/
+.ruby-version
+
