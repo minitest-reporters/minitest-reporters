@@ -41,6 +41,7 @@ module Minitest
       def record(test)
         super
         if (test.skipped? && @detailed_skip) || test.failure
+          print "\e[0m\e[1000D\e[K"
           print_colored_status(test)
           print_test_with_time(test)
           puts
@@ -79,8 +80,8 @@ module Minitest
       end
 
       def print_test_with_time(test)
-        puts [test.name, test.class, total_time, ENDCODE].inspect
-        print(" %s#%s (%.2fs)%s" % [test.name, test.class, total_time, ENDCODE])
+        puts [test.name, test.class, total_time].inspect
+        print(" %s#%s (%.2fs)" % [test.name, test.class, total_time])
       end
 
       def color
