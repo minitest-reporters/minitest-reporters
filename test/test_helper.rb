@@ -11,7 +11,9 @@ end
 # brittle. Consequently, there are no unit tests for them.  If you'd like to run
 # all the reporters sequentially on a fake test suite, run `rake gallery`.
 
-if ENV["REPORTER"]
+if ENV["REPORTER"] == "Pride"
+  require "minitest/pride"
+elsif ENV["REPORTER"]
   reporter_klass = Minitest::Reporters.const_get(ENV["REPORTER"])
   Minitest::Reporters.use!(reporter_klass.new)
 else

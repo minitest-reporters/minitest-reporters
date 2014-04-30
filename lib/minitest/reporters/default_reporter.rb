@@ -162,7 +162,7 @@ module Minitest
         elsif test.error?
           "Error:\n#{test.class}##{test.name}:\n#{e.message}"
         else
-          "Failure:\n#{test.class}##{test.name}:\n#{e.class}: #{e.message}"
+          "Failure:\n#{test.class}##{test.name} [#{test.failure.location}]\n#{e.class}: #{e.message}"
         end
       end
 
