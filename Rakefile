@@ -28,6 +28,7 @@ task :gallery do
   end
 
   [
+    "Pride",
     "DefaultReporter",
     "JUnitReporter",
     "ProgressReporter",
