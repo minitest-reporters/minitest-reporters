@@ -38,17 +38,29 @@ module Minitest
         print "#{"%.2f" % test.time} = " if options[:verbose]
 
         print(if test.passed?
-          green('.')
+          record_pass(test)
         elsif test.skipped?
-          yellow('S')
+          record_skip(test)
         elsif test.failure
-          red('F')
+          record_failure(test)
         end)
 
         if @fast_fail && (test.skipped? || test.failure)
           puts
           print_failure(test)
         end
+      end
+
+      def record_pass(test)
+        green('.')
+      end
+
+      def record_skip(test)
+        yellow('S')
+      end
+
+      def record_failure(test)
+        red('F')
       end
 
       def report
