@@ -73,10 +73,8 @@ module Minitest
       private
 
       def show
-        return if count == 0
-
         @progress.total = total_count
-        @progress.increment
+        @progress.increment unless count == 0
       end
 
       def print_test_with_time(test)
