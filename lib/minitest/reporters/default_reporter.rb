@@ -16,6 +16,8 @@ module Minitest
         @detailed_skip = options.fetch(:detailed_skip, true)
         @slow_count = options.fetch(:slow_count, 0)
         @slow_suite_count = options.fetch(:slow_suite_count, 0)
+        @suite_times = []
+        @suite_start_times = {}
         @fast_fail = options.fetch(:fast_fail, false)
         @options = options
       end
@@ -30,6 +32,16 @@ module Minitest
       def before_test(test)
         super
         print "\n#{test.class}##{test.name} " if options[:verbose]
+      end
+
+      def before_suite(suite)
+        @suite_start_times[suite] = Time.now
+        super
+      end
+
+      def after_suite(suite)
+        super
+        @suite_times << [suite.name, Time.now - @suite_start_times.delete(suite)]
       end
 
       def record(test)
