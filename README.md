@@ -65,6 +65,29 @@ Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => tru
 
 If you are using minitest-reporters with ActiveSupport 3.x, make sure that you require ActiveSupport before invoking `Minitest::Reporters.use!`. Minitest-reporters fixes incompatibilities caused by monkey patches in ActiveSupport 3.x. ActiveSupport 4.x is unaffected.
 
+**Rails Backtrace Filtering and Custom Backtrace Filtering**
+
+Minitest lets you configures your own, custom backtrace filter via
+`Minitest.backtrace_filter=`. If you're using Rails, then by default
+`Minitest.backtrace_filter` is a filter designed specially for Rails.
+
+But minitest-reporters overwrites `Minitest.backtrace_filter` by default. That means it
+will overwrite your custom filter and Rails' default filter. (You'll know this is
+happening if you see overly long or otherwise unexpected backtraces.)
+
+To avoid that, you must manually tell minitest-reporters which filter to use. In Rails,
+do this in `test_helper.rb`:
+
+    Minitest::Reporters.use!(
+      Minitest::Reporters::DefaultReporter.new,
+      ENV,
+      Minitest.backtrace_filter
+    )
+
+The third parameter to `.new`, in this case `Minitest.backtrace_filter`, should be a
+filter object. In the above example, you're telling minitest-reporters to use the filter
+that Rails has already set.
+
 ## Note on Patches/Pull Requests ##
 
 * Fork the project.
