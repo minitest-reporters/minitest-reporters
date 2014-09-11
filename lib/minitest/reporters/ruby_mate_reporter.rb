@@ -10,7 +10,7 @@ module Minitest
 
       def start
         super
-        puts 'Started'
+        puts('Started with run options %s' % options[:args])
         puts
       end
 

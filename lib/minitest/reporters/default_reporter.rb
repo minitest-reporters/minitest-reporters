@@ -25,7 +25,7 @@ module Minitest
       def start
         super
         puts
-        puts "# Running tests:"
+        puts("# Running tests with run options %s:" % options[:args])
         puts
       end
 
