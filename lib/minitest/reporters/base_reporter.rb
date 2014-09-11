@@ -13,6 +13,11 @@ module Minitest
         self.options = defaults.merge(options)
       end
 
+      def start
+        super
+        puts "Run options: #{options[:args]}"
+      end
+
       # called by our own before hooks
       def before_test(test)
         last_test = tests.last
