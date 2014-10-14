@@ -41,7 +41,7 @@ module Minitest
 
       def after_suite(suite)
         super
-        @suite_times << [suite.name, Time.now - @suite_start_times.delete(suite)]
+        @suite_times << [suite.name, Time.now - (@suite_start_times.delete(suite) || Time.now)]
       end
 
       def record(test)
