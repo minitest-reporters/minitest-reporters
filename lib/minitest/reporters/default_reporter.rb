@@ -41,7 +41,8 @@ module Minitest
 
       def after_suite(suite)
         super
-        @suite_times << [suite.name, Time.now - @suite_start_times.delete(suite)]
+        duration = suite_duration(suite)
+        @suite_times << [suite.name, duration]
       end
 
       def record(test)
@@ -193,6 +194,15 @@ module Minitest
       def result_line
         '%d tests, %d assertions, %d failures, %d errors, %d skips' %
           [count, assertions, failures, errors, skips]
+      end
+
+      def suite_duration(suite)
+        start_time = @suite_start_times.delete(suite)
+        if start_time.nil?
+          0
+        else
+          Time.now - start_time
+        end
       end
     end
   end
