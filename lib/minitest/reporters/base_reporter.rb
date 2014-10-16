@@ -1,7 +1,6 @@
 module Minitest
   module Reporters
     class BaseReporter < Minitest::StatisticsReporter
-      attr_accessor :total_count
       attr_accessor :tests
 
       def initialize(options={})
