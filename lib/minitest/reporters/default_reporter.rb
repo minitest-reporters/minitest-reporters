@@ -64,16 +64,16 @@ module Minitest
         end
       end
 
-      def record_pass(test)
-        green('.')
+      def record_pass(record)
+        green(record.result_code)
       end
 
-      def record_skip(test)
-        yellow('S')
+      def record_skip(record)
+        yellow(record.result_code)
       end
 
-      def record_failure(test)
-        red('F')
+      def record_failure(record)
+        red(record.result_code)
       end
 
       def report
