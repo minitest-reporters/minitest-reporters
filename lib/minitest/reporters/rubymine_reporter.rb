@@ -62,7 +62,9 @@ else
 
         def record(test)
           super
-          unless test.passed?
+          if test.passed?
+            log(@message_factory.create_test_finished(test.name, get_time_in_ms(test.time)))
+          else
             with_result(test) do |exception_msg, backtrace|
               if test.skipped?
                 log(@message_factory.create_test_ignored(test.name, exception_msg, backtrace))
@@ -90,11 +92,6 @@ else
           super
           fqn = "#{test.class.name}.#{test.name}"
           log(@message_factory.create_test_started(test.name, minitest_test_location(fqn)))
-        end
-
-        def after_test(test)
-          super
-          log(@message_factory.create_test_finished(test.name, get_time_in_ms(test.time)))
         end
 
         #########
