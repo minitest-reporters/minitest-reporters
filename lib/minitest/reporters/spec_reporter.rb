@@ -52,10 +52,6 @@ module Minitest
         end
       end
 
-      def after_test(test)
-
-      end
-
       protected
 
       def before_suite(suite)
