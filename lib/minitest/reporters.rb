@@ -7,6 +7,7 @@ module Minitest
   module Reporters
     require "minitest/reporters/version"
 
+    autoload :ANSI, "minitest/reporters/ansi"
     autoload :BaseReporter, "minitest/reporters/base_reporter"
     autoload :DefaultReporter, "minitest/reporters/default_reporter"
     autoload :SpecReporter, "minitest/reporters/spec_reporter"

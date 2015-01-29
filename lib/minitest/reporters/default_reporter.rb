@@ -1,5 +1,3 @@
-require 'ansi/code'
-
 module Minitest
   module Reporters
     # A reporter identical to the standard Minitest reporter except with more
@@ -8,7 +6,9 @@ module Minitest
     # Based upon Ryan Davis of Seattle.rb's Minitest (MIT License).
     #
     # @see https://github.com/seattlerb/minitest Minitest
+
     class DefaultReporter < BaseReporter
+      include ANSI::Code
       include RelativePosition
 
       def initialize(options = {})

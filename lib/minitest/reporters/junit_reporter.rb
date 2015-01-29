@@ -1,4 +1,3 @@
-require 'ansi/code'
 require 'builder'
 require 'fileutils'
 module Minitest
