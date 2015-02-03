@@ -10,7 +10,7 @@ end
 rubymine_home = [
   ENV["RUBYMINE_HOME"],
   "../rubymine-contrib/ruby-testing/src/rb/testing/patch/common",
-  "/Applications/RubyMine.app/rb/testing/patch/common",
+  "/Applications/RubyMine.app/Contents/rb/testing/patch/common",
 ].compact.detect { |d| Dir.exist?(d) }
 
 Rake::TestTask.new("test:gallery") do |t|
