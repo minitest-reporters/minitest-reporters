@@ -1,5 +1,3 @@
-require 'ansi/code'
-
 module Minitest
   module Reporters
     # Turn-like reporter that reads like a spec.

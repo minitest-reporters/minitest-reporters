@@ -1,4 +1,3 @@
-require 'ansi/code'
 require 'ruby-progressbar'
 
 module Minitest

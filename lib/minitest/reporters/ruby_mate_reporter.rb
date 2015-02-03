@@ -1,5 +1,3 @@
-require 'ansi/code'
-
 module Minitest
   module Reporters
     # Simple reporter designed for RubyMate.
