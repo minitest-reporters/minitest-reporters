@@ -2,7 +2,7 @@ module Minitest
   module Reporters
     module ANSI
       module Code
-        if ($stdin.tty?)
+        if ($stdout.tty?)
           require 'ansi/code'
 
           include ::ANSI::Code
