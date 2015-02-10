@@ -84,7 +84,7 @@ do this in `test_helper.rb`:
       Minitest.backtrace_filter
     )
 
-The third parameter to `.new`, in this case `Minitest.backtrace_filter`, should be a
+The third parameter to `.use!`, in this case `Minitest.backtrace_filter`, should be a
 filter object. In the above example, you're telling minitest-reporters to use the filter
 that Rails has already set.
 
