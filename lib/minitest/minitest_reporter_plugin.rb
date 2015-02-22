@@ -5,7 +5,7 @@ module Minitest
         reporter.reporters = Minitest::Reporters.reporters + guard_reporter
         reporter.reporters.each do |reporter|
           reporter.io = options[:io]
-          reporter.add_defaults(options.merge(:total_count => total_count(options)))
+          reporter.add_defaults(options.merge(:total_count => total_count(options))) if reporter.respond_to? :add_defaults
         end
       end
     end
