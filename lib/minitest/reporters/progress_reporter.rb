@@ -40,12 +40,13 @@ module Minitest
 
       def record(test)
         super
-        if (test.skipped? && @detailed_skip) || test.failure
+        return if test.skipped? && !@detailed_skip
+        if test.failure
           print "\e[0m\e[1000D\e[K"
           print_colored_status(test)
           print_test_with_time(test)
           puts
-          print_info(test.failure, test.error?) if test.failure
+          print_info(test.failure, test.error?)
           puts
         end
 
