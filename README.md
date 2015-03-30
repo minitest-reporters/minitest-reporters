@@ -47,6 +47,12 @@ color output from `DefaultReporter`:
 Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => true)]
 ```
 
+Some reporters have extra options e.g. `fast_fail` for SpecReporter
+```ruby
+Minitest::Reporters.use!(Minitest::Reporters::SpecReporter.new({fast_fail: true}))
+```
+The fast_fail option will stop testing operation immediately after failing test.
+
 ## Screenshots ##
 
 **Default Reporter**

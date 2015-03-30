@@ -10,6 +10,11 @@ module Minitest
       include ANSI::Code
       include RelativePosition
 
+      def initialize(options = {})
+        super
+        @fast_fail = options.fetch(:fast_fail, false)
+      end
+
       def start
         super
         puts('Started with run options %s' % options[:args])
@@ -35,6 +40,10 @@ module Minitest
         if !test.skipped? && test.failure
           print_info(test.failure)
           puts
+          if @fast_fail
+            report
+            exit 1
+          end
         end
       end
 
