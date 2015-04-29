@@ -66,7 +66,8 @@ module Minitest
         puts
         puts('Finished in %.5fs' % total_time)
         print('%d tests, %d assertions, ' % [count, assertions])
-        print(red { '%d failures, %d errors, ' } % [failures, errors])
+        color = failures.zero? && errors.zero? ? :green : :red
+        print(send(color) { '%d failures, %d errors, ' } % [failures, errors])
         print(yellow { '%d skips' } % skips)
         puts
       end
