@@ -2,7 +2,13 @@ module Minitest
   module Reporters
     module ANSI
       module Code
-        if ($stdout.tty?)
+
+        def self.color?
+          color_terminal = ENV['TERM'].to_s.downcase.index("color")
+          $stdout.tty? || color_terminal
+        end
+
+        if color?
           require 'ansi/code'
 
           include ::ANSI::Code
