@@ -4,7 +4,7 @@ module Minitest
       module Code
 
         def self.color?
-          color_terminal = ENV['TERM'].to_s.downcase.index("color")
+          color_terminal = ENV['TERM'].to_s.downcase.include?("color")
           $stdout.tty? || color_terminal
         end
 
