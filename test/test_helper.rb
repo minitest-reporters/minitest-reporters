@@ -17,5 +17,5 @@ elsif ENV["REPORTER"]
   reporter_klass = Minitest::Reporters.const_get(ENV["REPORTER"])
   Minitest::Reporters.use!(reporter_klass.new)
 else
-  Minitest::Reporters.use!(Minitest::Reporters::DefaultReporter.new)
+  Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new, Minitest::Reporters::JUnitReporter.new, Minitest::Reporters::HtmlReporter.new('Sample Tests')]
 end
