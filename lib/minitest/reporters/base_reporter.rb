@@ -35,6 +35,10 @@ module Minitest
         after_suite(tests.last.class)
       end
 
+      def to_s
+        report
+      end
+
       protected
 
       def after_suite(test)
