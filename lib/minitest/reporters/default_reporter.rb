@@ -121,6 +121,8 @@ module Minitest
         puts
       end
 
+      alias to_s report
+
       def print_failure(test)
         puts colored_for(result(test), message_for(test))
       end
