@@ -26,7 +26,7 @@ module Minitest
       guards = Array(reporter.reporters.detect { |r| r.class.name == "Guard::Minitest::Reporter" })
       return guards unless ENV['RM_INFO']
 
-      warn 'RM_INFO is set thus guard reporter has been dropped' if guards.empty?
+      warn 'RM_INFO is set thus guard reporter has been dropped' unless guards.empty?
       []
     end
   end
