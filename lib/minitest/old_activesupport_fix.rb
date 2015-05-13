@@ -3,7 +3,10 @@ require "active_support/testing/setup_and_teardown"
 module ActiveSupport
   module Testing
     module SetupAndTeardown
-      module ForMinitest
+      if defined?(ForMinitest)
+        ForMiniTest = ForMinitest
+      end
+      module ForMiniTest
         remove_method :run
 
         def before_setup
