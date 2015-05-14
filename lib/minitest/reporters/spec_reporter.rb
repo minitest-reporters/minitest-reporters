@@ -28,24 +28,36 @@ module Minitest
 
       def record(test)
         super
-        print pad_test(test.name)
-        print_colored_status(test)
-        print(" (%.2fs)" % test.time)
-        puts
-        if !test.skipped? && test.failure
-          print_info(test.failure)
+        if options[:failures_only]
+          if !test.skipped? && test.failure
+            puts test.class.name
+            print pad_test(test.name)
+            print_colored_status(test)
+            print(" (%.2fs)" % test.time)
+            puts
+            print_info(test.failure)
+            puts
+          end
+        else
+          print pad_test(test.name)
+          print_colored_status(test)
+          print(" (%.2fs)" % test.time)
           puts
+          if !test.skipped? && test.failure
+            print_info(test.failure)
+            puts
+          end
         end
       end
 
       protected
 
       def before_suite(suite)
-        puts suite
+        puts suite unless options[:failures_only]
       end
 
       def after_suite(suite)
-        puts
+        puts unless options[:failures_only]
       end
     end
   end
