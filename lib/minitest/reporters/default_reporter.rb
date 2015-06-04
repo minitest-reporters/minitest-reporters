@@ -84,10 +84,10 @@ module Minitest
         puts
         puts
         puts colored_for(suite_result, status_line)
+        puts
 
         unless @fast_fail
           tests.reject(&:passed?).each do |test|
-            puts
             print_failure(test)
           end
         end
@@ -124,7 +124,11 @@ module Minitest
       alias to_s report
 
       def print_failure(test)
-        puts colored_for(result(test), message_for(test))
+        message = message_for(test)
+        unless message.nil? || message.strip == ''
+          puts colored_for(result(test), message_for(test))
+          puts
+        end
       end
 
       private
