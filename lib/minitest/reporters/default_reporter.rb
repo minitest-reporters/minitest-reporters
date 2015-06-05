@@ -126,7 +126,7 @@ module Minitest
       def print_failure(test)
         message = message_for(test)
         unless message.nil? || message.strip == ''
-          puts colored_for(result(test), message_for(test))
+          puts colored_for(result(test), message)
           puts
         end
       end
