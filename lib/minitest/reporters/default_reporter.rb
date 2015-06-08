@@ -50,6 +50,7 @@ module Minitest
 
         print "#{"%.2f" % test.time} = " if options[:verbose]
 
+        # Print the pass/skip/fail mark
         print(if test.passed?
           record_pass(test)
         elsif test.skipped?
@@ -58,8 +59,8 @@ module Minitest
           record_failure(test)
         end)
 
+        # Print fast_fail information
         if @fast_fail && (test.skipped? || test.failure)
-          puts
           print_failure(test)
         end
       end
@@ -126,8 +127,8 @@ module Minitest
       def print_failure(test)
         message = message_for(test)
         unless message.nil? || message.strip == ''
-          puts colored_for(result(test), message)
           puts
+          puts colored_for(result(test), message)
         end
       end
 
