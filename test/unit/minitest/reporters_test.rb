@@ -24,5 +24,11 @@ module MinitestReportersTest
       reporters = Minitest::Reporters.choose_reporters [Minitest::Reporters::SpecReporter.new], {}
       assert_instance_of Minitest::Reporters::SpecReporter, reporters[0]
     end
+
+    def test_chooses_no_reporters_when_running_under_vim
+      reporters = Minitest::Reporters.choose_reporters(
+        [Minitest::Reporters::DefaultReporter.new], { "VIM" => "/usr/share/vim" })
+      assert_equal nil, reporters
+    end
   end
 end

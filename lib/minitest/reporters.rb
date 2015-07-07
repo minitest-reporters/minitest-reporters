@@ -58,7 +58,7 @@ module Minitest
         [RubyMateReporter.new]
       elsif env["RM_INFO"] || env["TEAMCITY_VERSION"]
         [RubyMineReporter.new]
-      else
+      elsif !env["VIM"]
         Array(console_reporters)
       end
     end
