@@ -1,5 +1,5 @@
 [gem]: https://rubygems.org/gems/minitest-reporters
-[travis]: https://travis-ci.org/rom-rb/rom-mongo
+[travis]: https://travis-ci.org/kern/minitest-reporters
 
 # minitest-reporters - create customizable Minitest output formats
 [![Gem Version](https://badge.fury.io/rb/minitest-reporters.svg)][gem]
