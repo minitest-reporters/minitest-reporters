@@ -13,8 +13,8 @@ module Minitest
     #
     # On each test run all files in the reports directory are deleted, this prevents a build up of old reports
     #
-    # The report is generated using using ERB. A custom ERB template can be provided but it is not required
-    # The default ERB template uses JQuery and Boostrap, both of these are included by referencing the CDN sites
+    # The report is generated using ERB. A custom ERB template can be provided but it is not required
+    # The default ERB template uses JQuery and Bootstrap, both of these are included by referencing the CDN sites
     class HtmlReporter < BaseReporter
 
       # The title of the report
@@ -56,10 +56,10 @@ module Minitest
         super({})
 
         defaults = {
-            :title    => 'Test Results',
-            :erb_template    => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
-            :reports_dir => 'test/html_reports',
-            :mode => :safe
+            :title        => 'Test Results',
+            :erb_template => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
+            :reports_dir  => 'test/html_reports',
+            :mode         => :safe
         }
 
         settings = defaults.merge(args)
