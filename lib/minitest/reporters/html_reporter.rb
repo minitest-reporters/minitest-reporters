@@ -5,26 +5,54 @@ require 'erb'
 module Minitest
   module Reporters
     # A reporter for generating HTML test reports
-    # This is recommended be used with a CI server, where the report is kept as an artifact and is accessible via a shared link
+    # This is recommended to be used with a CI server, where the report is kept as an artifact and is accessible via a shared link
     #
-    # By default the reports are saved to 'test/html_reports'
-    # The reporter sorts the results alphabetically and then by failing tests
+    # The reporter sorts the results alphabetically and then by results so that failing and skipped tests are at the top.
     #
-    # When using Minitest Specs, the number prefeix is dropped from the name of the test, so that it reads well
+    # When using Minitest Specs, the number prefix is dropped from the name of the test so that it reads well
     #
-    # This is built using ERB and a custom ERB template can be provided
-    # On each test run, all files in the reports directory are deleted, this prevents a build up of old reports
+    # On each test run all files in the reports directory are deleted, this prevents a build up of old reports
     #
-    # The constructor takes a hash, and uses the following keys:
-    # :title - the title that will be used in the report, defaults to 'Test Results'
-    # :reports_dir - the directory the reports should be written to, defaults to 'test/html_reports'
-    # :erb_template - the path to a custom ERB template, defaults to the supplied ERB template
-    # :mode - Useful for debugging, :terse suppresses errors and is the default, :verbose lets errors bubble up
+    # The report is generated using using ERB. A custom ERB template can be provided but it is not required
+    # The default ERB template uses JQuery and Boostrap, both of these are included by referencing the CDN sites
     class HtmlReporter < BaseReporter
 
+      # The title of the report
       attr_reader :title
 
-      def initialize(args)
+      # The number of tests that passed
+      def passes
+        count - failures - errors - skips
+      end
+
+      # The percentage of tests that passed, calculated in a way that avoids rounding errors
+      def percent_passes
+        100 - percent_skipps - percent_errors_failures
+      end
+
+      # The percentage of tests that were skipped
+      def percent_skipps
+        (skips/count.to_f * 100).to_i
+      end
+
+      # The percentage of tests that failed
+      def percent_errors_failures
+        ((errors+failures)/count.to_f * 100).to_i
+      end
+
+      # Trims off the number prefix on test names when using Minitest Specs
+      def friendly_name(test)
+        groups = test.name.scan(/(test_\d+_)(.*)/i)
+        return test.name if groups.empty?
+        "it #{groups[0][1]}"
+      end
+
+      # The constructor takes a hash, and uses the following keys:
+      # :title - the title that will be used in the report, defaults to 'Test Results'
+      # :reports_dir - the directory the reports should be written to, defaults to 'test/html_reports'
+      # :erb_template - the path to a custom ERB template, defaults to the supplied ERB template
+      # :mode - Useful for debugging, :terse suppresses errors and is the default, :verbose lets errors bubble up
+      def initialize(args = {})
         super({})
 
         defaults = {
@@ -48,11 +76,11 @@ module Minitest
         FileUtils.mkdir_p(@reports_path)
       end
 
+      # Called by the framework to generate the report
       def report
         super
 
         begin
-
           puts "Writing HTML reports to #{@reports_path}"
           html_file = @reports_path + "/index.html"
           erb_str = File.read(@erb_template)
@@ -74,38 +102,13 @@ module Minitest
           end
 
         rescue Exception => e
-          puts 'There was an error writting the HTML report'
+          puts 'There was an error writing the HTML report'
+          puts 'This may have been caused by cancelling the test run'
           puts 'Use mode => :verbose in the HTML reporters constructor to see more detail' if @mode == :terse
+          puts 'Use mode => :terse in the HTML reporters constructor to see less detail' if @mode != :terse
           raise e if @mode != :terse
         end
 
-      end
-
-      # The number of tests that passed
-      def passes
-        count - failures - errors - skips
-      end
-
-      # The percentage of tests that passed, adjusted to handle rounding errors
-      def percent_passes
-        100 - percent_skipps - percent_errors_failures
-      end
-
-      # The percentage of tests that were skipped
-      def percent_skipps
-        (skips/count.to_f * 100).to_i
-      end
-
-      # The percentage of tests that failed
-      def percent_errors_failures
-        ((errors+failures)/count.to_f * 100).to_i
-      end
-
-      # Trims off the number prefix on test names when using Minitest Specs
-      def friendly_name(test)
-        groups = test.name.scan(/(test_\d+_)(.*)/i)
-        return test.name if groups.empty?
-        "it #{groups[0][1]}"
       end
 
       private
@@ -118,6 +121,9 @@ module Minitest
         friendly_name(test_a) <=> friendly_name(test_b)
       end
 
+      # Test suites are first ordered by evaluating the results of the tests, then by test suite name
+      # Test suites which have failing tests are given highest order
+      # Tests suites which have skipped tests are given second highest priority
       def compare_suites(suite_a, suite_b)
         return compare_suites_by_name(suite_a, suite_b) if suite_a[:has_errors_or_failures] && suite_b[:has_errors_or_failures]
         return -1 if suite_a[:has_errors_or_failures] && !suite_b[:has_errors_or_failures]
@@ -130,6 +136,9 @@ module Minitest
         compare_suites_by_name(suite_a, suite_b)
       end
 
+      # Tests are first ordered by evaluating the results of the tests, then by tests names
+      # Tess which fail are given highest order
+      # Tests which are skipped are given second highest priority
       def compare_tests(test_a, test_b)
         return compare_tests_by_name(test_a, test_b) if test_fail_or_error?(test_a) && test_fail_or_error?(test_b)
 
@@ -146,8 +155,6 @@ module Minitest
       def test_fail_or_error?(test)
         test.error? || test.failure
       end
-
-
 
       # based on analyze_suite from the JUnit reporter
       def summarize_suite(suite, tests)
