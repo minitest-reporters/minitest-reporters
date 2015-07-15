@@ -22,10 +22,10 @@ end
 # - RubyMineReporter must be tested separately inside of RubyMine
 # - JUnitReporter normally writes to `test/reports` instead of stdout
 task :gallery do
-  # unless rubymine_home
-  #   warn "To see RubyMineReporter supply RUBYMINE_HOME= or git clone git://git.jetbrains.org/idea/contrib.git ../rubymine-contrib"
-  #   exit 1
-  # end
+  unless rubymine_home
+    warn "To see RubyMineReporter supply RUBYMINE_HOME= or git clone git://git.jetbrains.org/idea/contrib.git ../rubymine-contrib"
+    exit 1
+  end
 
   [
     "Pride",
