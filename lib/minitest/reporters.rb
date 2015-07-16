@@ -15,6 +15,7 @@ module Minitest
     autoload :RubyMateReporter, "minitest/reporters/ruby_mate_reporter"
     autoload :RubyMineReporter, "minitest/reporters/rubymine_reporter"
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
+    autoload :HtmlReporter, "minitest/reporters/html_reporter"
 
     class << self
       attr_accessor :reporters
