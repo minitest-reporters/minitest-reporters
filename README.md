@@ -104,7 +104,7 @@ that Rails has already set.
 ## Resources ##
 
 * [GitHub Repository](https://github.com/CapnKernul/minitest-reporters)
-* [Documentation](http://rubydoc.info/github/CapnKernul/minitest-reporters)
+* [Documentation](http://www.rubydoc.info/github/kern/minitest-reporters/master)
 
 ## License ##
 
