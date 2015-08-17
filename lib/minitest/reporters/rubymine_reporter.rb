@@ -61,9 +61,7 @@ else
 
         def record(test)
           super
-          if test.passed?
-            log(@message_factory.create_test_finished(test.name, get_time_in_ms(test.time)))
-          else
+          unless test.passed?
             with_result(test) do |exception_msg, backtrace|
               if test.skipped?
                 log(@message_factory.create_test_ignored(test.name, exception_msg, backtrace))
@@ -74,6 +72,7 @@ else
               end
             end
           end
+          log(@message_factory.create_test_finished(test.name, get_time_in_ms(test.time)))
         end
 
         alias_method :output, :io
