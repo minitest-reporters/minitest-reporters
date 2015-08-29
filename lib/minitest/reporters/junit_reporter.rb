@@ -28,7 +28,7 @@ module Minitest
         suites = tests.group_by(&:class)
 
         if @single_file
-          write_xml_file_for("minitest", suites.values.flatten)
+          write_xml_file_for("minitest", tests.group_by(&:class).values.flatten)
         else
           suites.each do |suite, tests|
             write_xml_file_for(suite, tests)
