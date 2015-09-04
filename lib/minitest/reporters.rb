@@ -21,9 +21,12 @@ module Minitest
       attr_accessor :reporters
     end
 
-    def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = ExtensibleBacktraceFilter.default_filter)
+    def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = nil)
       use_runner!(console_reporters, env)
-      Minitest.backtrace_filter = backtrace_filter
+      if backtrace_filter.nil? && !defined?(::Rails)
+        backtrace_filter = ExtensibleBacktraceFilter.default_filter
+      end
+      Minitest.backtrace_filter = backtrace_filter unless backtrace_filter.nil?
 
       unless defined?(@@loaded)
         use_around_test_hooks!
