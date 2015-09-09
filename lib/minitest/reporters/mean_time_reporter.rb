@@ -1,9 +1,36 @@
+require 'minitest/reporters'
 require 'yaml'
 
 module Minitest
   module Reporters
 
-    class MeanTimeReporter < DefaultReporter
+    # This reporter creates a report providing the average (mean), minimum and
+    # maximum times for a test to run. Running this for all your tests will
+    # allow you to:
+    #
+    # 1) Identify the slowest running tests over time as potential candidates
+    #    for improvements or refactoring.
+    # 2) Identify (and fix) regressions in test run speed caused by changes to
+    #    your tests or algorithms in your code.
+    # 3) Provide an abundance of statistics to enjoy.
+    #
+    # This is achieved by creating a (configurable) 'previous runs' statistics
+    # file which is parsed at the end of each run to provide a new
+    # (configurable) report. These statistics can be reset at any time by using
+    # a simple rake task:
+    #
+    #     rake reset_statistics
+    #
+    class MeanTimeReporter < Minitest::Reporters::DefaultReporter
+
+      # Reset the statistics file for this reporter. Called via a rake task:
+      #
+      #     rake reset_statistics
+      #
+      # @return [Boolean]
+      def self.reset_statistics!
+        new.reset_statistics!
+      end
 
       # @param options [Hash]
       # @option previous_runs_filename [String] Contains the times for each test
@@ -39,6 +66,16 @@ module Minitest
         create_or_update_previous_runs!
 
         create_new_report!
+
+        write_to_screen!
+      end
+
+      # Resets the 'previous runs' file, essentially removing all previous
+      # statistics gathered.
+      #
+      # @return [void]
+      def reset_statistics!
+        File.open(previous_runs_filename, 'w+') { |f| f.write('') }
       end
 
       protected
@@ -52,23 +89,27 @@ module Minitest
         Hash[all_suite_times]
       end
 
-      # @return [Hash] Sets default values for the filenames used by this class.
+      # @return [Hash] Sets default values for the filenames used by this class,
+      #   and the number of tests to output to output to the screen after each
+      #   run.
       def defaults
         {
+          count:                  15,
           previous_runs_filename: '/tmp/minitest_reporters_previous_run',
           report_filename:        '/tmp/minitest_reporters_report',
         }
       end
 
-      # Added to the top of the report file to be helpful.
+      # Added to the top of the report file and to the screen output.
       #
       # @return [String]
-      def report_header
-        "Samples: #{samples}\n\n"
+      def report_title
+        "\n\e[4mMinitest Reporters: Mean Time Report\e[24m (Samples: #{samples})\n"
       end
 
-      # The report itself. Displays statistic about all runs, ideal for use with
-      # the Unix 'head' command. Listed in slowest average descending order.
+      # The report itself. Displays statistics about all runs, ideal for use
+      # with the Unix 'head' command. Listed in slowest average descending
+      # order.
       #
       # @return [String]
       def report_body
@@ -91,6 +132,12 @@ module Minitest
         defaults.merge!(@options)
       end
 
+      # @return [Fixnum] The number of tests to output to output to the screen
+      #   after each run.
+      def count
+        options[:count]
+      end
+
       # @return [Hash<String => Array<Float>]
       def previous_run
         @previous_run ||= YAML.load_file(previous_runs_filename)
@@ -100,8 +147,6 @@ module Minitest
       #   for each test run. The previous runs file is in YAML format, using the
       #   test name for the key and an array containing the time taken to run
       #   this test for values.
-      #
-      # @return [String]
       def previous_runs_filename
         options[:previous_runs_filename]
       end
@@ -126,7 +171,10 @@ module Minitest
       # this method takes the first test listed, and counts its samples
       # trusting (naively) all runs to be the same number of samples. This will
       # produce incorrect averages when new tests are added, so it is advised
-      # to restart the statistics by removing the 'previous runs' file.
+      # to restart the statistics by removing the 'previous runs' file. A rake
+      # task is provided to make this more convenient.
+      #
+      #    rake reset_statistics
       #
       # @return [Fixnum]
       def samples
@@ -173,7 +221,17 @@ module Minitest
       #
       # @return [void]
       def create_new_report!
-        File.write(report_filename, report_header + report_body)
+        File.write(report_filename, report_title + report_body)
+      end
+
+      # Writes a number of tests (configured via the 'count' option) to the
+      # screen after creating the report. See '#create_new_report!' for example
+      # output information.
+      #
+      # @return [void]
+      def write_to_screen!
+        puts report_title
+        puts report_body.lines.take(count)
       end
 
       # @return [String] A yellow 'Avg:' label.
