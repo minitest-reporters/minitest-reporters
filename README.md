@@ -2,6 +2,8 @@
 [travis]: https://travis-ci.org/kern/minitest-reporters
 
 # minitest-reporters - create customizable Minitest output formats
+
+[![Join the chat at https://gitter.im/kern/minitest-reporters](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kern/minitest-reporters?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Gem Version](https://badge.fury.io/rb/minitest-reporters.svg)][gem]
 [![Build Status](https://secure.travis-ci.org/kern/minitest-reporters.png)][travis]
 
