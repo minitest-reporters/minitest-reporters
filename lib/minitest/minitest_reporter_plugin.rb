@@ -46,7 +46,7 @@ module Minitest
 
       def all_reporters
         if @all_reporters.nil?
-          if Minitest::Reporters.reporters
+          if defined?(Minitest::Reporters.reporters) && Minitest::Reporters.reporters
             @all_reporters = Minitest::Reporters.reporters + guard_reporter(@reporters)
             @all_reporters.each do |reporter|
               reporter.io = @options[:io]
