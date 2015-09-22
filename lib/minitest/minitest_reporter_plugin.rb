@@ -36,27 +36,26 @@ module Minitest
         }.size
       end
 
+      def all_reporters
+        @all_reporters ||= init_all_reporters
+      end
+
+      def init_all_reporters
+        return @reporters unless defined?(Minitest::Reporters.reporters) && Minitest::Reporters.reporters
+        (Minitest::Reporters.reporters + guard_reporter(@reporters)).each do |reporter|
+          reporter.io = @options[:io]
+          if reporter.respond_to?(:add_defaults)
+            reporter.add_defaults(@options.merge(:total_count => total_count(@options)))
+          end
+        end
+      end
+
       def guard_reporter(reporters)
         guards = Array(reporters.detect { |r| r.class.name == "Guard::Minitest::Reporter" })
         return guards unless ENV['RM_INFO']
 
         warn 'RM_INFO is set thus guard reporter has been dropped' unless guards.empty?
         []
-      end
-
-      def all_reporters
-        if @all_reporters.nil?
-          if defined?(Minitest::Reporters.reporters) && Minitest::Reporters.reporters
-            @all_reporters = Minitest::Reporters.reporters + guard_reporter(@reporters)
-            @all_reporters.each do |reporter|
-              reporter.io = @options[:io]
-              reporter.add_defaults(@options.merge(:total_count => total_count(@options))) if reporter.respond_to? :add_defaults
-            end
-          else
-            @all_reporters = @reporters
-          end
-        end
-        @all_reporters
       end
     end
   end
