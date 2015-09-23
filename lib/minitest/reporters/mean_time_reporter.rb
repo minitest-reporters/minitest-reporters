@@ -114,11 +114,11 @@ module Minitest
       # @return [String]
       def report_body
         previous_run.each_with_object([]) do |(description, timings), obj|
-          size = timings.size
-          sum  = timings.inject { |total, x| total + x }
+          size = Array(timings).size
+          sum  = Array(timings).inject { |total, x| total + x }
           avg  = (sum / size).round(9).to_s.ljust(12)
-          min  = timings.min.to_s.ljust(12)
-          max  = timings.max.to_s.ljust(12)
+          min  = Array(timings).min.to_s.ljust(12)
+          max  = Array(timings).max.to_s.ljust(12)
 
           obj << "#{avg_label} #{avg} " \
                  "#{min_label} #{min} " \
