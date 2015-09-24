@@ -35,7 +35,8 @@ task :gallery do
     "RubyMateReporter",
     "SpecReporter",
     "RubyMineReporter",
-    "HtmlReporter"
+    "HtmlReporter",
+    "MeanTimeReporter",
   ].each do |reporter|
     puts
     puts "-" * 72
@@ -49,4 +50,11 @@ task :gallery do
     end
     sh "cat test/reports/*" if reporter == "JUnitReporter"
   end
+end
+
+task :reset_statistics do
+  require 'minitest/reporters/mean_time_reporter'
+  Minitest::Reporters::MeanTimeReporter.reset_statistics!
+  puts "The mean time reporter statistics have been reset."
+  exit 0
 end
