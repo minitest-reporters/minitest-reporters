@@ -23,5 +23,19 @@ module MinitestReportersTest
         @reporter.record(@test)
       end
     end
+
+    def test_responds_to_test_name_after_record
+      test_name = 'test_: Should foo'
+      the_test_class = Class.new(Minitest::Test) do
+        define_method test_name do
+          assert(false)
+        end
+      end
+      the_test = the_test_class.new('')
+      the_test.name = test_name
+      @reporter.io = StringIO.new
+      @reporter.record(the_test)
+      assert_respond_to the_test, the_test.name
+    end
   end
 end
