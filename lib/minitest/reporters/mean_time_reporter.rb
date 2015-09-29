@@ -119,10 +119,14 @@ module Minitest
           avg  = (sum / size).round(9).to_s.ljust(12)
           min  = Array(timings).min.to_s.ljust(12)
           max  = Array(timings).max.to_s.ljust(12)
+          run  = Array(timings).last.to_s.ljust(12)
+
+          rating = rate(run, min, max)
 
           obj << "#{avg_label} #{avg} " \
                  "#{min_label} #{min} " \
                  "#{max_label} #{max} " \
+                 "#{run_label(rating)} #{run} " \
                  "#{des_label} #{description}\n"
         end.sort.reverse.join
       end
@@ -213,11 +217,16 @@ module Minitest
       # Creates a new report file in the 'report_filename'. This file contains
       # a line for each test of the following example format:
       #
-      # Avg: 0.0555555 Min: 0.0498765 Max: 0.0612345 Description: The test name
+      # Avg: 0.0555555 Min: 0.0498765 Max: 0.0612345 Last: 0.0499421 Description: The test name
       #
       # Note however the timings are to 9 decimal places, and padded to 12
       # characters and each label is coloured, Avg (yellow), Min (green),
-      # Max (red) and Description (blue). It looks pretty!
+      # Max (red), Last (multi), and Description (blue). It looks pretty!
+      #
+      # The 'Last' label is special in that it will be colour coded depending
+      # on whether the last run was faster (bright green) or slower (bright red)
+      # or inconclusive (purple). This helps to identify changes on a per run
+      # basis.
       #
       # @return [void]
       def create_new_report!
@@ -252,6 +261,31 @@ module Minitest
       # @return [String] A green 'Min:' label.
       def min_label
         "\e[32mMin:\e[39m"
+      end
+
+      # @param rating [Symbol] One of :faster, :slower or :inconclusive.
+      # @return [String] A purple 'Last:' label.
+      def run_label(rating)
+        case rating
+        when :faster then "\e[92mLast:\e[39m"
+        when :slower then "\e[91mLast:\e[39m"
+        else
+          "\e[35mLast:\e[39m"
+        end
+      end
+
+      # @param run [Float] The last run time.
+      # @param min [Float] The minimum run time.
+      # @param max [Float] The maximum run time.
+      # @return [Symbol] One of :faster, :slower or :inconclusive.
+      def rate(run, min, max)
+        if run == min
+          :faster
+        elsif run == max
+          :slower
+        else
+          :inconclusive
+        end
       end
 
     end
