@@ -245,32 +245,32 @@ module Minitest
 
       # @return [String] A yellow 'Avg:' label.
       def avg_label
-        "\e[33mAvg:\e[39m"
+        ANSI::Code.yellow('Avg:')
       end
 
       # @return [String] A blue 'Description:' label.
       def des_label
-        "\e[34mDescription:\e[39m"
+        ANSI::Code.blue('Description:')
       end
 
       # @return [String] A red 'Max:' label.
       def max_label
-        "\e[31mMax:\e[39m"
+        ANSI::Code.red('Max:')
       end
 
       # @return [String] A green 'Min:' label.
       def min_label
-        "\e[32mMin:\e[39m"
+        ANSI::Code.green('Min:')
       end
 
       # @param rating [Symbol] One of :faster, :slower or :inconclusive.
       # @return [String] A purple 'Last:' label.
       def run_label(rating)
         case rating
-        when :faster then "\e[92mLast:\e[39m"
-        when :slower then "\e[91mLast:\e[39m"
+        when :faster then ANSI::Code.green('Last:')
+        when :slower then ANSI::Code.red('Last:')
         else
-          "\e[35mLast:\e[39m"
+          ANSI::Code.magenta('Last:')
         end
       end
 
