@@ -52,14 +52,16 @@ module Minitest
       # :reports_dir - the directory the reports should be written to, defaults to 'test/html_reports'
       # :erb_template - the path to a custom ERB template, defaults to the supplied ERB template
       # :mode - Useful for debugging, :terse suppresses errors and is the default, :verbose lets errors bubble up
+      # :output_filename - the report's filename, defaults to 'index.html'
       def initialize(args = {})
         super({})
 
         defaults = {
-            :title        => 'Test Results',
-            :erb_template => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
-            :reports_dir  => 'test/html_reports',
-            :mode         => :safe
+            :title           => 'Test Results',
+            :erb_template    => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
+            :reports_dir     => 'test/html_reports',
+            :mode            => :safe,
+            :output_filename => 'index.html'
         }
 
         settings = defaults.merge(args)
@@ -67,6 +69,7 @@ module Minitest
         @mode = settings[:mode]
         @title = settings[:title]
         @erb_template = settings[:erb_template]
+        @output_filename = settings[:output_filename]
         reports_dir = settings[:reports_dir]
 
         @reports_path = File.absolute_path(reports_dir)
@@ -82,7 +85,7 @@ module Minitest
 
         begin
           puts "Writing HTML reports to #{@reports_path}"
-          html_file = @reports_path + "/index.html"
+          html_file = "#{@reports_path}/#{@output_filename}"
           erb_str = File.read(@erb_template)
           renderer = ERB.new(erb_str)
 
