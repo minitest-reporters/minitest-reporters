@@ -94,7 +94,7 @@ module Minitest
       #   run.
       def defaults
         {
-          count:                  15,
+          show_count:             15,
           previous_runs_filename: '/tmp/minitest_reporters_previous_run',
           report_filename:        '/tmp/minitest_reporters_report',
         }
@@ -138,8 +138,8 @@ module Minitest
 
       # @return [Fixnum] The number of tests to output to output to the screen
       #   after each run.
-      def count
-        options[:count]
+      def show_count
+        options[:show_count]
       end
 
       # @return [Hash<String => Array<Float>]
@@ -233,14 +233,14 @@ module Minitest
         File.write(report_filename, report_title + report_body)
       end
 
-      # Writes a number of tests (configured via the 'count' option) to the
+      # Writes a number of tests (configured via the 'show_count' option) to the
       # screen after creating the report. See '#create_new_report!' for example
       # output information.
       #
       # @return [void]
       def write_to_screen!
         puts report_title
-        puts report_body.lines.take(count)
+        puts report_body.lines.take(show_count)
       end
 
       # @return [String] A yellow 'Avg:' label.
