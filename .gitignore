@@ -4,6 +4,7 @@ pkg
 test/tmp
 test/version_tmp
 test/reports
+test/html_reports
 tmp
 pkg
 *.gem
