@@ -204,9 +204,9 @@ module Minitest
       def total_time_to_hms
         return ('%.2fs' % total_time) if total_time < 1
 
-        hours = total_time / (60 * 60)
-        minutes = ((total_time / 60) % 60).to_s.rjust(2,'0')
-        seconds = (total_time % 60).to_s.rjust(2,'0')
+        hours = (total_time / (60 * 60)).round
+        minutes = ((total_time / 60) % 60).round.to_s.rjust(2,'0')
+        seconds = (total_time % 60).round.to_s.rjust(2,'0')
 
         "#{ hours }h#{ minutes }m#{ seconds }s"
       end
