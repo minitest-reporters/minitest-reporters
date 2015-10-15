@@ -13,3 +13,9 @@ describe 'something/other' do
     1.must_equal 1
   end
 end
+
+describe 'something/other' do
+  it 'does something else' do
+    1.must_equal 2
+  end
+end
