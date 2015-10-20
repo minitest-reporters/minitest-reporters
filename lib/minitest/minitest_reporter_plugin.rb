@@ -7,6 +7,10 @@ module Minitest
         @all_reporters = nil
       end
 
+      def io
+        @options[:io]
+      end
+
       def start
         all_reporters.each(&:start)
       end
