@@ -35,7 +35,7 @@ module Minitest
       end
 
       def before_suite(suite)
-        @suite_start_times[suite] = Time.now
+        @suite_start_times[suite] = Minitest.clock_time
         super
       end
 
@@ -208,7 +208,7 @@ module Minitest
         if start_time.nil?
           0
         else
-          Time.now - start_time
+          Minitest.clock_time - start_time
         end
       end
     end
