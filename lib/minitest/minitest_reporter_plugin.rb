@@ -8,6 +8,7 @@ module Minitest
       end
 
       def io
+        all_reporters.first.io unless all_reporters.empty?
         @options[:io]
       end
 
