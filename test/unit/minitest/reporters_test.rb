@@ -30,5 +30,23 @@ module MinitestReportersTest
         [Minitest::Reporters::DefaultReporter.new], { "VIM" => "/usr/share/vim" })
       assert_equal nil, reporters
     end
+
+    def test_uses_minitest_clock_time_when_minitest_version_greater_than_561
+      Minitest::Reporters.stub :minitest_version, 583 do
+        Minitest.stub :clock_time, 6765.378751009 do
+          clock_time = Minitest::Reporters.clock_time
+          assert_equal 6765.378751009, clock_time
+        end
+      end
+    end
+
+    def test_uses_minitest_clock_time_when_minitest_version_less_than_561
+      Minitest::Reporters.stub :minitest_version, 431 do
+        Time.stub :now, Time.new(2015, 11, 20, 17, 35) do
+          clock_time = Minitest::Reporters.clock_time
+          assert_equal Time.new(2015, 11, 20, 17, 35), clock_time
+        end
+      end
+    end
   end
 end
