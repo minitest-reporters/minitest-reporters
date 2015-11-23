@@ -23,6 +23,9 @@ module Minitest
     #
     class MeanTimeReporter < Minitest::Reporters::DefaultReporter
 
+      class InvalidOrder < StandardError; end
+      class InvalidSortColumn < StandardError; end
+
       # Reset the statistics file for this reporter. Called via a rake task:
       #
       #     rake reset_statistics
@@ -37,6 +40,13 @@ module Minitest
       #   by description. Defaults to '/tmp/minitest_reporters_previous_run'.
       # @option report_filename [String] Contains the parsed results for the
       #   last test run. Defaults to '/tmp/minitest_reporters_report'.
+      # @option show_count [Fixnum] The number of tests to show in the report
+      #   summary at the end of the test run. Default is 15.
+      # @option sort_column [Symbol] One of :avg (default), :min, :max, :last.
+      #   Determines the column by which the report summary is sorted.
+      # @option order [Symbol] One of :desc (default), or :asc. By default the
+      #   report summary is listed slowest to fastest (:desc). :asc will order
+      #   the report summary as fastest to slowest.
       # @return [Minitest::Reporters::MeanTimeReporter]
       def initialize(options = {})
         super
@@ -94,7 +104,9 @@ module Minitest
       #   run.
       def defaults
         {
+          order:                  :desc,
           show_count:             15,
+          sort_column:            :avg,
           previous_runs_filename: '/tmp/minitest_reporters_previous_run',
           report_filename:        '/tmp/minitest_reporters_report',
         }
@@ -104,7 +116,8 @@ module Minitest
       #
       # @return [String]
       def report_title
-        "\n\e[4mMinitest Reporters: Mean Time Report\e[24m (Samples: #{samples})\n"
+        "\n\e[4mMinitest Reporters: Mean Time Report\e[24m " \
+        "(Samples: #{samples})\n"
       end
 
       # The report itself. Displays statistics about all runs, ideal for use
@@ -113,22 +126,43 @@ module Minitest
       #
       # @return [String]
       def report_body
+        order_sorted_body.each_with_object([]) do |result, obj|
+          rating = rate(result[:last], result[:min], result[:max])
+
+          obj << "#{avg_label} #{result[:avg]} " \
+                 "#{min_label} #{result[:min]} " \
+                 "#{max_label} #{result[:max]} " \
+                 "#{run_label(rating)} #{result[:last]} " \
+                 "#{des_label} #{result[:desc]}\n"
+        end.join
+      end
+
+      # @return [String] All of the column-sorted results sorted by the :order
+      #   option. (Defaults to :desc).
+      def order_sorted_body
+        if order_desc?
+          column_sorted_body.reverse
+
+        elsif order_asc?
+          column_sorted_body
+
+        end
+      end
+
+      # @return [Array<Hash<Symbol => String>>] All of the results sorted by
+      #   the :sort_column option. (Defaults to :avg).
+      def column_sorted_body
         previous_run.each_with_object([]) do |(description, timings), obj|
           size = Array(timings).size
           sum  = Array(timings).inject { |total, x| total + x }
-          avg  = (sum / size).round(9).to_s.ljust(12)
-          min  = Array(timings).min.round(9).to_s.ljust(12)
-          max  = Array(timings).max.round(9).to_s.ljust(12)
-          run  = Array(timings).last.round(9).to_s.ljust(12)
-
-          rating = rate(run, min, max)
-
-          obj << "#{avg_label} #{avg} " \
-                 "#{min_label} #{min} " \
-                 "#{max_label} #{max} " \
-                 "#{run_label(rating)} #{run} " \
-                 "#{des_label} #{description}\n"
-        end.sort.reverse.join
+          obj << {
+            avg:  (sum / size).round(9).to_s.ljust(12),
+            min:  Array(timings).min.to_s.ljust(12),
+            max:  Array(timings).max.to_s.ljust(12),
+            last: Array(timings).last.to_s.ljust(12),
+            desc: description,
+          }
+        end.sort_by { |k| k[sort_column] }
       end
 
       # @return [Hash]
@@ -215,9 +249,11 @@ module Minitest
       end
 
       # Creates a new report file in the 'report_filename'. This file contains
-      # a line for each test of the following example format:
+      # a line for each test of the following example format: (this is a single
+      # line despite explicit wrapping)
       #
-      # Avg: 0.0555555 Min: 0.0498765 Max: 0.0612345 Last: 0.0499421 Description: The test name
+      # Avg: 0.0555555 Min: 0.0498765 Max: 0.0612345 Last: 0.0499421
+      # Description: The test name
       #
       # Note however the timings are to 9 decimal places, and padded to 12
       # characters and each label is coloured, Avg (yellow), Min (green),
@@ -286,6 +322,58 @@ module Minitest
         else
           :inconclusive
         end
+      end
+
+      # @return [Boolean] Whether the given :order option is valid.
+      def valid_order?
+        return true if orders.include?(options[:order])
+
+        fail Minitest::Reporters::MeanTimeReporter::InvalidOrder,
+             '`:order` option must be one of `:desc` or `:asc`'
+      end
+
+      # @return [Boolean] Whether the given :order option is :asc.
+      def order_asc?
+        valid_order? && options[:order] == :asc
+      end
+
+      # @return [Boolean] Whether the given :order option is :desc (default).
+      def order_desc?
+        valid_order? && options[:order] == :desc
+      end
+
+      # @return [Array<Symbol>] The valid options for the :order option.
+      def orders
+        [
+          :desc,
+          :asc,
+        ]
+      end
+
+      # @return [Boolean] Whether the given :sort_column option is valid.
+      def valid_sort_column?
+        return true if sort_columns.include?(options[:sort_column])
+
+        fail Minitest::Reporters::MeanTimeReporter::InvalidSortColumn,
+             '`:sort_column` option must be one of `:avg`, `:min`, `:max` or ' \
+             '`:last`.'
+      end
+
+      # @return [Symbol] The :sort_column option, or by default; :avg.
+      def sort_column
+        return options[:sort_column] if valid_sort_column?
+
+        defaults[:sort_column]
+      end
+
+      # @return [Array<Symbol>] The valid options for the :sort_order option.
+      def sort_columns
+        [
+          :avg,
+          :min,
+          :max,
+          :last,
+        ]
       end
 
     end
