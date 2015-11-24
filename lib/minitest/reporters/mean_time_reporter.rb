@@ -117,7 +117,8 @@ module Minitest
       # @return [String]
       def report_title
         "\n\e[4mMinitest Reporters: Mean Time Report\e[24m " \
-        "(Samples: #{samples})\n"
+        "(Samples: #{samples}, Order: #{sort_column.inspect} " \
+        "#{order.inspect})\n"
       end
 
       # The report itself. Displays statistics about all runs, ideal for use
@@ -140,10 +141,10 @@ module Minitest
       # @return [String] All of the column-sorted results sorted by the :order
       #   option. (Defaults to :desc).
       def order_sorted_body
-        if order_desc?
+        if desc?
           column_sorted_body.reverse
 
-        elsif order_asc?
+        elsif asc?
           column_sorted_body
 
         end
@@ -157,9 +158,9 @@ module Minitest
           sum  = Array(timings).inject { |total, x| total + x }
           obj << {
             avg:  (sum / size).round(9).to_s.ljust(12),
-            min:  Array(timings).min.to_s.ljust(12),
-            max:  Array(timings).max.to_s.ljust(12),
-            last: Array(timings).last.to_s.ljust(12),
+            min:  Array(timings).min.round(9).to_s.ljust(12),
+            max:  Array(timings).max.round(9).to_s.ljust(12),
+            last: Array(timings).last.round(9).to_s.ljust(12),
             desc: description,
           }
         end.sort_by { |k| k[sort_column] }
@@ -324,56 +325,46 @@ module Minitest
         end
       end
 
-      # @return [Boolean] Whether the given :order option is valid.
-      def valid_order?
-        return true if orders.include?(options[:order])
-
-        fail Minitest::Reporters::MeanTimeReporter::InvalidOrder,
-             '`:order` option must be one of `:desc` or `:asc`'
-      end
-
       # @return [Boolean] Whether the given :order option is :asc.
-      def order_asc?
-        valid_order? && options[:order] == :asc
+      def asc?
+        order == :asc
       end
 
       # @return [Boolean] Whether the given :order option is :desc (default).
-      def order_desc?
-        valid_order? && options[:order] == :desc
+      def desc?
+        order == :desc
       end
 
-      # @return [Array<Symbol>] The valid options for the :order option.
-      def orders
-        [
-          :desc,
-          :asc,
-        ]
+      # @raise [Minitest::Reporters::MeanTimeReporter::InvalidOrder]
+      #   When the given :order option is invalid.
+      # @return [Symbol] The :order option, or by default; :desc.
+      def order
+        orders = [:desc, :asc]
+
+        if orders.include?(options[:order])
+          options[:order]
+
+        else
+          fail Minitest::Reporters::MeanTimeReporter::InvalidOrder,
+               "`:order` option must be one of #{orders.inspect}."
+
+        end
       end
 
-      # @return [Boolean] Whether the given :sort_column option is valid.
-      def valid_sort_column?
-        return true if sort_columns.include?(options[:sort_column])
-
-        fail Minitest::Reporters::MeanTimeReporter::InvalidSortColumn,
-             '`:sort_column` option must be one of `:avg`, `:min`, `:max` or ' \
-             '`:last`.'
-      end
-
+      # @raise [Minitest::Reporters::MeanTimeReporter::InvalidSortColumn]
+      #   When the given :sort_column option is invalid.
       # @return [Symbol] The :sort_column option, or by default; :avg.
       def sort_column
-        return options[:sort_column] if valid_sort_column?
+        sort_columns = [:avg, :min, :max, :last]
 
-        defaults[:sort_column]
-      end
+        if sort_columns.include?(options[:sort_column])
+          options[:sort_column]
 
-      # @return [Array<Symbol>] The valid options for the :sort_order option.
-      def sort_columns
-        [
-          :avg,
-          :min,
-          :max,
-          :last,
-        ]
+        else
+          fail Minitest::Reporters::MeanTimeReporter::InvalidSortColumn,
+               "`:sort_column` option must be one of #{sort_columns.inspect}."
+
+        end
       end
 
     end
