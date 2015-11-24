@@ -66,7 +66,7 @@ module Minitest
       end
 
       def total_time
-        super || Time.now - start_time
+        super || Minitest::Reporters.clock_time - start_time
       end
 
       def total_count

@@ -68,6 +68,18 @@ module Minitest
       end
     end
 
+    def self.clock_time
+      if minitest_version >= 561
+        Minitest.clock_time
+      else
+        Time.now
+      end
+    end
+
+    def self.minitest_version
+      Minitest::VERSION.gsub('.', '').to_i
+    end
+
     def self.use_old_activesupport_fix!
       if defined?(ActiveSupport::VERSION) && ActiveSupport::VERSION::MAJOR < 4
         require "minitest/old_activesupport_fix"

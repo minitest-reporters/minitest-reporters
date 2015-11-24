@@ -117,9 +117,9 @@ module Minitest
           size = Array(timings).size
           sum  = Array(timings).inject { |total, x| total + x }
           avg  = (sum / size).round(9).to_s.ljust(12)
-          min  = Array(timings).min.to_s.ljust(12)
-          max  = Array(timings).max.to_s.ljust(12)
-          run  = Array(timings).last.to_s.ljust(12)
+          min  = Array(timings).min.round(9).to_s.ljust(12)
+          max  = Array(timings).max.round(9).to_s.ljust(12)
+          run  = Array(timings).last.round(9).to_s.ljust(12)
 
           rating = rate(run, min, max)
 
