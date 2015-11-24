@@ -2,6 +2,7 @@ require "bundler/setup"
 require "minitest/autorun"
 require "minitest/reporters"
 
+ENV['MINITEST_REPORTERS_MONO'] = 'yes'
 module MinitestReportersTest
   class TestCase < Minitest::Test
   end
