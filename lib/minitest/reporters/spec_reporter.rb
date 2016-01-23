@@ -38,20 +38,20 @@ module Minitest
 
       def record(test)
         super
-        if options[:show_order] == :before
-           print_colored_status(test) if options[:show_status]
-           test_name = test.name.gsub(/^test_(\d+_)?/, '  ')
-           print(test_name)
-           unless test.time.nil?
-             color = test.time > 0.1 ? :red : :white
-             print(send(color) { "  -  (%.2fs)" } % test.time) if options[:show_time]
-           end
-         else
+        # if options[:show_order] == :before
+        #    print_colored_status(test) if options[:show_status]
+        #    test_name = test.name.gsub(/^test_(\d+_)?/, '  ')
+        #    print(test_name)
+        #    unless test.time.nil?
+        #      color = test.time > 0.1 ? :red : :white
+        #      print(send(color) { "  -  (%.2fs)" } % test.time) if options[:show_time]
+        #    end
+        #  else
           test_name = test.name.gsub(/^test_: /, 'test:')
           print pad_test(test_name)
           print_colored_status(test)
           print(" (%.2fs)" % test.time) unless test.time.nil?
-        end
+        # end
         puts
         if !test.skipped? && test.failure
           print_info(test.failure)
