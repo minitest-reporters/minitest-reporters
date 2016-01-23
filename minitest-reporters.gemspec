@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'ruby-progressbar', '1.7.5'
   s.add_dependency 'builder', '3.2.2'
 
-  s.add_development_dependency 'bundler', '1.7.9'
+  # s.add_development_dependency 'bundler', '1.7.9'
   s.add_development_dependency 'maruku', '0.7.2'
   s.add_development_dependency 'rake', '10.4.2'
 
