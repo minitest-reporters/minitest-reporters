@@ -15,13 +15,14 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
   s.rubyforge_project = 'minitest-reporters'
 
-  s.add_dependency 'minitest', '>= 5.0'
-  s.add_dependency 'ansi'
-  s.add_dependency 'ruby-progressbar'
-  s.add_dependency 'builder'
+  s.add_dependency 'minitest', '5.8.3'
+  s.add_dependency 'ansi', '1.5.0'
+  s.add_dependency 'ruby-progressbar', '1.7.5'
+  s.add_dependency 'builder', '3.2.2'
 
-  s.add_development_dependency 'maruku'
-  s.add_development_dependency 'rake'
+  s.add_development_dependency 'bundler', '1.7.9'
+  s.add_development_dependency 'maruku', '0.7.2'
+  s.add_development_dependency 'rake', '10.4.2'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
