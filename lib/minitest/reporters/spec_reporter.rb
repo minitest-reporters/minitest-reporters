@@ -10,15 +10,15 @@ module Minitest
       include ANSI::Code
       include RelativePosition
 
-      def initialize(options = {})
-        super
-        options = {
-          :show_order  => :after,
-          :show_time   => true,
-          :show_status => true
-        }.merge(options)
-        @options = options
-      end
+      # def initialize(options = {})
+      #   super
+      #   options = {
+      #     :show_order  => :after,
+      #     :show_time   => true,
+      #     :show_status => true
+      #   }.merge(options)
+      #   @options = options
+      # end
 
       def start
         super

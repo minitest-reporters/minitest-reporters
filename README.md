@@ -56,48 +56,6 @@ Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => tru
 ```
 
 
-## SpecReporter - configuration options ##
-
-The SpecReporter supports the customised output as highlighted below.
-
-By default the output would look something like this:
-
-```ruby
-"test_0001_should return the correct path                        PASS (0.00s)"
-```
-
-
-But the output can be changed via these configuration options:
-
- *  `:show_order`   - sets the output order (`:before` or `:after`) [ Default: `:after` ]
- 
- *  `:show_time`    - toggle for outputting the timer info.  [ Default: `true` ]
- 
- *  `:show_status`  - toggle for outputting the status info   [ Default: `true` ]
-
-By combining these options, the following output formats can be achieved:
-
-```ruby
-"should return the correct path"
-
-"should return the correct path  -  (0.00s)"
-
-"PASS   should return the correct path"
-
-"PASS   should return the correct path  -  (0.00s)"
-```
-
-Use as follows:
-
-```ruby
-Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new(:color => true, show_order: :before, ...)]
-
-```
-
-This can aid in the creation of spec documents from your test suite(s).
-
-
-
 ## Screenshots ##
 
 **Default Reporter**
