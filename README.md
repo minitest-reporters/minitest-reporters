@@ -55,6 +55,7 @@ color output from `DefaultReporter`:
 Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => true)]
 ```
 
+
 ## Screenshots ##
 
 **Default Reporter**
