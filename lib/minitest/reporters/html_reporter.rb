@@ -75,8 +75,8 @@ module Minitest
         @reports_path = File.absolute_path(reports_dir)
 
         puts "Emptying #{@reports_path}"
-        FileUtils.remove_dir(@reports_path) if File.exists?(@reports_path)
         FileUtils.mkdir_p(@reports_path)
+        File.delete(html_file)
       end
 
       # Called by the framework to generate the report
@@ -85,7 +85,6 @@ module Minitest
 
         begin
           puts "Writing HTML reports to #{@reports_path}"
-          html_file = "#{@reports_path}/#{@output_filename}"
           erb_str = File.read(@erb_template)
           renderer = ERB.new(erb_str)
 
@@ -115,6 +114,9 @@ module Minitest
       end
 
       private
+      def html_file
+        "#{@reports_path}/#{@output_filename}"
+      end
 
       def compare_suites_by_name(suite_a, suite_b)
         suite_a[:name] <=> suite_b[:name]

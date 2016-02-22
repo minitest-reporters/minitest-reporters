@@ -16,8 +16,8 @@ module Minitest
 
         if empty
           puts "Emptying #{@reports_path}"
-          FileUtils.remove_dir(@reports_path) if File.exists?(@reports_path)
           FileUtils.mkdir_p(@reports_path)
+          File.delete(*Dir.glob("#{@reports_path}/TEST-*.xml"))
         end
       end
 
