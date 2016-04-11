@@ -28,15 +28,8 @@ module Minitest
 
       def record(test)
         super
-        test_name = test.name.gsub(/^test_: /, 'test:')
-        print pad_test(test_name)
-        print_colored_status(test)
-        print(" (%.2fs)" % test.time) unless test.time.nil?
-        puts
-        if !test.skipped? && test.failure
-          print_info(test.failure)
-          puts
-        end
+        record_print_status(test)
+        record_print_failures_if_any(test)
       end
 
       protected
@@ -47,6 +40,21 @@ module Minitest
 
       def after_suite(suite)
         puts
+      end
+
+      def record_print_status(test)
+        test_name = test.name.gsub(/^test_: /, 'test:')
+        print pad_test(test_name)
+        print_colored_status(test)
+        print(" (%.2fs)" % test.time) unless test.time.nil?
+        puts
+      end
+
+      def record_print_failures_if_any(test)
+        if !test.skipped? && test.failure
+          print_info(test.failure)
+          puts
+        end
       end
     end
   end
