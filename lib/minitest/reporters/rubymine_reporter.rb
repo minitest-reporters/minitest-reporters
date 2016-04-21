@@ -7,17 +7,19 @@ begin
   require 'teamcity/utils/runner_utils'
   require 'teamcity/utils/url_formatter'
 rescue LoadError
-  puts("====================================================================================================\n")
-  puts("RubyMine reporter works only if it test was launched using RubyMine IDE or TeamCity CI server !!!\n")
-  puts("====================================================================================================\n")
-  puts("Using default results reporter...\n")
-
   require "minitest/reporters/default_reporter"
 
   # delegate to default reporter
   module Minitest
     module Reporters
       class RubyMineReporter < DefaultReporter
+        def initialize(options = {})
+          super
+          puts("====================================================================================================\n")
+          puts("RubyMine reporter works only if it test was launched using RubyMine IDE or TeamCity CI server !!!\n")
+          puts("====================================================================================================\n")
+          puts("Using default results reporter...\n")
+        end
       end
     end
   end
