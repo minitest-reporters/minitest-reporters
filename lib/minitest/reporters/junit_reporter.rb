@@ -120,7 +120,7 @@ module Minitest
         file_counter = 0
         suite_name = suite.to_s[0..240].gsub(/[^a-zA-Z0-9]+/, '-') # restrict max filename length, to be kind to filesystems
         filename = "TEST-#{suite_name}.xml"
-        while File.exists?(File.join(@reports_path, filename)) # restrict number of tries, to avoid infinite loops
+        while File.exist?(File.join(@reports_path, filename)) # restrict number of tries, to avoid infinite loops
           file_counter += 1
           filename = "TEST-#{suite_name}-#{file_counter}.xml"
           puts "Too many duplicate files, overwriting earlier report #{filename}" and break if file_counter >= 99
