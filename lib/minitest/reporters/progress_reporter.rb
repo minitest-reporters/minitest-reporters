@@ -17,7 +17,8 @@ module Minitest
 
       def initialize(options = {})
         super
-        @detailed_skip = options.fetch(:detailed_skip, true)
+        @detailed_skip  = options.fetch(:detailed_skip, true)
+        @slow_treshold  = options.fetch(:slow_treshold , nil)
 
         @progress = ProgressBar.create({
           total:          total_count,
@@ -70,6 +71,16 @@ module Minitest
         print(send(color) { '%d failures, %d errors, ' } % [failures, errors])
         print(yellow { '%d skips' } % skips)
         puts
+
+        if @slow_treshold
+          slow_tests = tests.select{|t| t.time > @slow_treshold.to_f}
+          puts
+          puts('%d slow tests:' % slow_tests.size)
+          puts
+          slow_tests.sort_by(&:time).reverse.each do |test|
+            puts("%.5fs\t #{test.class}##{test.name}" % test.time)
+          end
+        end
       end
 
       private
