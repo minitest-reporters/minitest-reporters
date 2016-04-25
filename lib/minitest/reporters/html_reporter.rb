@@ -76,7 +76,7 @@ module Minitest
 
         puts "Emptying #{@reports_path}"
         FileUtils.mkdir_p(@reports_path)
-        File.delete(html_file)
+        File.delete(html_file) if File.exist?(html_file)
       end
 
       # Called by the framework to generate the report
