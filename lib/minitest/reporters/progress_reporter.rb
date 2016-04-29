@@ -41,6 +41,14 @@ module Minitest
 
       def record(test)
         super
+
+        if @slow_treshold && test.time > @slow_treshold.to_f
+          print "\e[0m\e[1000D\e[K"
+          time = yellow('%.5f' % test.time)
+          print("Slow Test: #{time}s #{test.class}##{test.name}")
+          puts
+        end
+
         return if test.skipped? && !@detailed_skip
         if test.failure
           print "\e[0m\e[1000D\e[K"
@@ -71,16 +79,6 @@ module Minitest
         print(send(color) { '%d failures, %d errors, ' } % [failures, errors])
         print(yellow { '%d skips' } % skips)
         puts
-
-        if @slow_treshold
-          slow_tests = tests.select{|t| t.time > @slow_treshold.to_f}
-          puts
-          puts('%d slow tests:' % slow_tests.size)
-          puts
-          slow_tests.sort_by(&:time).reverse.each do |test|
-            puts("%.5fs\t #{test.class}##{test.name}" % test.time)
-          end
-        end
       end
 
       private
