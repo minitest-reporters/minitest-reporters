@@ -45,7 +45,7 @@ module Minitest
         if @slow_treshold && test.time > @slow_treshold.to_f
           print "\e[0m\e[1000D\e[K"
           time = yellow('%.5f' % test.time)
-          print("Slow Test: #{time}s #{test.class}##{test.name}")
+          print("Slow Test: #{time} 🐌\t#{test.class}##{test.name}")
           puts
         end
 
