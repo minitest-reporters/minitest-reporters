@@ -88,8 +88,8 @@ else
 
         def before_test(test)
           super
-          fqn = "#{test.class.name}.#{test.name}"
-          log(@message_factory.create_test_started(test.name, minitest_test_location(fqn)))
+          location = test.class.instance_method(test.name).source_location
+          log(@message_factory.create_test_started(test.name, "file://#{location[0]}:#{location[1]}"))
         end
 
         #########
@@ -100,11 +100,6 @@ else
 
           # returns:
           msg
-        end
-
-        def minitest_test_location(fqn)
-          return nil if (fqn.nil?)
-          "ruby_minitest_qn://#{fqn}"
         end
 
         def with_result(test)
