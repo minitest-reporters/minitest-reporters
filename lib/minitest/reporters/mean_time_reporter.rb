@@ -42,6 +42,8 @@ module Minitest
       #   last test run. Defaults to '/tmp/minitest_reporters_report'.
       # @option show_count [Fixnum] The number of tests to show in the report
       #   summary at the end of the test run. Default is 15.
+      # @option report_marks [Boolean] If true it prints pass/skip/fail marks.
+      #   Default is true.
       # @option sort_column [Symbol] One of :avg (default), :min, :max, :last.
       #   Determines the column by which the report summary is sorted.
       # @option order [Symbol] One of :desc (default), or :asc. By default the
@@ -52,6 +54,14 @@ module Minitest
         super
 
         @all_suite_times = []
+      end
+
+      def start
+        if options[:report_marks]
+          super
+        else
+          BaseReporter.instance_method(:start).bind(self).call
+        end
       end
 
       # Copies the suite times from the
@@ -65,13 +75,26 @@ module Minitest
         @all_suite_times = @suite_times # [ [suite.name:String, time:Float], ..]
       end
 
+      # Print the pass/skip/fail mark
+      def record(test)
+        if options[:report_marks]
+          super
+        else
+          BaseReporter.instance_method(:record).bind(self).call(test)
+        end
+      end
+
       # Runs the {Minitest::Reporters::DefaultReporter#report} method and then
       # enhances it by storing the results to the 'previous_runs_filename' and
       # outputs the parsed results to both the 'report_filename' and the
       # terminal.
       #
       def report
-        super
+        if options[:report_marks]
+          super
+        else
+          BaseReporter.instance_method(:report).bind(self).call
+        end
 
         create_or_update_previous_runs!
 
@@ -106,6 +129,7 @@ module Minitest
         {
           order:                  :desc,
           show_count:             15,
+          report_marks:           true,
           sort_column:            :avg,
           previous_runs_filename: '/tmp/minitest_reporters_previous_run',
           report_filename:        '/tmp/minitest_reporters_report',
