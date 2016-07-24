@@ -42,6 +42,8 @@ module Minitest
       #   last test run. Defaults to '/tmp/minitest_reporters_report'.
       # @option show_count [Fixnum] The number of tests to show in the report
       #   summary at the end of the test run. Default is 15.
+      # @option report_marks [Boolean] If true it prints pass/skip/fail marks.
+      #   Default is true.
       # @option sort_column [Symbol] One of :avg (default), :min, :max, :last.
       #   Determines the column by which the report summary is sorted.
       # @option order [Symbol] One of :desc (default), or :asc. By default the
@@ -54,6 +56,14 @@ module Minitest
         @all_suite_times = []
       end
 
+      def start
+        if options[:report_marks]
+          super
+        else
+          BaseReporter.instance_method(:start).bind(self).call
+        end
+      end
+
       # Copies the suite times from the
       # {Minitest::Reporters::DefaultReporter#after_suite} method, making them
       # available to this class.
@@ -62,7 +72,16 @@ module Minitest
       def after_suite(suite)
         super
 
-        @all_suite_times = @suite_times
+        @all_suite_times = @suite_times # [ [suite.name:String, time:Float], ..]
+      end
+
+      # Print the pass/skip/fail mark
+      def record(test)
+        if options[:report_marks]
+          super
+        else
+          BaseReporter.instance_method(:record).bind(self).call(test)
+        end
       end
 
       # Runs the {Minitest::Reporters::DefaultReporter#report} method and then
@@ -71,7 +90,11 @@ module Minitest
       # terminal.
       #
       def report
-        super
+        if options[:report_marks]
+          super
+        else
+          BaseReporter.instance_method(:report).bind(self).call
+        end
 
         create_or_update_previous_runs!
 
@@ -106,6 +129,7 @@ module Minitest
         {
           order:                  :desc,
           show_count:             15,
+          report_marks:           true,
           sort_column:            :avg,
           previous_runs_filename: '/tmp/minitest_reporters_previous_run',
           report_filename:        '/tmp/minitest_reporters_report',
@@ -153,7 +177,8 @@ module Minitest
       # @return [Array<Hash<Symbol => String>>] All of the results sorted by
       #   the :sort_column option. (Defaults to :avg).
       def column_sorted_body
-        previous_run.each_with_object([]) do |(description, timings), obj|
+        current_suite_names = self.tests.each_with_object(Set.new) { |suite, set| set << suite.class.name }
+        previous_run.each_with_object([]) do |(suite_name, timings), obj|
           size = Array(timings).size
           sum  = Array(timings).inject { |total, x| total + x }
           obj << {
@@ -161,9 +186,12 @@ module Minitest
             min:  Array(timings).min.round(9).to_s.ljust(12),
             max:  Array(timings).max.round(9).to_s.ljust(12),
             last: Array(timings).last.round(9).to_s.ljust(12),
-            desc: description,
+            desc: suite_name,
+            suite_name: suite_name
           }
-        end.sort_by { |k| k[sort_column] }
+        end.
+          select { |k| current_suite_names.include?(k[:suite_name]) }.
+          sort_by { |k| k[sort_column] }
       end
 
       # @return [Hash]
@@ -200,7 +228,7 @@ module Minitest
       # @return [String] The path to the file which contains the parsed test
       #   results. The results file contains a line for each test with the
       #   average time of the test, the minimum time the test took to run,
-      #   the maximum time the test took to run and a description of the test
+      #   the maximum time the test took to run and a suite_name of the test
       #   (which is the test name as emitted by Minitest).
       def report_filename
         options[:report_filename]
@@ -228,16 +256,16 @@ module Minitest
       # @return [void]
       def create_or_update_previous_runs!
         if previously_ran?
-          current_run.each do |description, elapsed|
-          new_times = if previous_run["#{description}"]
-                        Array(previous_run["#{description}"]) << elapsed
+          current_run.each do |suite_name, elapsed|
+          new_times = if previous_run["#{suite_name}"]
+                        Array(previous_run["#{suite_name}"]) << elapsed
 
                       else
                         Array(elapsed)
 
                       end
 
-            previous_run.store("#{description}", new_times)
+            previous_run.store("#{suite_name}", new_times)
           end
 
           File.write(previous_runs_filename, previous_run.to_yaml)
