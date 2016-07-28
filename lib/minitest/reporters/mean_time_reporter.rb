@@ -168,7 +168,8 @@ module Minitest
       # @return [Array<Hash<Symbol => String>>] All of the results sorted by
       #   the :sort_column option. (Defaults to :avg).
       def column_sorted_body
-        previous_run.each_with_object([]) do |(description, timings), obj|
+        current_run.each_with_object([]) do |(description, _), obj|
+          timings = previous_run[description]
           size = Array(timings).size
           sum  = Array(timings).inject { |total, x| total + x }
           obj << {
