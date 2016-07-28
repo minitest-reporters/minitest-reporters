@@ -42,6 +42,8 @@ module Minitest
       #   last test run. Defaults to '/tmp/minitest_reporters_report'.
       # @option show_count [Fixnum] The number of tests to show in the report
       #   summary at the end of the test run. Default is 15.
+      # @option show_progress [Boolean] If true it prints pass/skip/fail marks.
+      #   Default is true.
       # @option sort_column [Symbol] One of :avg (default), :min, :max, :last.
       #   Determines the column by which the report summary is sorted.
       # @option order [Symbol] One of :desc (default), or :asc. By default the
@@ -80,6 +82,18 @@ module Minitest
         write_to_screen!
       end
 
+      def on_start
+        super if options[:show_progress]
+      end
+
+      def on_record(test)
+        super if options[:show_progress]
+      end
+
+      def on_report
+        super if options[:show_progress]
+      end
+
       # Resets the 'previous runs' file, essentially removing all previous
       # statistics gathered.
       #
@@ -106,6 +120,7 @@ module Minitest
         {
           order:                  :desc,
           show_count:             15,
+          show_progress:          true,
           sort_column:            :avg,
           previous_runs_filename: '/tmp/minitest_reporters_previous_run',
           report_filename:        '/tmp/minitest_reporters_report',

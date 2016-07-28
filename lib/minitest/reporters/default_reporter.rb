@@ -24,6 +24,10 @@ module Minitest
 
       def start
         super
+        on_start
+      end
+
+      def on_start
         puts
         puts("# Running tests with run options %s:" % options[:args])
         puts
@@ -48,6 +52,10 @@ module Minitest
       def record(test)
         super
 
+        on_record(test)
+      end
+
+      def on_record(test)
         print "#{"%.2f" % test.time} = " if options[:verbose]
 
         # Print the pass/skip/fail mark
@@ -79,6 +87,10 @@ module Minitest
 
       def report
         super
+        on_report
+      end
+
+      def on_report
         status_line = "Finished tests in %.6fs, %.4f tests/s, %.4f assertions/s." %
           [total_time, count / total_time, assertions / total_time]
 
