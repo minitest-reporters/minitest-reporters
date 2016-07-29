@@ -44,6 +44,8 @@ module Minitest
       #   summary at the end of the test run. Default is 15.
       # @option show_progress [Boolean] If true it prints pass/skip/fail marks.
       #   Default is true.
+      # @option show_all_runs [Boolean] If true it shows all recorded suit results.
+      #   Default is false.
       # @option sort_column [Symbol] One of :avg (default), :min, :max, :last.
       #   Determines the column by which the report summary is sorted.
       # @option order [Symbol] One of :desc (default), or :asc. By default the
@@ -121,6 +123,7 @@ module Minitest
           order:                  :desc,
           show_count:             15,
           show_progress:          true,
+          show_all_runs:          false,
           sort_column:            :avg,
           previous_runs_filename: '/tmp/minitest_reporters_previous_run',
           report_filename:        '/tmp/minitest_reporters_report',
@@ -168,7 +171,8 @@ module Minitest
       # @return [Array<Hash<Symbol => String>>] All of the results sorted by
       #   the :sort_column option. (Defaults to :avg).
       def column_sorted_body
-        current_run.each_with_object([]) do |(description, _), obj|
+        runs = options[:show_all_runs] ? previous_run : current_run
+        runs.keys.each_with_object([]) do |description, obj|
           timings = previous_run[description]
           size = Array(timings).size
           sum  = Array(timings).inject { |total, x| total + x }
