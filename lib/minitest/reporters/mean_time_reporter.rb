@@ -45,7 +45,7 @@ module Minitest
       # @option show_progress [Boolean] If true it prints pass/skip/fail marks.
       #   Default is true.
       # @option show_all_runs [Boolean] If true it shows all recorded suit results.
-      #   Default is false.
+      #   Default is true.
       # @option sort_column [Symbol] One of :avg (default), :min, :max, :last.
       #   Determines the column by which the report summary is sorted.
       # @option order [Symbol] One of :desc (default), or :asc. By default the
@@ -123,7 +123,7 @@ module Minitest
           order:                  :desc,
           show_count:             15,
           show_progress:          true,
-          show_all_runs:          false,
+          show_all_runs:          true,
           sort_column:            :avg,
           previous_runs_filename: '/tmp/minitest_reporters_previous_run',
           report_filename:        '/tmp/minitest_reporters_report',
