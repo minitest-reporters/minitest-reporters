@@ -148,10 +148,10 @@ module Minitest
         order_sorted_body.each_with_object([]) do |result, obj|
           rating = rate(result[:last], result[:min], result[:max])
 
-          obj << "#{avg_label} #{result[:avg]} " \
-                 "#{min_label} #{result[:min]} " \
-                 "#{max_label} #{result[:max]} " \
-                 "#{run_label(rating)} #{result[:last]} " \
+          obj << "#{avg_label} #{result[:avg].to_s.ljust(12)} " \
+                 "#{min_label} #{result[:min].to_s.ljust(12)} " \
+                 "#{max_label} #{result[:max].to_s.ljust(12)} " \
+                 "#{run_label(rating)} #{result[:last].to_s.ljust(12)} " \
                  "#{des_label} #{result[:desc]}\n"
         end.join
       end
@@ -177,10 +177,10 @@ module Minitest
           size = Array(timings).size
           sum  = Array(timings).inject { |total, x| total + x }
           obj << {
-            avg:  (sum / size).round(9).to_s.ljust(12),
-            min:  Array(timings).min.round(9).to_s.ljust(12),
-            max:  Array(timings).max.round(9).to_s.ljust(12),
-            last: Array(timings).last.round(9).to_s.ljust(12),
+            avg:  (sum / size).round(9),
+            min:  Array(timings).min.round(9),
+            max:  Array(timings).max.round(9),
+            last: Array(timings).last.round(9),
             desc: description,
           }
         end.sort_by { |k| k[sort_column] }
