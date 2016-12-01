@@ -28,7 +28,7 @@ module MinitestReportersTest
     def test_chooses_no_reporters_when_running_under_vim
       reporters = Minitest::Reporters.choose_reporters(
         [Minitest::Reporters::DefaultReporter.new], { "VIM" => "/usr/share/vim" })
-      assert_equal nil, reporters
+      assert_nil reporters
     end
 
     def test_uses_minitest_clock_time_when_minitest_version_greater_than_561
