@@ -1,6 +1,6 @@
 module Minitest
   module Reporters
-    class DelegateReporter
+    class DelegateReporter < Minitest::AbstractReporter
       def initialize(reporters, options = {})
         @reporters = reporters
         @options = options
