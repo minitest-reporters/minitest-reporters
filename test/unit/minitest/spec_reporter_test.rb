@@ -10,7 +10,7 @@ module MinitestReportersTest
 
     def test_removes_underscore_in_name_if_shoulda
       @test.name = "test_: Should foo"
-      assert_output /test:/ do
+      assert_output(/test:/) do
         @reporter.io = $stdout
         @reporter.record(@test)
       end
@@ -18,7 +18,7 @@ module MinitestReportersTest
 
     def test_wont_modify_name_if_not_shoulda
       @test.name = "test_foo"
-      assert_output /test_foo/ do
+      assert_output(/test_foo/) do
         @reporter.io = $stdout
         @reporter.record(@test)
       end
