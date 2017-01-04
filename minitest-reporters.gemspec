@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/CapnKernul/minitest-reporters'
   s.summary     = %q{Create customizable Minitest output formats}
   s.description = %q{Death to haphazard monkey-patching! Extend Minitest through simple hooks.}
+  s.license     = 'MIT'
 
   s.required_ruby_version = '>= 1.9.3'
   s.rubyforge_project = 'minitest-reporters'
