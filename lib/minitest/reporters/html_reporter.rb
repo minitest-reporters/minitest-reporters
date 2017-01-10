@@ -73,6 +73,10 @@ module Minitest
         reports_dir = settings[:reports_dir]
 
         @reports_path = File.absolute_path(reports_dir)
+      end
+
+      def start
+        super
 
         puts "Emptying #{@reports_path}"
         FileUtils.mkdir_p(@reports_path)
