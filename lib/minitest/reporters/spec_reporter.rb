@@ -18,6 +18,7 @@ module Minitest
 
       def report
         super
+        print_error_summary
         puts('Finished in %.5fs' % total_time)
         print('%d tests, %d assertions, ' % [count, assertions])
         color = failures.zero? && errors.zero? ? :green : :red
@@ -33,6 +34,23 @@ module Minitest
       end
 
       protected
+
+      BASE_OFFSET = 2
+
+      # Prints an error summary at the end of the test suite, excluding skipped tests.
+      def print_error_summary
+        padding   = errors.size.to_s.length + BASE_OFFSET
+        # `results` contains only Errors and Failures
+        results.reject(&:skipped?).each_with_index do |error, index|
+          lines = error.to_s.split("\n")
+          first_line = lines.shift(2).join(" ")
+          io.puts "\n%#{padding}d) %s" % [index + 1, first_line]
+          lines.each do |line|
+            io.puts (" " * (padding+5)) + line
+          end
+        end
+        io.puts
+      end
 
       def before_suite(suite)
         puts suite
