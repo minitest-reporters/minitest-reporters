@@ -86,8 +86,12 @@ module Minitest
       end
 
       def print_info(e, name=true)
-        print "#{e.exception.class.to_s}: " if name
-        e.message.each_line { |line| print_with_info_padding(line) }
+        if e.is_a?(Minitest::UnexpectedError)
+          message = "#{e.exception.class.to_s}: #{e.exception.message}"
+          message.each_line { |line| print_with_info_padding(line) }
+        else
+          e.message.each_line { |line| print_with_info_padding(line) }
+        end
 
         # When e is a Minitest::UnexpectedError, the filtered backtrace is already part of the message printed out
         # by the previous line. In that case, and that case only, skip the backtrace output.
