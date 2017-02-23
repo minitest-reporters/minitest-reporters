@@ -19,6 +19,7 @@ module Minitest
         @suite_times = []
         @suite_start_times = {}
         @fast_fail = options.fetch(:fast_fail, false)
+        @show_progress =  options.fetch(:show_progress, true)
         @options = options
       end
 
@@ -59,13 +60,15 @@ module Minitest
         print "#{"%.2f" % test.time} = " if options[:verbose]
 
         # Print the pass/skip/fail mark
-        print(if test.passed?
-          record_pass(test)
-        elsif test.skipped?
-          record_skip(test)
-        elsif test.failure
-          record_failure(test)
-        end)
+        if @show_progress
+          print(if test.passed?
+            record_pass(test)
+          elsif test.skipped?
+            record_skip(test)
+          elsif test.failure
+            record_failure(test)
+          end)
+        end
 
         # Print fast_fail information
         if @fast_fail && (test.skipped? || test.failure)
