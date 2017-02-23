@@ -48,7 +48,7 @@ module Minitest
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
           tests.each do |test|
-            xml.testcase(:name => test.name, :classname => suite, :assertions => test.assertions,
+            xml.testcase(:name => test.name.to_s, :classname => suite, :assertions => test.assertions,
                          :time => test.time) do
               xml << xml_message_for(test) unless test.passed?
             end
@@ -66,15 +66,16 @@ module Minitest
         end
 
         e = test.failure
+        t = test.name.to_s
 
         if test.skipped?
-          xml.skipped(:type => test.name)
+          xml.skipped(:type => t)
         elsif test.error?
-          xml.error(:type => test.name, :message => xml.trunc!(e.message)) do
+          xml.error(:type => t, :message => xml.trunc!(e.message)) do
             xml.text!(message_for(test))
           end
         elsif test.failure
-          xml.failure(:type => test.name, :message => xml.trunc!(e.message)) do
+          xml.failure(:type => t, :message => xml.trunc!(e.message)) do
             xml.text!(message_for(test))
           end
         end
