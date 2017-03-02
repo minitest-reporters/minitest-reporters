@@ -1,3 +1,5 @@
+require 'minitest/reporters'
+
 module Minitest
   module Reporters
     class DelegateReporter < Minitest::AbstractReporter
