@@ -10,5 +10,16 @@ module MinitestReportersTest
       dr.send :all_reporters
       assert_equal io_handle, reporter.io
     end
+
+    def test_casting_to_string_triggers_report
+      reporter  = Minitest::Reporters::ProgressReporter.new
+      io_handle = StringIO.new
+      dr = Minitest::Reporters::DelegateReporter.new([ reporter ], :io => io_handle)
+
+      dr.to_s
+
+      io_handle.rewind
+      assert_match(/\d+ tests, \d+ assertions/, io_handle.read)
+    end
   end
 end
