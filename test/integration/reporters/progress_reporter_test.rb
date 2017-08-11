@@ -18,5 +18,11 @@ module MinitestReportersTest
       assert_match 'FAIL["test_failure"', output, 'Failures should be displayed'
       refute_match 'SKIP["test_skip', output, 'Skipped tests should not be displayed'
     end
+    def test_progress_works_with_filter_and_specs
+      fixtures_directory = File.expand_path('../../../fixtures', __FILE__)
+      test_filename = File.join(fixtures_directory, 'spec_test.rb')
+      output = `ruby #{test_filename} -n /length/ 2>&1`
+      refute_match '0 out of 0', output, 'Progress should not puts a warning'
+    end
   end
 end
