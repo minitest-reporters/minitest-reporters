@@ -26,8 +26,6 @@ module Minitest
         all_reporters.each(&:report)
       end
 
-      alias to_s report
-
       def passed?
         all_reporters.all?(&:passed?)
       end
