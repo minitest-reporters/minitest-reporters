@@ -37,8 +37,10 @@ module Minitest
         filter = Regexp.new $1 if filter =~ /\/(.*)\//
 
         Minitest::Runnable.runnables.map { |runnable|
-          runnable.runnable_methods.map { |m| "#{runnable}##{m}" }
-        }.flatten.grep(filter).size
+          runnable.runnable_methods.find_all { |m|
+            filter === m || filter === "#{runnable}##{m}"
+          }.size
+        }.inject(:+)
       end
 
       def all_reporters
