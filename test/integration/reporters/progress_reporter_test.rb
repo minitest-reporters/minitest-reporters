@@ -24,5 +24,11 @@ module MinitestReportersTest
       output = `ruby #{test_filename} -n /length/ 2>&1`
       refute_match '0 out of 0', output, 'Progress should not puts a warning'
     end
+    def test_progress_works_with_strict_filter
+      fixtures_directory = File.expand_path('../../../fixtures', __FILE__)
+      test_filename = File.join(fixtures_directory, 'spec_test.rb')
+      output = `ruby #{test_filename} -n /^test_0001_works$/ 2>&1`
+      refute_match '0 out of 0', output, 'Progress should not puts a warning'
+    end
   end
 end
