@@ -1,6 +1,6 @@
 ### [1.1.18](https://github.com/kern/minitest-reporters/compare/v1.1.17...v1.1.18)
 
-* Fixed problem with Rails 5.1.3 [230](https://github.com/kern/minitest-reporters/issues/230) by [#236](https://github.com/kern/minitest-reporters/pull/236) (contributed by [samcday](https://github.com/samcday))
+* Fixed problem with Rails 5.1.3 [#230](https://github.com/kern/minitest-reporters/issues/230) by [#236](https://github.com/kern/minitest-reporters/pull/236) (contributed by [samcday](https://github.com/samcday))
 
 ### [1.1.17](https://github.com/kern/minitest-reporters/compare/v1.1.16...v1.1.17)
 
