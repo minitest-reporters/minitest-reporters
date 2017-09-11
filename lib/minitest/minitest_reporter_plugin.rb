@@ -70,6 +70,12 @@ module Minitest
   class << self
     def plugin_minitest_reporter_init(options)
       reporter.reporters = [Minitest::Reporters::DelegateReporter.new(reporter.reporters, options)]
+
+      return unless respond_to?(:parallel_fork_stat_reporter)
+      define_singleton_method :parallel_fork_stat_reporter do |reporter|
+        reporter.reporters.detect { |rep| rep.is_a?(Minitest::Reporters::DelegateReporter) }
+                .send(:all_reporters).detect { |rep| rep.is_a?(StatisticsReporter) }
+      end
     end
   end
 end
