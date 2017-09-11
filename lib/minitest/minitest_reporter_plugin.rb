@@ -69,6 +69,7 @@ module Minitest
 
   class << self
     def plugin_minitest_reporter_init(options)
+      return unless Minitest::Reporters.respond_to?(:reporters) && Minitest::Reporters.reporters
       reporter.reporters = [Minitest::Reporters::DelegateReporter.new(reporter.reporters, options)]
     end
   end
