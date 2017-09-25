@@ -24,7 +24,7 @@ module Minitest
           starting_at:    count,
           progress_mark:  green(PROGRESS_MARK),
           remainder_mark: ' ',
-          format:         '  %C/%c: [%B] %p%% %a, %e',
+          format:         options.fetch(:format, '  %C/%c: [%B] %p%% %a, %e'),
           autostart:      false
         })
       end
