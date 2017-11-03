@@ -260,11 +260,15 @@ module Minitest
             previous_run.store("#{description}", new_times)
           end
 
-          File.write(previous_runs_filename, previous_run.to_yaml)
+          File.open(previous_runs_filename, 'w+') do |f|
+            f.write(previous_run.to_yaml)
+          end
 
         else
 
-          File.write(previous_runs_filename, current_run.to_yaml)
+          File.open(previous_runs_filename, 'w+') do |f|
+            f.write(current_run.to_yaml)
+          end
 
         end
       end
@@ -287,7 +291,9 @@ module Minitest
       #
       # @return [void]
       def create_new_report!
-        File.write(report_filename, report_title + report_body)
+        File.open(report_filename, 'w+') do |f|
+          f.write(report_title + report_body)
+        end
       end
 
       # Writes a number of tests (configured via the 'show_count' option) to the
