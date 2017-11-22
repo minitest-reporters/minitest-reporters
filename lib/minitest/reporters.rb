@@ -30,11 +30,6 @@ module Minitest
       Minitest.backtrace_filter = backtrace_filter unless backtrace_filter.nil?
 
       unless defined?(@@loaded)
-        # Ensure that minitest-reporters is initialized last, so that our patches to Minitest.reporters are not
-        # trampled by other Minitest plugins, like the core Rails 5 Minitest plugin.
-        Minitest.load_plugins
-        Minitest.extensions << Minitest.extensions.delete('minitest_reporter')
-
         use_around_test_hooks!
         use_old_activesupport_fix!
         @@loaded = true
