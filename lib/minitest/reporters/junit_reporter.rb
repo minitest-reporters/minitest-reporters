@@ -62,7 +62,8 @@ module Minitest
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
           tests.each do |test|
-            xml.testcase(:name => test.name, :classname => suite, :assertions => test.assertions,
+            lineno = test.method(test.name).source_location.last
+            xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
                          :time => test.time) do
               xml << xml_message_for(test) unless test.passed?
             end
