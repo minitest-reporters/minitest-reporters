@@ -13,6 +13,7 @@ module Minitest
         super({})
         @reports_path = File.absolute_path(reports_dir)
         @single_file = options[:single_file]
+        @base_path = options[:base_path] || Dir.pwd
 
         if empty
           puts "Emptying #{@reports_path}"
@@ -52,8 +53,12 @@ module Minitest
 
       def parse_xml_for(xml, suite, tests)
         suite_result = analyze_suite(tests)
+        file_path = Pathname.new(tests.first.method(tests.first.name).source_location.first)
+        base_path = Pathname.new(@base_path)
+        relative_path = file_path.relative_path_from(base_path)
 
-        xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
+        xml.testsuite(:name => suite, :filepath => relative_path,
+                      :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
           tests.each do |test|
