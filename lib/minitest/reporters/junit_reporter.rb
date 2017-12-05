@@ -28,22 +28,31 @@ module Minitest
         suites = tests.group_by(&:class)
 
         if @single_file
-          write_xml_file_for("minitest", tests.group_by(&:class).values.flatten)
+          xml = Builder::XmlMarkup.new(:indent => 2)
+          xml.instruct!
+          xml.test_suites do
+            suites.each do |suite, tests|
+              parse_xml_for(xml, suite, tests)
+            end
+          end
+          File.open(filename_for('minitest'), "w") { |file| file << xml.target! }
         else
           suites.each do |suite, tests|
-            write_xml_file_for(suite, tests)
+            xml = Builder::XmlMarkup.new(:indent => 2)
+            xml.instruct!
+            xml.test_suites do
+              parse_xml_for(xml, suite, tests)
+            end
+            File.open(filename_for(suite), "w") { |file| file << @xml.target! }
           end
         end
-
       end
 
       private
 
-      def write_xml_file_for(suite, tests)
+      def parse_xml_for(xml, suite, tests)
         suite_result = analyze_suite(tests)
 
-        xml = Builder::XmlMarkup.new(:indent => 2)
-        xml.instruct!
         xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
@@ -54,7 +63,6 @@ module Minitest
             end
           end
         end
-        File.open(filename_for(suite), "w") { |file| file << xml.target! }
       end
 
       def xml_message_for(test)
