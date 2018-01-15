@@ -1,3 +1,4 @@
+require 'pp'
 module Minitest
   module Reporters
     class BaseReporter < Minitest::StatisticsReporter
@@ -14,11 +15,9 @@ module Minitest
 
       # called by our own before hooks
       def before_test(test)
-        last_test = tests.last
-        if last_test.class != test.class
-          after_suite(last_test.class) if last_test
-          before_suite(test.class)
-        end
+      	last_test = tests.last
+        before_suite(test.class) if last_test.nil?
+        after_suite(last_test.class) if last_test == 'Minitest::Result'
       end
 
       def record(test)
