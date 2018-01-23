@@ -15,9 +15,10 @@ module Minitest
       # called by our own before hooks
       def before_test(test)
         last_test = tests.last
-        if last_test.class != test.class
-          after_suite(last_test.class) if last_test
+        if last_test.nil?
           before_suite(test.class)
+        elsif is_a?(last_test.class) == String
+          after_suite(last_test.class)
         end
       end
 
