@@ -1,4 +1,3 @@
-require 'pp'
 module Minitest
   module Reporters
     class BaseReporter < Minitest::StatisticsReporter
