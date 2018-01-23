@@ -1,3 +1,4 @@
+require 'pp'
 module Minitest
   module Reporters
     class BaseReporter < Minitest::StatisticsReporter
@@ -15,7 +16,15 @@ module Minitest
       # called by our own before hooks
       def before_test(test)
         last_test = tests.last
-        if last_test.class != test.class
+
+        # Minitest broke API between 5.10 and 5.11 this gets around Result object
+        if last_test.respond_to? :klass
+          suite_changed = last_test.klass != test.class.name
+        else
+          suite_changed = last_test.class != test.class
+        end
+
+        if suite_changed
           after_suite(last_test.class) if last_test
           before_suite(test.class)
         end
