@@ -1,7 +1,8 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta1...master)
+### [v1.2.0.beta2](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta1...v1.2.0.beta2)
 
 * fixed uninitialized time in junit reporter [#251](https://github.com/kern/minitest-reporters/issues/251)
 * format option added to progress reporter [#240](https://github.com/kern/minitest-reporters/pull/240) (contributed by [jorgesmu](https://github.com/jorgesmu))
+* improved output of junit reporter [#245](https://github.com/kern/minitest-reporters/pull/245) (contributed by [jules2689](https://github.com/jules2689))
 
 ### [1.2.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.1.19...v1.2.0.beta1)
 
