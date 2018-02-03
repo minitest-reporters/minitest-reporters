@@ -107,6 +107,7 @@ module Minitest
 
       def analyze_suite(tests)
         result = Hash.new(0)
+        result[:time] = 0
         tests.each do |test|
           result[:"#{result(test)}_count"] += 1
           result[:assertion_count] += test.assertions
