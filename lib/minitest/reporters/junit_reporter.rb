@@ -26,7 +26,10 @@ module Minitest
         super
 
         puts "Writing XML reports to #{@reports_path}"
-        suites = tests.group_by(&:class)
+        suites = tests.group_by { |test|
+          return test.klass if test.respond_to? :klass
+          test.class
+        }
 
         if @single_file
           xml = Builder::XmlMarkup.new(:indent => 2)
