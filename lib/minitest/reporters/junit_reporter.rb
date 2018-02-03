@@ -13,6 +13,7 @@ module Minitest
         super({})
         @reports_path = File.absolute_path(reports_dir)
         @single_file = options[:single_file]
+        @base_path = options[:base_path] || Dir.pwd
 
         if empty
           puts "Emptying #{@reports_path}"
@@ -28,33 +29,46 @@ module Minitest
         suites = tests.group_by(&:class)
 
         if @single_file
-          write_xml_file_for("minitest", tests.group_by(&:class).values.flatten)
+          xml = Builder::XmlMarkup.new(:indent => 2)
+          xml.instruct!
+          xml.test_suites do
+            suites.each do |suite, tests|
+              parse_xml_for(xml, suite, tests)
+            end
+          end
+          File.open(filename_for('minitest'), "w") { |file| file << xml.target! }
         else
           suites.each do |suite, tests|
-            write_xml_file_for(suite, tests)
+            xml = Builder::XmlMarkup.new(:indent => 2)
+            xml.instruct!
+            xml.test_suites do
+              parse_xml_for(xml, suite, tests)
+            end
+            File.open(filename_for(suite), "w") { |file| file << @xml.target! }
           end
         end
-
       end
 
       private
 
-      def write_xml_file_for(suite, tests)
+      def parse_xml_for(xml, suite, tests)
         suite_result = analyze_suite(tests)
+        file_path = Pathname.new(tests.first.method(tests.first.name).source_location.first)
+        base_path = Pathname.new(@base_path)
+        relative_path = file_path.relative_path_from(base_path)
 
-        xml = Builder::XmlMarkup.new(:indent => 2)
-        xml.instruct!
-        xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
+        xml.testsuite(:name => suite, :filepath => relative_path,
+                      :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
           tests.each do |test|
-            xml.testcase(:name => test.name, :classname => suite, :assertions => test.assertions,
+            lineno = test.method(test.name).source_location.last
+            xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
                          :time => test.time) do
               xml << xml_message_for(test) unless test.passed?
             end
           end
         end
-        File.open(filename_for(suite), "w") { |file| file << xml.target! }
       end
 
       def xml_message_for(test)
