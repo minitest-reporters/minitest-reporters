@@ -1,3 +1,7 @@
+### [1.2.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.1.19...v1.2.0.beta1)
+
+* SpecReporter regression for Minitest 5.11.1 fixed [#250](https://github.com/kern/minitest-reporters/pull/250) (contrinuted by [mbround18](https://github.com/mbround18))
+
 ### [1.1.19](https://github.com/kern/minitest-reporters/compare/v1.1.18...v1.1.19)
 
 * Reverted [#236](https://github.com/kern/minitest-reporters/pull/236) (it creates too many problems)
