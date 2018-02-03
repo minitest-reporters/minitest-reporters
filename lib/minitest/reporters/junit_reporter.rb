@@ -27,8 +27,11 @@ module Minitest
 
         puts "Writing XML reports to #{@reports_path}"
         suites = tests.group_by { |test|
-          return test.klass if test.respond_to? :klass
-          test.class
+          if test.respond_to? :klass
+            test.klass
+          else
+            test.class
+          end
         }
 
         if @single_file
