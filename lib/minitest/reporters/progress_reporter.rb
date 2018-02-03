@@ -17,7 +17,8 @@ module Minitest
 
       def initialize(options = {})
         super
-        @detailed_skip = options.fetch(:detailed_skip, true)
+        @detailed_skip  = options.fetch(:detailed_skip, true)
+        @slow_treshold  = options.fetch(:slow_treshold , nil)
 
         @progress = ProgressBar.create({
           total:          total_count,
@@ -40,6 +41,14 @@ module Minitest
 
       def record(test)
         super
+
+        if @slow_treshold && test.time > @slow_treshold.to_f
+          print "\e[0m\e[1000D\e[K"
+          time = yellow('%.5f' % test.time)
+          print("Slow Test: #{time} 🐌\t#{test.class}##{test.name}")
+          puts
+        end
+
         return if test.skipped? && !@detailed_skip
         if test.failure
           print "\e[0m\e[1000D\e[K"
