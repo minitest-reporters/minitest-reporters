@@ -1,3 +1,7 @@
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta2...master)
+
+* fixed uninitialized time in junit reporter [#251](https://github.com/kern/minitest-reporters/issues/251)
+
 ### [v1.2.0.beta2](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta1...v1.2.0.beta2)
 
 * fixed uninitialized time in junit reporter [#251](https://github.com/kern/minitest-reporters/issues/251)
