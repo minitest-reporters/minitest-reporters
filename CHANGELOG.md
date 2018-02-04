@@ -1,6 +1,6 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta2...master)
 
-* junit reporter changed to support mintest >= 5.11[#252](https://github.com/kern/minitest-reporters/pull/252) (contributed by [Kevinrob](https://github.com/Kevinrob))
+* junit reporter changed to support mintest >= 5.11 [#252](https://github.com/kern/minitest-reporters/pull/252) (contributed by [Kevinrob](https://github.com/Kevinrob))
 
 ### [v1.2.0.beta2](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta1...v1.2.0.beta2)
 
