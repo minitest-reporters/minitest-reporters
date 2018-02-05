@@ -63,6 +63,14 @@ module Minitest
         end
       end
 
+      def test_class(result)
+        if result.respond_to? :klass
+          result.klass
+        else
+          result.class
+        end
+      end
+
       def print_colored_status(test)
         if test.passed?
           print(green { pad_mark( result(test).to_s.upcase ) })
