@@ -79,8 +79,8 @@ module Minitest
       end
 
       def print_test_with_time(test)
-        puts [test.name, test.class, total_time].inspect
-        print(" %s#%s (%.2fs)" % [test.name, test.class, total_time])
+        puts [test.name, test_class(test), total_time].inspect
+        print(" %s#%s (%.2fs)" % [test.name, test_class(test), total_time])
       end
 
       def color
