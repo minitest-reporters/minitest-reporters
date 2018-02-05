@@ -27,11 +27,7 @@ module Minitest
 
         puts "Writing XML reports to #{@reports_path}"
         suites = tests.group_by { |test|
-          if test.respond_to? :klass
-            test.klass
-          else
-            test.class
-          end
+          test_class(test)
         }
 
         if @single_file
@@ -50,16 +46,24 @@ module Minitest
             xml.test_suites do
               parse_xml_for(xml, suite, tests)
             end
-            File.open(filename_for(suite), "w") { |file| file << @xml.target! }
+            File.open(filename_for(suite), "w") { |file| file << xml.target! }
           end
         end
       end
 
       private
 
+      def get_source_location(result)
+        if result.respond_to? :klass
+          result.source_location
+        else
+          result.method(result.name).source_location
+        end
+      end
+
       def parse_xml_for(xml, suite, tests)
         suite_result = analyze_suite(tests)
-        file_path = Pathname.new(tests.first.method(tests.first.name).source_location.first)
+        file_path = Pathname.new(get_source_location(tests.first).first)
         base_path = Pathname.new(@base_path)
         relative_path = file_path.relative_path_from(base_path)
 
@@ -68,7 +72,7 @@ module Minitest
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
           tests.each do |test|
-            lineno = test.method(test.name).source_location.last
+            lineno = get_source_location(test).last
             xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
                          :time => test.time) do
               xml << xml_message_for(test) unless test.passed?
