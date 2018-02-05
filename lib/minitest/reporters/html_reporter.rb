@@ -92,7 +92,7 @@ module Minitest
           erb_str = File.read(@erb_template)
           renderer = ERB.new(erb_str)
 
-          tests_by_suites = tests.group_by(&:class) # taken from the JUnit reporter
+          tests_by_suites = tests.group_by { |test| test_class(test) } # taken from the JUnit reporter
 
           suites = tests_by_suites.map do |suite, tests|
             suite_summary = summarize_suite(suite, tests)
