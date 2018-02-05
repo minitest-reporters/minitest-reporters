@@ -113,7 +113,7 @@ module Minitest
           puts
 
           slow_tests.each do |test|
-            puts "%.6fs %s" % [test.time, "#{test.name}##{test.class}"]
+            puts "%.6fs %s" % [test.time, "#{test.name}##{test_class(test)}"]
           end
         end
 
@@ -125,7 +125,7 @@ module Minitest
           puts
 
           slow_suites.each do |slow_suite|
-            puts "%.6fs %s" % [slow_suite[1], slow_suite[0]]
+            puts "%.6fs %s" % [slow_suite[1], test_class(slow_suite[0])]
           end
         end
 
@@ -201,12 +201,12 @@ module Minitest
 
         if test.skipped?
           if @detailed_skip
-            "Skipped:\n#{test.class}##{test.name} [#{location(e)}]:\n#{e.message}"
+            "Skipped:\n#{test_class(test)}##{test.name} [#{location(e)}]:\n#{e.message}"
           end
         elsif test.error?
-          "Error:\n#{test.class}##{test.name}:\n#{e.message}"
+          "Error:\n#{test_class(test)}##{test.name}:\n#{e.message}"
         else
-          "Failure:\n#{test.class}##{test.name} [#{test.failure.location}]\n#{e.class}: #{e.message}"
+          "Failure:\n#{test_class(test)}##{test.name} [#{test.failure.location}]\n#{e.class}: #{e.message}"
         end
       end
 
