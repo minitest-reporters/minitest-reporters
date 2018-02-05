@@ -1,8 +1,11 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta2...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta3...master)
+
+### [1.2.0.beta2](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta2...v1.2.0.beta3)
 
 * junit reporter changed to support mintest >= 5.11 [#252](https://github.com/kern/minitest-reporters/pull/252) (contributed by [Kevinrob](https://github.com/Kevinrob))
+* all reporters changed to be compatible with minitest >= 5.11 (if not - report a bug ;)
 
-### [v1.2.0.beta2](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta1...v1.2.0.beta2)
+### [1.2.0.beta2](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta1...v1.2.0.beta2)
 
 * fixed uninitialized time in junit reporter [#251](https://github.com/kern/minitest-reporters/issues/251)
 * format option added to progress reporter [#240](https://github.com/kern/minitest-reporters/pull/240) (contributed by [jorgesmu](https://github.com/jorgesmu))
