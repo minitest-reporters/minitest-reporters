@@ -36,7 +36,7 @@ module Minitest
       end
     end
 
-    def self.use_runner!(console_reporters, env, force)
+    def self.use_runner!(console_reporters, env, force = false)
       self.reporters = choose_reporters(console_reporters, env, force)
     end
 
@@ -58,7 +58,7 @@ module Minitest
       end
     end
 
-    def self.choose_reporters(console_reporters, env, force)
+    def self.choose_reporters(console_reporters, env, force = false)
       if env["TM_PID"] && !force
         [RubyMateReporter.new]
       elsif (env["RM_INFO"] || env["TEAMCITY_VERSION"]) && !force
