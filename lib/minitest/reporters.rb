@@ -23,7 +23,7 @@ module Minitest
     end
 
     def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = nil, force = false)
-      use_runner!(console_reporters, env)
+      use_runner!(console_reporters, env, force)
       if backtrace_filter.nil? && !defined?(::Rails)
         backtrace_filter = ExtensibleBacktraceFilter.default_filter
       end
@@ -37,7 +37,7 @@ module Minitest
     end
 
     def self.use_runner!(console_reporters, env, force = false)
-      self.reporters = choose_reporters(console_reporters, env)
+      self.reporters = choose_reporters(console_reporters, env, force)
     end
 
     def self.use_around_test_hooks!
