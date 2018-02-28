@@ -15,6 +15,22 @@ module MinitestReportersTest
       end
     end
 
+    def test_chooses_given_reporter_when_forced
+      # Rubymine reporter complains when RubyMine libs are not available, so
+      # stub its #puts method out.
+      $stdout.stub :puts, nil do
+        given_reporter = Minitest::Reporters::JUnitReporter
+        reporters = Minitest::Reporters.choose_reporters [given_reporter.new], { "RM_INFO" => "x" }, true
+        assert_instance_of given_reporter, reporters[0]
+
+        reporters = Minitest::Reporters.choose_reporters [given_reporter.new], { "TEAMCITY_VERSION" => "x" }, true
+        assert_instance_of given_reporter, reporters[0]
+
+        reporters = Minitest::Reporters.choose_reporters [given_reporter.new], {"TM_PID" => "x"}, true
+        assert_instance_of given_reporter, reporters[0]
+      end
+    end
+
     def test_chooses_the_textmate_reporter_when_necessary
       reporters = Minitest::Reporters.choose_reporters [], {"TM_PID" => "x"}
       assert_instance_of Minitest::Reporters::RubyMateReporter, reporters[0]
