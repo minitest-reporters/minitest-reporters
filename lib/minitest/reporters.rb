@@ -22,7 +22,7 @@ module Minitest
       attr_accessor :reporters
     end
 
-    def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = nil)
+    def self.use!(console_reporters = ProgressReporter.new, env = ENV, backtrace_filter = nil, force = false)
       use_runner!(console_reporters, env)
       if backtrace_filter.nil? && !defined?(::Rails)
         backtrace_filter = ExtensibleBacktraceFilter.default_filter
@@ -36,7 +36,7 @@ module Minitest
       end
     end
 
-    def self.use_runner!(console_reporters, env)
+    def self.use_runner!(console_reporters, env, force = false)
       self.reporters = choose_reporters(console_reporters, env)
     end
 
@@ -58,12 +58,12 @@ module Minitest
       end
     end
 
-    def self.choose_reporters(console_reporters, env)
-      if env["TM_PID"]
+    def self.choose_reporters(console_reporters, env, force = false)
+      if env["TM_PID"] && !force
         [RubyMateReporter.new]
-      elsif env["RM_INFO"] || env["TEAMCITY_VERSION"]
+      elsif (env["RM_INFO"] || env["TEAMCITY_VERSION"]) && !force
         [RubyMineReporter.new]
-      elsif !env["VIM"]
+      elsif !env["VIM"] || force
         Array(console_reporters)
       end
     end
