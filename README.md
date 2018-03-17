@@ -49,10 +49,10 @@ Detection of those systems is based on presence of certain ENV variables and are
 
 ```
  MINITEST_REPORTER => use reporter indicated in env variable
- TM_PID => RubyMateReporter
- RM_INFO => RubyMineReporter
- TEAMCITY_VERSION => RubyMineReporter
- VIM => Reporters disabled
+ TM_PID => use RubyMateReporter
+ RM_INFO => use RubyMineReporter
+ TEAMCITY_VERSION => use RubyMineReporter
+ VIM => disable all Reporters
 ```
 
 The following reporters are provided:
