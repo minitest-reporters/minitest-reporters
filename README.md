@@ -47,16 +47,13 @@ export MINITEST_REPORTER=JUnitReporter
 
 Detection of those systems is based on presence of certain ENV variables and are evaulated in the following order:
 
-> MINITEST_REPORTER => use reporter indicated in env variable
-
-> TM_PID => RubyMateReporter
-
-> RM_INFO => RubyMineReporter
-
-> TEAMCITY_VERSION => RubyMineReporter
-
-> VIM => Reporters disabled
-
+```
+ MINITEST_REPORTER => use reporter indicated in env variable
+ TM_PID => RubyMateReporter
+ RM_INFO => RubyMineReporter
+ TEAMCITY_VERSION => RubyMineReporter
+ VIM => Reporters disabled
+```
 
 The following reporters are provided:
 
