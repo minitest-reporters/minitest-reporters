@@ -37,8 +37,11 @@ module MinitestReportersTest
         "RM_INFO" => "x", 
         "TEAMCITY_VERSION" => "x", 
         "TM_PID" => "x" }
-      reporters = Minitest::Reporters.choose_reporters [], env
-      assert_instance_of Minitest::Reporters::JUnitReporter, reporters[0]
+      # JUnit reporter init has stdout messages... capture them to keep test output clean
+      $stdout.stub :puts, nil do
+        reporters = Minitest::Reporters.choose_reporters [], env
+        assert_instance_of Minitest::Reporters::JUnitReporter, reporters[0]
+      end
     end
 
     def test_uses_minitest_clock_time_when_minitest_version_greater_than_561
