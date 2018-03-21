@@ -1,6 +1,8 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta3...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.2.0...master)
 
-### [1.2.0.beta2](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta2...v1.2.0.beta3)
+### [1.2.0](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta3...v1.2.0)
+
+### [1.2.0.beta3](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta2...v1.2.0.beta3)
 
 * junit reporter changed to support mintest >= 5.11 [#252](https://github.com/kern/minitest-reporters/pull/252) (contributed by [Kevinrob](https://github.com/Kevinrob))
 * all reporters changed to be compatible with minitest >= 5.11 (if not - report a bug ;)
