@@ -36,6 +36,25 @@ Want to use multiple reporters?
 Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, Minitest::Reporters::JUnitReporter.new]
 ```
 
+If RubyMate, TeamCity, RubyMine or VIM presence is detected, the reporter will be automatically chosen,
+regardless of any reporters passed to the `use!` method.
+
+To override this behavior, you may set the ENV variable MINITEST_REPORTER:
+
+```sh
+export MINITEST_REPORTER=JUnitReporter
+```
+
+Detection of those systems is based on presence of certain ENV variables and are evaulated in the following order:
+
+```
+ MINITEST_REPORTER => use reporter indicated in env variable
+ TM_PID => use RubyMateReporter
+ RM_INFO => use RubyMineReporter
+ TEAMCITY_VERSION => use RubyMineReporter
+ VIM => disable all Reporters
+```
+
 The following reporters are provided:
 
 ```ruby
