@@ -1,4 +1,8 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.2.0...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta1...master)
+
+### [1.3.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.2.0...1.3.0.beta1)
+
+* MINITEST_REPORTER env variable can be used to override reporter [#256](https://github.com/kern/minitest-reporters/pull/256) (contributed by [brettwgreen](https://github.com/brettwgreen))
 
 ### [1.2.0](https://github.com/kern/minitest-reporters/compare/v1.2.0.beta3...v1.2.0)
 
