@@ -33,7 +33,7 @@ module Minitest
         if @single_file
           xml = Builder::XmlMarkup.new(:indent => 2)
           xml.instruct!
-          xml.test_suites do
+          xml.testsuites do
             suites.each do |suite, tests|
               parse_xml_for(xml, suite, tests)
             end
@@ -43,7 +43,7 @@ module Minitest
           suites.each do |suite, tests|
             xml = Builder::XmlMarkup.new(:indent => 2)
             xml.instruct!
-            xml.test_suites do
+            xml.testsuites do
               parse_xml_for(xml, suite, tests)
             end
             File.open(filename_for(suite), "w") { |file| file << xml.target! }
