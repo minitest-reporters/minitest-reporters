@@ -67,7 +67,7 @@ module Minitest
         base_path = Pathname.new(@base_path)
         relative_path = file_path.relative_path_from(base_path)
 
-        xml.testsuite(:name => suite, :filepath => relative_path,
+        xml.test_suite(:name => suite, :filepath => relative_path,
                       :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
