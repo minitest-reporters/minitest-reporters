@@ -1,8 +1,10 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta1...master)
 
+### [1.3.0.beta2](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta1...v1.3.0.beta2)
+
 * JUnit reporter fixed to comply with JUnit spec ([#257](https://github.com/kern/minitest-reporters/issues/257), [#260](https://github.com/kern/minitest-reporters/pull/260) contributed by [brettwgreen](https://github.com/brettwgreen))
 
-### [1.3.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.2.0...1.3.0.beta1)
+### [1.3.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.2.0...v1.3.0.beta1)
 
 * MINITEST_REPORTER env variable can be used to override reporter [#256](https://github.com/kern/minitest-reporters/pull/256) (contributed by [brettwgreen](https://github.com/brettwgreen))
 
