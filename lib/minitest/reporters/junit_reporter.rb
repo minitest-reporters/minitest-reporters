@@ -1,5 +1,6 @@
 require 'builder'
 require 'fileutils'
+require 'pathname'
 module Minitest
   module Reporters
     # A reporter for writing JUnit test reports
