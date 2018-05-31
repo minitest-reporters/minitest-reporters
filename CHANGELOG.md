@@ -1,6 +1,6 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta2...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta3...master)
 
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta1...v1.3.0.beta2)
+### [v1.3.0.beta3](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta2...v1.3.0.beta3)
 
 * [#261](https://github.com/kern/minitest-reporters/issues/261) fixed by [#262](https://github.com/kern/minitest-reporters/pull/262) contributed by [trabulmonkee](https://github.com/trabulmonkee)
 
