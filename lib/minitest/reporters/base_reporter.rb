@@ -34,7 +34,7 @@ module Minitest
 
       def report
         super
-        after_suite(tests.last.class)
+        after_suite(test_class(tests.last))
       end
 
       protected
