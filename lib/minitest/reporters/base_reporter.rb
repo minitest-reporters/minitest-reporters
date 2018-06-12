@@ -15,16 +15,10 @@ module Minitest
       # called by our own before hooks
       def before_test(test)
         last_test = tests.last
-
-        # Minitest broke API between 5.10 and 5.11 this gets around Result object
-        if last_test.respond_to? :klass
-          suite_changed = last_test.klass != test.class.name
-        else
-          suite_changed = last_test.class != test.class
-        end
+        suite_changed = test_class(last_test) != test.class
 
         if suite_changed
-          after_suite(last_test.class) if last_test
+          after_suite(test_class(last_test)) if last_test
           before_suite(test.class)
         end
       end
@@ -64,8 +58,8 @@ module Minitest
       end
 
       def test_class(result)
-        if result.respond_to? :klass
-          result.klass
+        if result.respond_to?(:klass) && result.klass
+          Object.const_get(result.klass)
         else
           result.class
         end
