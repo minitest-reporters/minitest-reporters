@@ -25,7 +25,15 @@ module Minitest
         end
 
         if suite_changed
-          after_suite(is_klass_responded ? last_test.klass : last_test.class) if last_test
+          last_test_class = last_test.class
+          if is_klass_responded
+            class << last_test_class
+              attr_accessor :name
+            end
+
+            last_test_class.name = last_test.klass
+          end
+          after_suite(last_test_class) if last_test
           before_suite(test.class)
         end
       end
