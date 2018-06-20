@@ -17,14 +17,23 @@ module Minitest
         last_test = tests.last
 
         # Minitest broke API between 5.10 and 5.11 this gets around Result object
-        if last_test.respond_to? :klass
+        is_klass_responded = last_test.respond_to? :klass
+        if is_klass_responded
           suite_changed = last_test.klass != test.class.name
         else
           suite_changed = last_test.class != test.class
         end
 
         if suite_changed
-          after_suite(last_test.class) if last_test
+          last_test_class = last_test.class
+          if is_klass_responded
+            class << last_test_class
+              attr_accessor :name
+            end
+
+            last_test_class.name = last_test.klass
+          end
+          after_suite(last_test_class) if last_test
           before_suite(test.class)
         end
       end
