@@ -59,7 +59,7 @@ module Minitest
 
       def test_class(result)
         if result.respond_to?(:klass) && result.klass
-          Object.const_get(result.klass)
+          load_constant(result.klass)
         else
           result.class
         end
@@ -104,6 +104,14 @@ module Minitest
         unless e.is_a?(MiniTest::UnexpectedError)
           trace = filter_backtrace(e.backtrace)
           trace.each { |line| print_with_info_padding(line) }
+        end
+      end
+
+      # This method is to be version compatible with ruby 1.X. In these
+      # versions constant lookup was not namespace aware
+      def load_constant(name)
+        name.to_s.split('::').inject(Object) do |namespace, const_name|
+          namespace.const_get(const_name)
         end
       end
     end
