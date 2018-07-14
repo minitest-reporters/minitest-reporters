@@ -1,4 +1,8 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.0...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.1.beta1...master)
+
+### [v1.3.1.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.0...v1.3.1.beta1)
+
+* Fixed time reporting [#265](https://github.com/kern/minitest-reporters/pull/265) contributed by [brendandeere](https://github.com/brendandeere)
 
 ### [v1.3.0](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta3...v1.3.0)
 
