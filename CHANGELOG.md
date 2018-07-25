@@ -1,4 +1,6 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.1.beta1...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.1...master)
+
+### [v1.3.1](https://github.com/kern/minitest-reporters/compare/v1.3.1.beta1...v1.3.1)
 
 ### [v1.3.1.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.0...v1.3.1.beta1)
 
