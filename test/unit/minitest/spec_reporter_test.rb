@@ -37,24 +37,24 @@ module MinitestReportersTest
       @reporter.record(the_test)
       assert_respond_to the_test, the_test.name
     end
-  end
 
-  def test_report_for_describe_not_using_const
-    klass = describe("whatever") { it("passes") { assert true } }
-    runnable = klass.runnable_methods.first
+    def test_report_for_describe_not_using_const
+      klass = describe("whatever") { it("passes") { assert true } }
+      runnable = klass.runnable_methods.first
 
-    # Run the test
-    result = klass.new(runnable).run
-    @reporter.start
-    @reporter.record(result)
+      # Run the test
+      result = klass.new(runnable).run
+      @reporter.start
+      @reporter.record(result)
 
-     begin
+      begin
         @reporter.report
       rescue => e
         error_msg = "error executing @reporter.report, #{e}"
       end
 
       refute error_msg, error_msg
+    end
   end
 end
 
