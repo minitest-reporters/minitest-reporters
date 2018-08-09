@@ -125,7 +125,7 @@ module Minitest
           puts
 
           slow_suites.each do |slow_suite|
-            puts "%.6fs %s" % [slow_suite[1], slow_suite[0]]
+            puts "%.6fs %s" % [slow_suite[1], test_class(slow_suite[0])]
           end
         end
 
