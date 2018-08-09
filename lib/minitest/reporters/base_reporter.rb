@@ -15,10 +15,16 @@ module Minitest
       # called by our own before hooks
       def before_test(test)
         last_test = tests.last
-        suite_changed = test_class(last_test) != test.class
+
+        # Minitest broke API between 5.10 and 5.11 this gets around Result object
+        if last_test.respond_to? :klass
+          suite_changed = last_test.klass != test.class.name
+        else
+          suite_changed = last_test.class != test.class
+        end
 
         if suite_changed
-          after_suite(test_class(last_test)) if last_test
+          after_suite(last_test.class) if last_test
           before_suite(test.class)
         end
       end
@@ -34,7 +40,7 @@ module Minitest
 
       def report
         super
-        after_suite(test_class(tests.last))
+        after_suite(tests.last.class)
       end
 
       protected
@@ -58,8 +64,8 @@ module Minitest
       end
 
       def test_class(result)
-        if result.respond_to?(:klass) && result.klass
-          load_constant(result.klass)
+        if result.respond_to? :klass
+          result.klass
         else
           result.class
         end
@@ -104,14 +110,6 @@ module Minitest
         unless e.is_a?(MiniTest::UnexpectedError)
           trace = filter_backtrace(e.backtrace)
           trace.each { |line| print_with_info_padding(line) }
-        end
-      end
-
-      # This method is to be version compatible with ruby 1.X. In these
-      # versions constant lookup was not namespace aware
-      def load_constant(name)
-        name.to_s.split('::').inject(Object) do |namespace, const_name|
-          namespace.const_get(const_name)
         end
       end
     end
