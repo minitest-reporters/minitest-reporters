@@ -200,7 +200,7 @@ module Minitest
 
       # @return [Hash<String => Array<Float>]
       def previous_run
-        @previous_run ||= YAML.load_file(previous_runs_filename, fallback: {})
+        @previous_run ||= YAML.load_file(previous_runs_filename)
       end
 
       # @return [String] The path to the file which contains all the durations
