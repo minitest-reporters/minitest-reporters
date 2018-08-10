@@ -5,4 +5,32 @@ require 'minitest/reporters/mean_time_reporter'
 
 Minitest::Reporters.use! Minitest::Reporters::MeanTimeReporter.new
 
-require_relative '../gallery/good_test'
+class TestClass < Minitest::Test
+  def test_assertion
+    assert true
+  end
+
+  def test_fail
+    fail
+  end
+end
+
+class AnotherTestClass < Minitest::Test
+  def test_assertion
+    assert true
+  end
+
+  def test_fail
+    fail
+  end
+end
+
+class LastTestClass < Minitest::Test
+  def test_assertion
+    assert true
+  end
+
+  def test_fail
+    fail
+  end
+end
