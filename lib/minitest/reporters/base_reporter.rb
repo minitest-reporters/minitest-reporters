@@ -1,5 +1,15 @@
 module Minitest
   module Reporters
+    class Suite
+      attr_reader :name
+      def initialize(name)
+        @name = name
+      end
+
+      def to_s
+        name.to_s
+      end
+    end
     class BaseReporter < Minitest::StatisticsReporter
       attr_accessor :tests
 
@@ -14,17 +24,12 @@ module Minitest
 
       # called by our own before hooks
       def before_test(test)
-        last_test = tests.last
+        last_test = test_class(tests.last)
 
-        # Minitest broke API between 5.10 and 5.11 this gets around Result object
-        if last_test.respond_to? :klass
-          suite_changed = last_test.klass != test.class.name
-        else
-          suite_changed = last_test.class != test.class
-        end
+        suite_changed = last_test.nil? || last_test.name != test.class.name
 
         if suite_changed
-          after_suite(last_test.class) if last_test
+          after_suite(last_test) if last_test
           before_suite(test.class)
         end
       end
@@ -40,7 +45,7 @@ module Minitest
 
       def report
         super
-        after_suite(tests.last.class)
+        after_suite(test_class(tests.last))
       end
 
       protected
@@ -64,8 +69,11 @@ module Minitest
       end
 
       def test_class(result)
-        if result.respond_to? :klass
-          result.klass
+        # Minitest broke API between 5.10 and 5.11 this gets around Result object
+        if result.nil?
+          nil
+        elsif result.respond_to? :klass
+          Suite.new(result.klass)
         else
           result.class
         end

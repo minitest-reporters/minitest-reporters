@@ -200,7 +200,7 @@ module Minitest
 
       # @return [Hash<String => Array<Float>]
       def previous_run
-        @previous_run ||= YAML.load_file(previous_runs_filename)
+        @previous_run ||= YAML.load_file(previous_runs_filename, fallback: {})
       end
 
       # @return [String] The path to the file which contains all the durations
@@ -250,15 +250,13 @@ module Minitest
       def create_or_update_previous_runs!
         if previously_ran?
           current_run.each do |description, elapsed|
-          new_times = if previous_run["#{description}"]
-                        Array(previous_run["#{description}"]) << elapsed
+            new_times = if previous_run[description.to_s]
+                          Array(previous_run[description.to_s]) << elapsed
+                        else
+                          Array(elapsed)
+                        end
 
-                      else
-                        Array(elapsed)
-
-                      end
-
-            previous_run.store("#{description}", new_times)
+            previous_run.store(description.to_s, new_times)
           end
 
           File.write(previous_runs_filename, previous_run.to_yaml)
