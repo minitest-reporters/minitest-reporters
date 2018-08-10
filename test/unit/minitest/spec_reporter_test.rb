@@ -47,6 +47,7 @@ module MinitestReportersTest
       @reporter.start
       @reporter.record(result)
 
+      error_msg = nil
       begin
         @reporter.report
       rescue => e
