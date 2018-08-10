@@ -1,4 +1,5 @@
 require 'minitest/reporters'
+require 'tmpdir'
 require 'yaml'
 
 module Minitest
@@ -125,8 +126,8 @@ module Minitest
           show_progress:          true,
           show_all_runs:          true,
           sort_column:            :avg,
-          previous_runs_filename: '/tmp/minitest_reporters_previous_run',
-          report_filename:        '/tmp/minitest_reporters_report',
+          previous_runs_filename: Dir.tmpdir + '/minitest_reporters_previous_run',
+          report_filename:        Dir.tmpdir + 'minitest_reporters_report'
         }
       end
 
