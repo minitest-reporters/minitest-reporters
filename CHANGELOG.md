@@ -1,5 +1,7 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.1...master)
 
+* SpecReporter do not print exception name any more (unless it is an test error) [#264](https://github.com/kern/minitest-reporters/pull/264)
+
 ### [v1.3.1](https://github.com/kern/minitest-reporters/compare/v1.3.1.beta1...v1.3.1)
 
 ### [v1.3.1.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.0...v1.3.1.beta1)
