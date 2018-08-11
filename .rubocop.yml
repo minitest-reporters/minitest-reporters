@@ -1,0 +1,8 @@
+Metrics/LineLength:
+  Max: 120
+
+Naming/UncommunicativeMethodParamName:
+  MinNameLength: 1
+
+Style/FormatStringToken:
+  Enabled: false
