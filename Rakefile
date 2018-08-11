@@ -1,5 +1,6 @@
 require "bundler/gem_tasks"
 require "rake/testtask"
+require 'rubocop/rake_task'
 
 task :default => :test
 Rake::TestTask.new do |t|
@@ -57,4 +58,13 @@ task :reset_statistics do
   Minitest::Reporters::MeanTimeReporter.reset_statistics!
   puts "The mean time reporter statistics have been reset."
   exit 0
+end
+
+desc 'Run RuboCop on the lib directory'
+RuboCop::RakeTask.new(:rubocop) do |task|
+  task.patterns = ['lib/**/*.rb']
+  # only show the files with failures
+  task.formatters = ['clang']
+  # don't abort rake on failure
+  task.fail_on_error = false
 end
