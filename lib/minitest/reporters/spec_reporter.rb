@@ -52,7 +52,7 @@ module Minitest
 
       def record_print_failures_if_any(test)
         if !test.skipped? && test.failure
-          print_info(test.failure)
+          print_info(test.failure, test.error?)
           puts
         end
       end
