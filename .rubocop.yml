@@ -22,7 +22,7 @@ Naming/UncommunicativeMethodParamName:
   MinNameLength: 1
 
 Performance:
-  Enabled: false
+  Enabled: true
 
 Rails:
   Enabled: false

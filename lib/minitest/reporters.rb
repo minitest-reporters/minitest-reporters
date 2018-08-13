@@ -79,7 +79,7 @@ module Minitest
     end
 
     def self.minitest_version
-      Minitest::VERSION.gsub('.', '').to_i
+      Minitest::VERSION.delete('.').to_i
     end
 
     def self.use_old_activesupport_fix!
