@@ -1,4 +1,5 @@
 ---
+version: '#{build}'
 cache:
   - vendor/bundle
 environment:
