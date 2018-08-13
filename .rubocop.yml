@@ -1,8 +1,44 @@
+---
+#AllCops:
+#  DisabledByDefault: true
+
+Layout:
+  Enabled: false
+
+Lint:
+  Enabled: true
+
+Metrics:
+  Enabled: false
+
 Metrics/LineLength:
-  Max: 120
+  Enabled: true
+  Max: 130
+
+Naming:
+  Enabled: false
 
 Naming/UncommunicativeMethodParamName:
+  Enabled: true
   MinNameLength: 1
 
+Performance:
+  Enabled: false
+
+Rails:
+  Enabled: false
+
+Security:
+  Enabled: false
+
+Style:
+  Enabled: false
+
 Style/FormatStringToken:
+  Enabled: false
+
+Bundler:
+  Enabled: false
+
+Gemspec:
   Enabled: false

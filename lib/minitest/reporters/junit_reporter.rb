@@ -144,7 +144,8 @@ module Minitest
 
       def filename_for(suite)
         file_counter = 0
-        suite_name = suite.to_s[0..240].gsub(/[^a-zA-Z0-9]+/, '-') # restrict max filename length, to be kind to filesystems
+        # restrict max filename length, to be kind to filesystems
+        suite_name = suite.to_s[0..240].gsub(/[^a-zA-Z0-9]+/, '-')
         filename = "TEST-#{suite_name}.xml"
         while File.exist?(File.join(@reports_path, filename)) # restrict number of tries, to avoid infinite loops
           file_counter += 1

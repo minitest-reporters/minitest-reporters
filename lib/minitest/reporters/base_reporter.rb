@@ -110,7 +110,7 @@ module Minitest
       end
 
       def print_info(e, name=true)
-        print "#{e.exception.class.to_s}: " if name
+        print "#{e.exception.class}: " if name
         e.message.each_line { |line| print_with_info_padding(line) }
 
         # When e is a Minitest::UnexpectedError, the filtered backtrace is already part of the message printed out

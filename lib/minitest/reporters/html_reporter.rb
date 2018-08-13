@@ -5,9 +5,11 @@ require 'erb'
 module Minitest
   module Reporters
     # A reporter for generating HTML test reports
-    # This is recommended to be used with a CI server, where the report is kept as an artifact and is accessible via a shared link
+    # This is recommended to be used with a CI server, where the report is kept as an artifact and is accessible via
+    # a shared link
     #
-    # The reporter sorts the results alphabetically and then by results so that failing and skipped tests are at the top.
+    # The reporter sorts the results alphabetically and then by results
+    # so that failing and skipped tests are at the top.
     #
     # When using Minitest Specs, the number prefix is dropped from the name of the test so that it reads well
     #
@@ -107,6 +109,7 @@ module Minitest
             f.write(result)
           end
 
+        # rubocop:disable Lint/RescueException
         rescue Exception => e
           puts 'There was an error writing the HTML report'
           puts 'This may have been caused by cancelling the test run'
@@ -114,6 +117,7 @@ module Minitest
           puts 'Use mode => :terse in the HTML reporters constructor to see less detail' if @mode != :terse
           raise e if @mode != :terse
         end
+        # rubocop:enable Lint/RescueException
 
       end
 

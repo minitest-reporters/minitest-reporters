@@ -38,7 +38,7 @@ module Minitest
         puts suite
       end
 
-      def after_suite(suite)
+      def after_suite(_suite)
         puts
       end
 
