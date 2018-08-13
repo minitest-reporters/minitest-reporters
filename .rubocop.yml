@@ -16,10 +16,9 @@ Metrics/LineLength:
   Max: 130
 
 Naming:
-  Enabled: false
+  Enabled: true
 
 Naming/UncommunicativeMethodParamName:
-  Enabled: true
   MinNameLength: 1
 
 Performance:
