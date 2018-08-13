@@ -37,7 +37,7 @@ Style/FormatStringToken:
   Enabled: false
 
 Bundler:
-  Enabled: false
+  Enabled: true
 
 Gemspec:
-  Enabled: false
+  Enabled: true
