@@ -19,4 +19,4 @@ before_test:
   - bundle -v
 
 test_script:
-  - bundle exec rake
+  - bundle exec rake test
