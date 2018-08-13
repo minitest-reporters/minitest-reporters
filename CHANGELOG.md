@@ -1,16 +1,21 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.1...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.2.beta1...master)
+
+### [1.3.2.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.1...v1.3.2.beta1)
 
 * SpecReporter do not print exception name any more (unless it is an test error) [#264](https://github.com/kern/minitest-reporters/pull/264)
+* Fixed loading error caused by fix for [#265](https://github.com/kern/minitest-reporters/pull/265)
+  see [#267](https://github.com/kern/minitest-reporters/pull/267) and 
+  [#268](https://github.com/kern/minitest-reporters/pull/268) for more details.
 
-### [v1.3.1](https://github.com/kern/minitest-reporters/compare/v1.3.1.beta1...v1.3.1)
+### [1.3.1](https://github.com/kern/minitest-reporters/compare/v1.3.1.beta1...v1.3.1)
 
-### [v1.3.1.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.0...v1.3.1.beta1)
+### [1.3.1.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.0...v1.3.1.beta1)
 
 * Fixed time reporting [#265](https://github.com/kern/minitest-reporters/pull/265) contributed by [brendandeere](https://github.com/brendandeere)
 
-### [v1.3.0](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta3...v1.3.0)
+### [1.3.0](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta3...v1.3.0)
 
-### [v1.3.0.beta3](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta2...v1.3.0.beta3)
+### [1.3.0.beta3](https://github.com/kern/minitest-reporters/compare/v1.3.0.beta2...v1.3.0.beta3)
 
 * [#261](https://github.com/kern/minitest-reporters/issues/261) fixed by [#262](https://github.com/kern/minitest-reporters/pull/262) contributed by [trabulmonkee](https://github.com/trabulmonkee)
 
