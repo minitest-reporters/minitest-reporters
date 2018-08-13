@@ -18,7 +18,6 @@ module Minitest
     # The report is generated using ERB. A custom ERB template can be provided but it is not required
     # The default ERB template uses JQuery and Bootstrap, both of these are included by referencing the CDN sites
     class HtmlReporter < BaseReporter
-
       # The title of the report
       attr_reader :title
 
@@ -34,12 +33,12 @@ module Minitest
 
       # The percentage of tests that were skipped
       def percent_skipps
-        (skips/count.to_f * 100).to_i
+        (skips / count.to_f * 100).to_i
       end
 
       # The percentage of tests that failed
       def percent_errors_failures
-        ((errors+failures)/count.to_f * 100).to_i
+        ((errors + failures) / count.to_f * 100).to_i
       end
 
       # Trims off the number prefix on test names when using Minitest Specs
@@ -59,11 +58,11 @@ module Minitest
         super({})
 
         defaults = {
-            :title           => 'Test Results',
-            :erb_template    => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
-            :reports_dir     => 'test/html_reports',
-            :mode            => :safe,
-            :output_filename => 'index.html'
+          :title           => 'Test Results',
+          :erb_template    => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
+          :reports_dir     => 'test/html_reports',
+          :mode            => :safe,
+          :output_filename => 'index.html'
         }
 
         settings = defaults.merge(args)
@@ -118,10 +117,10 @@ module Minitest
           raise e if @mode != :terse
         end
         # rubocop:enable Lint/RescueException
-
       end
 
       private
+
       def html_file
         "#{@reports_path}/#{@output_filename}"
       end
@@ -215,10 +214,10 @@ module Minitest
         return ('%.2fs' % total_time) if total_time < 1
 
         hours = (total_time / (60 * 60)).round
-        minutes = ((total_time / 60) % 60).round.to_s.rjust(2,'0')
-        seconds = (total_time % 60).round.to_s.rjust(2,'0')
+        minutes = ((total_time / 60) % 60).round.to_s.rjust(2, '0')
+        seconds = (total_time % 60).round.to_s.rjust(2, '0')
 
-        "#{ hours }h#{ minutes }m#{ seconds }s"
+        "#{hours}h#{minutes}m#{seconds}s"
       end
     end
   end

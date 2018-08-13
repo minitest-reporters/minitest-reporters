@@ -31,6 +31,7 @@ module Minitest
       end
 
       private
+
       # stolen from minitest self.run
       def total_count(options)
         filter = options[:filter] || '/./'

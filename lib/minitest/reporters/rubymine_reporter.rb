@@ -48,7 +48,6 @@ else
           elsif ::Rake::TeamCity.is_in_buildserver_mode
             log(@message_factory.create_progress_message("Starting.. (#{total_count} tests)"))
           end
-
         end
 
         def report

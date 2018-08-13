@@ -4,7 +4,6 @@ require 'yaml'
 
 module Minitest
   module Reporters
-
     # This reporter creates a report providing the average (mean), minimum and
     # maximum times for a test to run. Running this for all your tests will
     # allow you to:
@@ -23,7 +22,6 @@ module Minitest
     #     rake reset_statistics
     #
     class MeanTimeReporter < Minitest::Reporters::DefaultReporter
-
       class InvalidOrder < StandardError; end
       class InvalidSortColumn < StandardError; end
 
@@ -385,7 +383,6 @@ module Minitest
 
         end
       end
-
     end
   end
 end

@@ -13,7 +13,7 @@ module Minitest
     class BaseReporter < Minitest::StatisticsReporter
       attr_accessor :tests
 
-      def initialize(options={})
+      def initialize(options = {})
         super($stdout, options)
         self.tests = []
       end
@@ -40,7 +40,7 @@ module Minitest
       end
 
       # called by our own after hooks
-      def after_test(test)
+      def after_test(_test)
       end
 
       def report
@@ -81,11 +81,11 @@ module Minitest
 
       def print_colored_status(test)
         if test.passed?
-          print(green { pad_mark( result(test).to_s.upcase ) })
+          print(green { pad_mark(result(test).to_s.upcase) })
         elsif test.skipped?
-          print(yellow { pad_mark( result(test).to_s.upcase ) })
+          print(yellow { pad_mark(result(test).to_s.upcase) })
         else
-          print(red { pad_mark( result(test).to_s.upcase ) })
+          print(red { pad_mark(result(test).to_s.upcase) })
         end
       end
 
@@ -109,7 +109,7 @@ module Minitest
         io.print(*args)
       end
 
-      def print_info(e, name=true)
+      def print_info(e, name = true)
         print "#{e.exception.class}: " if name
         e.message.each_line { |line| print_with_info_padding(line) }
 

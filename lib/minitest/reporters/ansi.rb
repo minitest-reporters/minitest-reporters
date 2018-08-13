@@ -2,7 +2,6 @@ module Minitest
   module Reporters
     module ANSI
       module Code
-
         def self.color?
           return false if ENV['MINITEST_REPORTERS_MONO']
           color_terminal = ENV['TERM'].to_s.downcase.include?("color")
@@ -19,7 +18,7 @@ module Minitest
             block_given? ? yield : s
           end
 
-          %w[ red green yellow blue magenta cyan white ].each do |color|
+          %w[red green yellow blue magenta cyan white].each do |color|
             alias_method color, :black
           end
 

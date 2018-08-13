@@ -3,16 +3,20 @@
 #  DisabledByDefault: true
 
 Layout:
-  Enabled: false
+  Enabled: true
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
 
 Lint:
   Enabled: true
 
 Metrics:
-  Enabled: false
+  Severity: refactor
+  Enabled: true
 
 Metrics/LineLength:
-  Enabled: true
+  Severity: convention
   Max: 130
 
 Naming:
@@ -30,10 +34,18 @@ Rails:
 Security:
   Enabled: true
 
+#todo: enable
 Style:
   Enabled: false
 
 Style/FormatStringToken:
+  Enabled: false
+
+#todo: enable
+Style/StringLiterals:
+  Enabled: false
+
+Style/Documentation:
   Enabled: false
 
 Bundler:
