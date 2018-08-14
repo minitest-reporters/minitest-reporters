@@ -1,10 +1,14 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.2.beta1...master)
 
+### [1.3.2.beta2](https://github.com/kern/minitest-reporters/compare/v1.3.2.beta1...v1.3.2.beta2)
+
+* fixed the way JUnitReporter calculates relative path [#258](https://github.com/kern/minitest-reporters/issues/258)
+
 ### [1.3.2.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.1...v1.3.2.beta1)
 
-* SpecReporter do not print exception name any more (unless it is an test error) [#264](https://github.com/kern/minitest-reporters/pull/264)
+* SpecReporter do not print exception name any more (unless it is an test error) [#264](https://github.com/kern/minitest-reporters/issues/264)
 * Fixed loading error caused by fix for [#265](https://github.com/kern/minitest-reporters/pull/265)
-  see [#267](https://github.com/kern/minitest-reporters/pull/267) and 
+  see [#267](https://github.com/kern/minitest-reporters/issues/267) and 
   [#268](https://github.com/kern/minitest-reporters/pull/268) for more details.
 
 ### [1.3.1](https://github.com/kern/minitest-reporters/compare/v1.3.1.beta1...v1.3.1)
