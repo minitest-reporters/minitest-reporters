@@ -41,6 +41,7 @@ module MinitestReportersTest
     def test_report_for_describe_not_using_const
       klass = describe("whatever") { it("passes") { assert true } }
       runnable = klass.runnable_methods.first
+      @reporter.io = StringIO.new
 
       # Run the test
       result = klass.new(runnable).run
