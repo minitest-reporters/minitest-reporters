@@ -52,6 +52,13 @@ module Minitest
         end
       end
 
+      def get_relative_path(result)
+        file_path = Pathname.new(get_source_location(result).first)
+        base_path = Pathname.new(@base_path)
+        file_path.relative_path_from(base_path) if file_path.absolute?
+        file_path
+      end
+
       private
 
       def get_source_location(result)
@@ -64,11 +71,9 @@ module Minitest
 
       def parse_xml_for(xml, suite, tests)
         suite_result = analyze_suite(tests)
-        file_path = Pathname.new(get_source_location(tests.first).first)
-        base_path = Pathname.new(@base_path)
-        relative_path = file_path.relative_path_from(base_path)
+        file_path = get_relative_path(tests.first)
 
-        xml.testsuite(:name => suite, :filepath => relative_path,
+        xml.testsuite(:name => suite, :filepath => file_path,
                       :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do

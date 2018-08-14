@@ -19,3 +19,23 @@ describe 'something/other' do
     1.must_equal 2
   end
 end
+
+class Eval
+  class Issue258Tset < Minitest::Test
+    def test_true
+      assert true
+    end
+
+    [
+        ["bool1", "true", "true"],
+        ["bool2", "false", "false"]
+    ].each do |a|
+      (type, expectation1, expectation2) = a
+      eval(%{
+       def test_eval_#{type}_#{expectation1}
+         assert_equal(#{expectation1}, #{expectation2})
+       end
+      })
+    end
+  end
+end
