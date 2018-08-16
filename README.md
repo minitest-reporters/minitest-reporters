@@ -106,13 +106,13 @@ happening if you see overly long or otherwise unexpected backtraces.)
 
 To avoid that, you must manually tell minitest-reporters which filter to use. In Rails,
 do this in `test_helper.rb`:
-
+```ruby
     Minitest::Reporters.use!(
       Minitest::Reporters::DefaultReporter.new,
       ENV,
       Minitest.backtrace_filter
     )
-
+```
 The third parameter to `.use!`, in this case `Minitest.backtrace_filter`, should be a
 filter object. In the above example, you're telling minitest-reporters to use the filter
 that Rails has already set.
@@ -132,4 +132,4 @@ that Rails has already set.
 
 ## License ##
 
-Minitest-reporters is licensed under the MIT License. See `LICENSE` for details.
+Minitest-reporters is licensed under the MIT License. See [LICENSE](LICENSE) for details.
