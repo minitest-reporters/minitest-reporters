@@ -1,8 +1,17 @@
 require_relative '../../test_helper'
+require "ostruct"
 
 module MinitestReportersTest
   class MeanTimeReporterUnitTest < Minitest::Test
     def setup
+      @test_data = []
+      @test_data << { name: 'MIDDLE',  prev_time: 5.0,  cur_time: 5.0 }
+      @test_data << { name: 'MIN_FAST', prev_time: 0.5,  cur_time: 3.5 }
+      @test_data << { name: 'MIN_SLOW', prev_time: 10.5, cur_time: 10.5 }
+      @test_data << { name: 'MAX_FAST', prev_time: 1.2,  cur_time: 0.9 }
+      @test_data << { name: 'MAX_SLOW', prev_time: 16.3, cur_time: 6.3 }
+      @test_data << { name: 'AVG_FAST', prev_time: 1.3,  cur_time: 0.65 }
+      @test_data << { name: 'AVG_SLOW', prev_time: 10.2, cur_time: 14.2 }
       configure_report_paths
     end
 
@@ -12,8 +21,8 @@ module MinitestReportersTest
     end
 
     def test_sorts_avg_numerically
-      prev_output = previous_test_run
-      report_output = generate_report(:avg)
+      prev_output = generate_report(:avg, :prev_time)
+      report_output = generate_report(:avg, :cur_time)
 
       expected_order = [
         'AVG_SLOW',
@@ -28,8 +37,8 @@ module MinitestReportersTest
     end
 
     def test_sorts_min_numerically
-      prev_output = previous_test_run
-      report_output = generate_report(:min)
+      prev_output = generate_report(:min, :prev_time)
+      report_output = generate_report(:min, :cur_time)
 
       expected_order = [
         'MIN_SLOW',
@@ -44,8 +53,8 @@ module MinitestReportersTest
     end
 
     def test_sorts_max_numerically
-      prev_output = previous_test_run
-      report_output = generate_report(:max)
+      prev_output = generate_report(:max, :prev_time)
+      report_output = generate_report(:max, :cur_time)
 
       expected_order = [
         'MAX_SLOW',
@@ -60,8 +69,8 @@ module MinitestReportersTest
     end
 
     def test_sorts_last_numerically
-      prev_output = previous_test_run
-      report_output = generate_report(:last)
+      prev_output = generate_report(:last, :prev_time)
+      report_output = generate_report(:last, :cur_time)
 
       expected_order = [
         'AVG_SLOW',
@@ -88,27 +97,6 @@ module MinitestReportersTest
       end
     end
 
-    def previous_test_run
-      @reporter = Minitest::Reporters::MeanTimeReporter.new(
-        previous_runs_filename: @previous_run_path,
-        report_filename: @report_file_path
-      )
-
-      simulate_suite_runtime('MIDDLE', 5.0)
-      simulate_suite_runtime('MIN_FAST', 0.5)
-      simulate_suite_runtime('MIN_SLOW', 10.5)
-      simulate_suite_runtime('MAX_FAST', 1.2)
-      simulate_suite_runtime('MAX_SLOW', 16.3)
-      simulate_suite_runtime('AVG_FAST', 1.3)
-      simulate_suite_runtime('AVG_SLOW', 10.2)
-      @reporter.tests << Minitest::Test.new('Final')
-      # Generate a "previous" run
-      @reporter.io = StringIO.new
-      @reporter.start
-      @reporter.report
-      @reporter.io
-    end
-
     def configure_report_paths
       previous_runs_file = Tempfile.new('minitest-mean-time-previous-runs')
       previous_runs_file.close
@@ -120,20 +108,14 @@ module MinitestReportersTest
       report_file.delete
     end
 
-    def generate_report(sort_column)
+    def generate_report(sort_column, time_name)
       # Reset the reporter for the test run
       @reporter = Minitest::Reporters::MeanTimeReporter.new(
         previous_runs_filename: @previous_run_path,
         report_filename: @report_file_path,
         sort_column: sort_column
       )
-      simulate_suite_runtime('MIDDLE', 5.0)
-      simulate_suite_runtime('MIN_FAST', 3.5)
-      simulate_suite_runtime('MIN_SLOW', 10.5)
-      simulate_suite_runtime('MAX_FAST', 0.9)
-      simulate_suite_runtime('MAX_SLOW', 6.3)
-      simulate_suite_runtime('AVG_FAST', 0.65)
-      simulate_suite_runtime('AVG_SLOW', 14.2)
+      @test_data.each {|hash| simulate_suite_runtime(hash[:name], hash[time_name])}
       @reporter.tests << Minitest::Test.new('Final')
 
       report_output = StringIO.new
@@ -149,7 +131,7 @@ module MinitestReportersTest
 
       actual_order = test_lines.map { |line| line.gsub(/.*Description: /, '') }
 
-      assert_equal(expected_order, actual_order, "\n#{test_lines.join("\n")}\n\n#{prev_lines.join("\n")}")
+      assert_equal(expected_order, actual_order, "\nCurrent report:\n#{test_lines.join("\n")}\n\nPrevious report: #{prev_lines.join("\n")}")
     end
 
     def extract_test_lines(report_output)
