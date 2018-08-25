@@ -28,10 +28,10 @@ module Minitest
 
         suite_changed = last_test.nil? || last_test.name != test.class.name
 
-        if suite_changed
-          after_suite(last_test) if last_test
-          before_suite(test.class)
-        end
+        return unless suite_changed
+
+        after_suite(last_test) if last_test
+        before_suite(test.class)
       end
 
       def record(test)
@@ -40,8 +40,7 @@ module Minitest
       end
 
       # called by our own after hooks
-      def after_test(_test)
-      end
+      def after_test(_test); end
 
       def report
         super
@@ -50,11 +49,9 @@ module Minitest
 
       protected
 
-      def after_suite(test)
-      end
+      def after_suite(test); end
 
-      def before_suite(test)
-      end
+      def before_suite(test); end
 
       def result(test)
         if test.error?
@@ -115,10 +112,10 @@ module Minitest
 
         # When e is a Minitest::UnexpectedError, the filtered backtrace is already part of the message printed out
         # by the previous line. In that case, and that case only, skip the backtrace output.
-        unless e.is_a?(MiniTest::UnexpectedError)
-          trace = filter_backtrace(e.backtrace)
-          trace.each { |line| print_with_info_padding(line) }
-        end
+        return if e.is_a?(MiniTest::UnexpectedError)
+
+        trace = filter_backtrace(e.backtrace)
+        trace.each { |line| print_with_info_padding(line) }
       end
     end
   end

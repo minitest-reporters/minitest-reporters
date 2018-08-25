@@ -13,20 +13,20 @@ module Minitest
       include RelativePosition
       include ANSI::Code
 
-      PROGRESS_MARK = '='
+      PROGRESS_MARK = '='.freeze
 
       def initialize(options = {})
         super
         @detailed_skip = options.fetch(:detailed_skip, true)
 
-        @progress = ProgressBar.create({
+        @progress = ProgressBar.create(
           total:          total_count,
           starting_at:    count,
           progress_mark:  green(PROGRESS_MARK),
           remainder_mark: ' ',
           format:         options.fetch(:format, '  %C/%c: [%B] %p%% %a, %e'),
           autostart:      false
-        })
+        )
       end
 
       def start

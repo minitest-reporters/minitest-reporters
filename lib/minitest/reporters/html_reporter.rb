@@ -62,7 +62,7 @@ module Minitest
           :erb_template    => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
           :reports_dir     => 'test/html_reports',
           :mode            => :safe,
-          :output_filename => 'index.html'
+          :output_filename => 'index.html',
         }
 
         settings = defaults.merge(args)

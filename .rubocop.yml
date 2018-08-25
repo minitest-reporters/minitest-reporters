@@ -13,7 +13,7 @@ Lint:
 
 Metrics:
   Severity: refactor
-  Enabled: true
+  Enabled: false
 
 Metrics/LineLength:
   Severity: convention
@@ -36,13 +36,35 @@ Security:
 
 #todo: enable
 Style:
-  Enabled: false
+  Enabled: true
 
 Style/FormatStringToken:
   Enabled: false
 
+Style/IfUnlessModifier:
+  Enabled: false
+
 #todo: enable
 Style/StringLiterals:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+#todo: enable
+Style/HashSyntax:
+  Enabled: false
+
+#todo: enable
+Style/FormatString:
+  Enabled: false
+
+#todo: enable
+Style/ClassVars:
+  Enabled: false
+
+#todo: enable
+Style/Alias:
   Enabled: false
 
 Style/Documentation:
