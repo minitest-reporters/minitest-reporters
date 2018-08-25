@@ -4,7 +4,6 @@ module MinitestReportersTest
   class MeanTimeReporterUnitTest < Minitest::Test
     def setup
       configure_report_paths
-      previous_test_run
     end
 
     def teardown
@@ -13,6 +12,7 @@ module MinitestReportersTest
     end
 
     def test_sorts_avg_numerically
+      prev_output = previous_test_run
       report_output = generate_report(:avg)
 
       expected_order = [
@@ -24,10 +24,11 @@ module MinitestReportersTest
         'MAX_FAST',
         'AVG_FAST'
       ]
-      verify_result_order(report_output, expected_order)
+      verify_result_order(report_output, expected_order, prev_output)
     end
 
     def test_sorts_min_numerically
+      prev_output = previous_test_run
       report_output = generate_report(:min)
 
       expected_order = [
@@ -39,10 +40,11 @@ module MinitestReportersTest
         'AVG_FAST',
         'MIN_FAST'
       ]
-      verify_result_order(report_output, expected_order)
+      verify_result_order(report_output, expected_order, prev_output)
     end
 
     def test_sorts_max_numerically
+      prev_output = previous_test_run
       report_output = generate_report(:max)
 
       expected_order = [
@@ -54,10 +56,11 @@ module MinitestReportersTest
         'AVG_FAST',
         'MAX_FAST'
       ]
-      verify_result_order(report_output, expected_order)
+      verify_result_order(report_output, expected_order, prev_output)
     end
 
     def test_sorts_last_numerically
+      prev_output = previous_test_run
       report_output = generate_report(:last)
 
       expected_order = [
@@ -69,7 +72,7 @@ module MinitestReportersTest
         'MAX_FAST',
         'AVG_FAST'
       ]
-      verify_result_order(report_output, expected_order)
+      verify_result_order(report_output, expected_order, prev_output)
     end
 
     private
@@ -80,7 +83,9 @@ module MinitestReportersTest
       Minitest::Reporters.stub(:clock_time, base_clock_time - run_time) do
         @reporter.before_suite(test_suite)
       end
-      @reporter.after_suite(test_suite)
+      Minitest::Reporters.stub(:clock_time, base_clock_time) do
+        @reporter.after_suite(test_suite)
+      end
     end
 
     def previous_test_run
@@ -101,6 +106,7 @@ module MinitestReportersTest
       @reporter.io = StringIO.new
       @reporter.start
       @reporter.report
+      @reporter.io
     end
 
     def configure_report_paths
@@ -137,16 +143,22 @@ module MinitestReportersTest
       report_output
     end
 
-    def verify_result_order(report_output, expected_order)
-      report_output.rewind
-      test_lines = report_output.read.split("\n")
-      test_lines.select! { |line| line.start_with?('Avg:') }
+    def verify_result_order(report_output, expected_order, prev_output)
+      prev_lines = extract_test_lines(prev_output)
+      test_lines = extract_test_lines(report_output)
 
-      # Exclude the final placeholder 0 second test from assertions
-      test_lines.reject! { |line| line.end_with?('Minitest::Test') }
       actual_order = test_lines.map { |line| line.gsub(/.*Description: /, '') }
 
-      assert_equal(expected_order, actual_order, "\n#{test_lines.join("\n")}")
+      assert_equal(expected_order, actual_order, "\n#{test_lines.join("\n")}\n\n#{prev_lines.join("\n")}")
+    end
+
+    def extract_test_lines(report_output)
+      report_output.rewind
+      test_lines = report_output.read.split("\n")
+      test_lines.select! {|line| line.start_with?('Avg:')}
+      # Exclude the final placeholder 0 second test from assertions
+      test_lines.reject! {|line| line.end_with?('Minitest::Test')}
+      test_lines
     end
   end
 end
