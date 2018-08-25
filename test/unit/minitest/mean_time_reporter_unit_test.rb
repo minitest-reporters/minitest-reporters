@@ -115,7 +115,7 @@ module MinitestReportersTest
         report_filename: @report_file_path,
         sort_column: sort_column
       )
-      @test_data.each {|hash| simulate_suite_runtime(hash[:name], hash[time_name])}
+      @test_data.each { |hash| simulate_suite_runtime(hash[:name], hash[time_name])}
       @reporter.tests << Minitest::Test.new('Final')
 
       report_output = StringIO.new
@@ -131,7 +131,7 @@ module MinitestReportersTest
 
       actual_order = test_lines.map { |line| line.gsub(/.*Description: /, '') }
 
-      assert_equal(expected_order, actual_order, "\nCurrent report:\n#{test_lines.join("\n")}\n\nPrevious report: #{prev_lines.join("\n")}")
+      assert_equal(expected_order, actual_order, "\nCurrent report:\n#{test_lines.join("\n")}\n\nPrevious report:\n#{prev_lines.join("\n")}")
     end
 
     def extract_test_lines(report_output)
