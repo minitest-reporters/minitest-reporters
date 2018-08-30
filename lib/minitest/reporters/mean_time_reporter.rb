@@ -124,8 +124,8 @@ module Minitest
           show_progress:          true,
           show_all_runs:          true,
           sort_column:            :avg,
-          previous_runs_filename: Dir.tmpdir + '/minitest_reporters_previous_run',
-          report_filename:        Dir.tmpdir + 'minitest_reporters_report',
+          previous_runs_filename: File.join(Dir.tmpdir, 'minitest_reporters_previous_run'),
+          report_filename:        File.join(Dir.tmpdir, 'minitest_reporters_report')
         }
       end
 
