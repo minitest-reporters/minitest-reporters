@@ -20,6 +20,14 @@ module MinitestReportersTest
       File.delete(@report_file_path) if File.exist?(@report_file_path)
     end
 
+    def test_defaults
+      subject = Minitest::Reporters::MeanTimeReporter.new.send(:defaults)
+
+      expected_prefix = "#{Dir.tmpdir}#{File::Separator}"
+      assert_match expected_prefix, subject[:previous_runs_filename]
+      assert_match expected_prefix, subject[:report_filename]
+    end
+
     def test_sorts_avg_numerically
       prev_output = generate_report(:avg, :prev_time)
       report_output = generate_report(:avg, :cur_time)
