@@ -105,9 +105,9 @@ module MinitestReportersTest
     end
 
     def configure_report_paths
-      @previous_run_path = File.expand_path("minitest-mean-time-previous-runs", __dir__)
+      @previous_run_path = File.expand_path("../minitest-mean-time-previous-runs",  File.realpath(__FILE__))
       File.delete(@previous_run_path) if File.exist?(@previous_run_path)
-      @report_file_path = File.expand_path("minitest-mean-time-report", __dir__)
+      @report_file_path = File.expand_path("../minitest-mean-time-report",  File.realpath(__FILE__))
       File.delete(@report_file_path) if File.exist?(@report_file_path)
     end
 
