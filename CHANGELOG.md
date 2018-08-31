@@ -1,4 +1,9 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.2...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.3...master)
+
+### [1.3.3](https://github.com/kern/minitest-reporters/compare/v1.3.2...v1.3.3)
+
+* fixed problem with default report paths for MeanTimeReporter [#269](https://github.com/kern/minitest-reporters/pull/269)
+  contributed by [duonoid](https://github.com/duonoid)
 
 ### [1.3.2](https://github.com/kern/minitest-reporters/compare/v1.3.2.beta2...v1.3.2)
 
