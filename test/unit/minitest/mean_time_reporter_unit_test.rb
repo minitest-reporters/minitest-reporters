@@ -1,5 +1,4 @@
 require_relative '../../test_helper'
-require "ostruct"
 
 module MinitestReportersTest
   class MeanTimeReporterUnitTest < Minitest::Test
@@ -106,14 +105,10 @@ module MinitestReportersTest
     end
 
     def configure_report_paths
-      previous_runs_file = Tempfile.new('minitest-mean-time-previous-runs')
-      previous_runs_file.close
-      @previous_run_path = previous_runs_file.path
-      previous_runs_file.delete
-      report_file = Tempfile.new('minitest-mean-time-report')
-      report_file.close
-      @report_file_path = report_file.path
-      report_file.delete
+      @previous_run_path = File.expand_path("minitest-mean-time-previous-runs", __dir__)
+      File.delete(@previous_run_path) if File.exist?(@previous_run_path)
+      @report_file_path = File.expand_path("minitest-mean-time-report", __dir__)
+      File.delete(@report_file_path) if File.exist?(@report_file_path)
     end
 
     def generate_report(sort_column, time_name)
