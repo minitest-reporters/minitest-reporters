@@ -113,7 +113,7 @@ module Minitest
           puts
 
           slow_tests.each do |test|
-            puts "%.6fs %s" % [test.time, "#{test.name}##{test_class(test)}"]
+            puts "%.6fs %s#%s" % [test.time, test.name, test_class(test)]
           end
         end
 
