@@ -6,6 +6,18 @@ module Minitest
         @name = name
       end
 
+      def ==(other)
+        name == other.name
+      end
+
+      def eql?(other)
+        self == other
+      end
+
+      def hash
+        name.hash
+      end
+
       def to_s
         name.to_s
       end
@@ -31,7 +43,7 @@ module Minitest
         return unless suite_changed
 
         after_suite(last_test) if last_test
-        before_suite(test.class)
+        before_suite(test_class(test))
       end
 
       def record(test)
@@ -72,7 +84,7 @@ module Minitest
         elsif result.respond_to? :klass
           Suite.new(result.klass)
         else
-          result.class
+          Suite.new(result.class.name)
         end
       end
 

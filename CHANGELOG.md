@@ -1,4 +1,8 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.4...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.5.beta1...master)
+
+### [1.3.5.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.4...v1.3.5.beta1)
+
+* additional fix for reporting slowest suites by DefaultReporter [#270](https://github.com/kern/minitest-reporters/issues/270)
 
 ### [1.3.4](https://github.com/kern/minitest-reporters/compare/v1.3.3...v1.3.4)
 
