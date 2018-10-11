@@ -62,7 +62,7 @@ module Minitest
       private
 
       def get_source_location(result)
-        if result.respond_to? :klass
+        if result.respond_to? :source_location
           result.source_location
         else
           result.method(result.name).source_location
