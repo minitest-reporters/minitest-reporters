@@ -53,6 +53,7 @@ task :gallery do
   end
 end
 
+desc 'Reset mean-time reporter statistics'
 task :reset_statistics do
   require 'minitest/reporters/mean_time_reporter'
   Minitest::Reporters::MeanTimeReporter.reset_statistics!
