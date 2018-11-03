@@ -34,7 +34,7 @@ module MinitestReportersTest
       assert_equal(output1.lines[0], "\n") # start of successful-run report
       # ----
       Minitest::Reporters::MeanTimeReporter.reset_statistics!
-      assert_equal(false, File.exists?(prev_runs_file))
+      assert_equal(false, File.exist?(prev_runs_file))
       # ----
       output2 = `#{ruby_executable} #{test_filename} 2>&1`
       error_message = "`block in create_or_update_previous_runs!': " \
