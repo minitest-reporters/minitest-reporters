@@ -75,11 +75,11 @@ module MinitestReportersTest
       fixtures_directory = File.expand_path('../../../fixtures', __FILE__)
       test_filename = File.join(fixtures_directory, 'mean_time_test.rb')
       base_output = `#{ruby_executable} #{test_filename} 2>&1`
-      base_count = base_output.lines.select { |s| s.match? /^Avg: / }.count
+      base_count = base_output.lines.select { |s| s.match?(/^Avg: /) }.count
       # ----
       test_filename = File.join(fixtures_directory, 'mean_time_show_count_test.rb')
       output = `#{ruby_executable} #{test_filename} 2>&1`
-      count = output.lines.select { |s| s.match? /^Avg: / }.count
+      count = output.lines.select { |s| s.match?(/^Avg: /) }.count
       refute_equal count, base_count, 'show_count had no effect'
     end
 

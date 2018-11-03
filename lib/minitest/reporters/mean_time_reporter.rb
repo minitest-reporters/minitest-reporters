@@ -119,6 +119,7 @@ module Minitest
       #   and the number of tests to output to output to the screen after each
       #   run.
       def defaults
+        # rubocop:disable Layout/AlignHash
         {
           order:                  :desc,
           show_count:             15,
@@ -128,6 +129,7 @@ module Minitest
           previous_runs_filename: File.join(Dir.tmpdir, 'minitest_reporters_previous_run'),
           report_filename:        File.join(Dir.tmpdir, 'minitest_reporters_report'),
         }
+        # rubocop:enable Layout/AlignHash
       end
 
       # Added to the top of the report file and to the screen output.
@@ -172,6 +174,7 @@ module Minitest
       #   the :sort_column option. (Defaults to :avg).
       def column_sorted_body
         runs = options[:show_all_runs] ? previous_run : current_run
+        # rubocop:disable Style/MultilineBlockChain, Layout/AlignHash
         runs.keys.each_with_object([]) do |description, obj|
           timings = previous_run[description]
           size = Array(timings).size
@@ -184,6 +187,7 @@ module Minitest
             desc: description,
           }
         end.sort_by { |k| k[sort_column] }
+        # rubocop:enable Style/MultilineBlockChain, Layout/AlignHash
       end
 
       # @return [Hash]
@@ -357,14 +361,14 @@ module Minitest
       #   When the given :order option is invalid.
       # @return [Symbol] The :order option, or by default; :desc.
       def order
-        orders = [:desc, :asc]
+        orders = %i[desc asc]
 
         if orders.include?(options[:order])
           options[:order]
 
         else
-          fail Minitest::Reporters::MeanTimeReporter::InvalidOrder,
-               "`:order` option must be one of #{orders.inspect}."
+          raise Minitest::Reporters::MeanTimeReporter::InvalidOrder,
+                "`:order` option must be one of #{orders.inspect}."
 
         end
       end
@@ -373,14 +377,14 @@ module Minitest
       #   When the given :sort_column option is invalid.
       # @return [Symbol] The :sort_column option, or by default; :avg.
       def sort_column
-        sort_columns = [:avg, :min, :max, :last]
+        sort_columns = %i[avg min max last]
 
         if sort_columns.include?(options[:sort_column])
           options[:sort_column]
 
         else
-          fail Minitest::Reporters::MeanTimeReporter::InvalidSortColumn,
-               "`:sort_column` option must be one of #{sort_columns.inspect}."
+          raise Minitest::Reporters::MeanTimeReporter::InvalidSortColumn,
+                "`:sort_column` option must be one of #{sort_columns.inspect}."
 
         end
       end
