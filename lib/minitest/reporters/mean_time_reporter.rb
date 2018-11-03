@@ -1,4 +1,5 @@
 require 'minitest/reporters'
+require 'fileutils'
 require 'tmpdir'
 require 'yaml'
 
@@ -95,12 +96,12 @@ module Minitest
         super if options[:show_progress]
       end
 
-      # Resets the 'previous runs' file, essentially removing all previous
-      # statistics gathered.
+      # Deletes the 'previous runs' file, removing all previous statistics
+      # gathered.
       #
       # @return [void]
       def reset_statistics!
-        File.open(previous_runs_filename, 'w+') { |f| f.write('') }
+        FileUtils.rm_f(previous_runs_filename) # no error if file doesn't exist
       end
 
       protected

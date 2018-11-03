@@ -1,7 +1,48 @@
 require_relative "../../test_helper"
 
+require 'fileutils'
+
 module MinitestReportersTest
   class MeanTimeReporterTest < TestCase
+    # Uncomment this to verify breakage in minitest-reporters 1.3.5 as released
+    # def test_reset_statistics_breaks_future_runs
+    #   fixtures_directory = File.expand_path('../../../fixtures', __FILE__)
+    #   test_filename = File.join(fixtures_directory, 'mean_time_test.rb')
+    #   prev_runs_file = Dir.tmpdir + '/minitest_reporters_previous_run'
+    #   FileUtils.rm_f(prev_runs_file) # Erase any previous-runs data file
+    #   # ----
+    #   output1 = `#{ruby_executable} #{test_filename} 2>&1`
+    #   assert_equal(output1.lines[0], "\n") # start of successful-run report
+    #   # ----
+    #   Minitest::Reporters::MeanTimeReporter.reset_statistics!
+    #   assert_equal(true, File.empty?(prev_runs_file)) # exists and is empty
+    #   # ----
+    #   output2 = `#{ruby_executable} #{test_filename} 2>&1`
+    #   expected = "`block in create_or_update_previous_runs!': " \
+    #     "undefined method `[]' for false:FalseClass (NoMethodError)"
+    #   assert_match expected, output2, 'Did not get expected exception message'
+    #   FileUtils.rm_f(prev_runs_file) # Remove broken previous-runs data file
+    # end
+
+    def test_reset_statistics_does_not_break_future_runs
+      fixtures_directory = File.expand_path('../../../fixtures', __FILE__)
+      test_filename = File.join(fixtures_directory, 'mean_time_test.rb')
+      prev_runs_file = Dir.tmpdir + '/minitest_reporters_previous_run'
+      FileUtils.rm_f(prev_runs_file) # Erase any previous-runs data file
+      # ----
+      output1 = `#{ruby_executable} #{test_filename} 2>&1`
+      assert_equal(output1.lines[0], "\n") # start of successful-run report
+      # ----
+      Minitest::Reporters::MeanTimeReporter.reset_statistics!
+      assert_equal(false, File.exists?(prev_runs_file))
+      # ----
+      output2 = `#{ruby_executable} #{test_filename} 2>&1`
+      error_message = "`block in create_or_update_previous_runs!': " \
+        "undefined method `[]' for false:FalseClass (NoMethodError)"
+      refute_match error_message, output2, 'Got unexpected exception message'
+      FileUtils.rm_f(prev_runs_file) # Erase any previous-runs data file on fail
+    end
+
     def test_all_failures_are_displayed
       fixtures_directory = File.expand_path('../../../fixtures', __FILE__)
       test_filename = File.join(fixtures_directory, 'mean_time_test.rb')
