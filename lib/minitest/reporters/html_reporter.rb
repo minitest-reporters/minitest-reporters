@@ -45,6 +45,7 @@ module Minitest
       def friendly_name(test)
         groups = test.name.scan(/(test_\d+_)(.*)/i)
         return test.name if groups.empty?
+
         "it #{groups[0][1]}"
       end
 
@@ -57,6 +58,7 @@ module Minitest
       def initialize(args = {})
         super({})
 
+        # rubocop:disable Layout/AlignHash
         defaults = {
           :title           => 'Test Results',
           :erb_template    => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
@@ -64,6 +66,7 @@ module Minitest
           :mode            => :safe,
           :output_filename => 'index.html',
         }
+        # rubocop:enable Layout/AlignHash
 
         settings = defaults.merge(args)
 
@@ -205,6 +208,7 @@ module Minitest
         last_before_assertion = ''
         exception.backtrace.reverse_each do |s|
           break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
+
           last_before_assertion = s
         end
         last_before_assertion.sub(/:in .*$/, '')

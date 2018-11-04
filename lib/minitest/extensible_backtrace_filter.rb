@@ -9,8 +9,8 @@ module Minitest
     # @return [Minitest::ExtensibleBacktraceFilter]
     def self.default_filter
       unless defined? @default_filter
-        filter = self.new
-        filter.add_filter(/lib\/minitest/)
+        filter = new
+        filter.add_filter(%r{lib/minitest})
         @default_filter = filter
       end
 
@@ -55,6 +55,7 @@ module Minitest
 
       backtrace.each do |line|
         break if filters?(line)
+
         result << line
       end
 

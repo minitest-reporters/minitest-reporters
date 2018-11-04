@@ -56,20 +56,24 @@ module Minitest
       end
 
       def on_record(test)
-        print "#{"%.2f" % test.time} = " if options[:verbose]
+        print "#{'%.2f' % test.time} = " if options[:verbose]
 
         # Print the pass/skip/fail mark
-        print(if test.passed?
+        print result_from_test(test)
+
+        # Print fast_fail information
+        return unless @fast_fail && (test.skipped? || test.failure)
+
+        print_failure(test)
+      end
+
+      def result_from_test(test)
+        if test.passed?
           record_pass(test)
         elsif test.skipped?
           record_skip(test)
         elsif test.failure
           record_failure(test)
-        end)
-
-        # Print fast_fail information
-        if @fast_fail && (test.skipped? || test.failure)
-          print_failure(test)
         end
       end
 
@@ -138,16 +142,17 @@ module Minitest
 
       def print_failure(test)
         message = message_for(test)
-        unless message.nil? || message.strip == ''
-          puts
-          puts colored_for(result(test), message)
-        end
+        return if message.nil? || message.strip.empty?
+
+        puts
+        puts colored_for(result(test), message)
       end
 
       private
 
       def color?
         return @color if defined?(@color)
+
         @color = @options.fetch(:color) do
           io.tty? && (
             ENV["TERM"] =~ /^screen|color/ ||
@@ -170,17 +175,16 @@ module Minitest
 
       def colored_for(result, string)
         case result
-        when :fail, :error; red(string)
-        when :skip; yellow(string)
+        when :fail, :error then red(string)
+        when :skip then yellow(string)
         else green(string)
         end
       end
 
       def suite_result
-        case
-        when failures > 0; :fail
-        when errors > 0; :error
-        when skips > 0; :skip
+        if failures.nonzero? then :fail
+        elsif errors.nonzero? then :error
+        elsif skips.nonzero? then :skip
         else :pass
         end
       end
@@ -190,6 +194,7 @@ module Minitest
 
         exception.backtrace.reverse_each do |s|
           break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
+
           last_before_assertion = s
         end
 
