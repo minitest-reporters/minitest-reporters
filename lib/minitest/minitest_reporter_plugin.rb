@@ -35,15 +35,13 @@ module Minitest
       # stolen from minitest self.run
       def total_count(options)
         filter = options[:filter] || '/./'
-        filter = Regexp.new Regexp.last_match(1) if filter =~ %r{/(.*)/}
+        filter = Regexp.new $1 if filter =~ /\/(.*)\//
 
-        # rubocop:disable Style/BlockDelimiters
         Minitest::Runnable.runnables.map { |runnable|
           runnable.runnable_methods.find_all { |m|
-            m =~ filter || "#{runnable}##{m}" =~ filter
+            filter === m || filter === "#{runnable}##{m}"
           }.size
         }.inject(:+)
-        # rubocop:enable Style/BlockDelimiters
       end
 
       def all_reporters
@@ -52,7 +50,6 @@ module Minitest
 
       def init_all_reporters
         return @reporters unless defined?(Minitest::Reporters.reporters) && Minitest::Reporters.reporters
-
         (Minitest::Reporters.reporters + guard_reporter(@reporters)).each do |reporter|
           reporter.io = @options[:io]
           if reporter.respond_to?(:add_defaults)

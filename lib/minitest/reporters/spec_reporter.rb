@@ -51,10 +51,10 @@ module Minitest
       end
 
       def record_print_failures_if_any(test)
-        return if test.skipped? || !test.failure
-
-        print_info(test.failure, test.error?)
-        puts
+        if !test.skipped? && test.failure
+          print_info(test.failure, test.error?)
+          puts
+        end
       end
     end
   end

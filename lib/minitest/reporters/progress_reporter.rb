@@ -19,7 +19,6 @@ module Minitest
         super
         @detailed_skip = options.fetch(:detailed_skip, true)
 
-        # rubocop:disable Layout/AlignHash
         @progress = ProgressBar.create(
           total:          total_count,
           starting_at:    count,
@@ -28,7 +27,6 @@ module Minitest
           format:         options.fetch(:format, '  %C/%c: [%B] %p%% %a, %e'),
           autostart:      false
         )
-        # rubocop:enable Layout/AlignHash
       end
 
       def start
@@ -43,7 +41,6 @@ module Minitest
       def record(test)
         super
         return if test.skipped? && !@detailed_skip
-
         if test.failure
           print "\e[0m\e[1000D\e[K"
           print_colored_status(test)
@@ -78,7 +75,7 @@ module Minitest
       private
 
       def show
-        @progress.increment unless count.zero?
+        @progress.increment unless count == 0
       end
 
       def print_test_with_time(test)

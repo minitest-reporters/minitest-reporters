@@ -29,11 +29,11 @@ module Minitest
       end
       Minitest.backtrace_filter = backtrace_filter unless backtrace_filter.nil?
 
-      return true if defined?(@@loaded)
-
-      use_around_test_hooks!
-      use_old_activesupport_fix!
-      @@loaded = true
+      unless defined?(@@loaded)
+        use_around_test_hooks!
+        use_old_activesupport_fix!
+        @@loaded = true
+      end
     end
 
     def self.use_runner!(console_reporters, env)
@@ -83,9 +83,9 @@ module Minitest
     end
 
     def self.use_old_activesupport_fix!
-      return unless defined?(ActiveSupport::VERSION) && ActiveSupport::VERSION::MAJOR < 4
-
-      require "minitest/old_activesupport_fix"
+      if defined?(ActiveSupport::VERSION) && ActiveSupport::VERSION::MAJOR < 4
+        require "minitest/old_activesupport_fix"
+      end
     end
   end
 end
