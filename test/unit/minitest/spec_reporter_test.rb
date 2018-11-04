@@ -51,7 +51,7 @@ module MinitestReportersTest
       error_msg = nil
       begin
         @reporter.report
-      rescue => e
+      rescue => e # rubocop:disable Style/RescueStandardError ## FIXME ##
         error_msg = "error executing @reporter.report, #{e}"
       end
 
@@ -59,4 +59,3 @@ module MinitestReportersTest
     end
   end
 end
-

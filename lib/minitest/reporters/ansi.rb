@@ -4,6 +4,7 @@ module Minitest
       module Code
         def self.color?
           return false if ENV['MINITEST_REPORTERS_MONO']
+
           color_terminal = ENV['TERM'].to_s.downcase.include?("color")
           $stdout.tty? || color_terminal
         end

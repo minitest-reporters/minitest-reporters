@@ -16,20 +16,20 @@ module Minitest
         @single_file = options[:single_file]
         @base_path = options[:base_path] || Dir.pwd
 
-        if empty
-          puts "Emptying #{@reports_path}"
-          FileUtils.mkdir_p(@reports_path)
-          File.delete(*Dir.glob("#{@reports_path}/TEST-*.xml"))
-        end
+        return unless empty
+
+        puts "Emptying #{@reports_path}"
+        FileUtils.mkdir_p(@reports_path)
+        File.delete(*Dir.glob("#{@reports_path}/TEST-*.xml"))
       end
 
       def report
         super
 
         puts "Writing XML reports to #{@reports_path}"
-        suites = tests.group_by { |test|
+        suites = tests.group_by do |test|
           test_class(test)
-        }
+        end
 
         if @single_file
           xml = Builder::XmlMarkup.new(:indent => 2)
@@ -130,6 +130,7 @@ module Minitest
         last_before_assertion = ''
         exception.backtrace.reverse_each do |s|
           break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
+
           last_before_assertion = s
         end
         last_before_assertion.sub(/:in .*$/, '')
@@ -155,7 +156,9 @@ module Minitest
         while File.exist?(File.join(@reports_path, filename)) # restrict number of tries, to avoid infinite loops
           file_counter += 1
           filename = "TEST-#{suite_name}-#{file_counter}.xml"
+          # rubocop:disable Style/AndOr
           puts "Too many duplicate files, overwriting earlier report #{filename}" and break if file_counter >= 99
+          # rubocop:enable Style/AndOr
         end
         File.join(@reports_path, filename)
       end
