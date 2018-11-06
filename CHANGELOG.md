@@ -1,5 +1,8 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.5...master)
 
+* fixed possible null pointer in #after_suite [#274](https://github.com/kern/minitest-reporters/pull/274)
+  contributed by [casperisfine](https://github.com/casperisfine)
+
 ### [1.3.5](https://github.com/kern/minitest-reporters/compare/v1.3.5.beta1...v1.3.5)
 
 ### [1.3.5.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.4...v1.3.5.beta1)
