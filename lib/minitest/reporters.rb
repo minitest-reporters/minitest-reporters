@@ -40,22 +40,21 @@ module Minitest
       self.reporters = choose_reporters(console_reporters, env)
     end
 
-    def self.use_around_test_hooks!
-      Minitest::Test.class_eval do
-        def run_with_hooks(*args)
-          if defined?(Minitest::Reporters) && (reporters = Minitest::Reporters.reporters)
-            reporters.each { |r| r.before_test(self) }
-            result = run_without_hooks(*args)
-            reporters.each { |r| r.after_test(self) }
-            result
-          else
-            run_without_hooks(*args)
-          end
+    module TestHooksModule
+      def run(*args)
+        if defined?(Minitest::Reporters) && (reporters = Minitest::Reporters.reporters)
+          reporters.each { |r| r.before_test(self) }
+          result = super(*args)
+          reporters.each { |r| r.after_test(self) }
+          result
+        else
+          super(*args)
         end
-
-        alias_method :run_without_hooks, :run
-        alias_method :run, :run_with_hooks
       end
+    end
+
+    def self.use_around_test_hooks!
+      Minitest::Test.prepend(TestHooksModule)
     end
 
     def self.choose_reporters(console_reporters, env)
