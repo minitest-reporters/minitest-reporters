@@ -1,5 +1,5 @@
 module Minitest
   module Reporters
-    VERSION = '1.3.5'.freeze
+    VERSION = '1.3.6'.freeze
   end
 end
