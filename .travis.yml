@@ -1,6 +1,7 @@
 script: 'rake test'
 before_install:
-  - gem install bundler
+  - gem install bundler gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
 rvm:
   - 2
   - 2.5
