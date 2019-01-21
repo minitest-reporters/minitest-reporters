@@ -10,9 +10,13 @@ module Minitest
     # Also inspired by Marc Seeger's attempt at producing a JUnitReporter (see https://github.com/rb2k/minitest-reporters/commit/e13d95b5f884453a9c77f62bc5cba3fa1df30ef5)
     # Also inspired by minitest-ci (see https://github.com/bhenderson/minitest-ci)
     class JUnitReporter < BaseReporter
-      def initialize(reports_dir = "test/reports", empty = true, options = {})
+      DEFAULT_REPORTS_DIR = "test/reports".freeze
+
+      attr_reader :reports_path
+
+      def initialize(reports_dir = DEFAULT_REPORTS_DIR, empty = true, options = {})
         super({})
-        @reports_path = File.absolute_path(reports_dir)
+        @reports_path = File.absolute_path(ENV.fetch("MINITEST_REPORTERS_REPORTS_DIR", reports_dir))
         @single_file = options[:single_file]
         @base_path = options[:base_path] || Dir.pwd
 
