@@ -37,10 +37,11 @@ module Minitest
         @progress.total = total_count
         show
       end
-      
+
       def before_test(test)
         super
-        print "\n#{test.class}##{test.name} " if options[:verbose]
+        puts
+        puts("\n%s#%s" % [test_class(test), test.name]) if options[:verbose]
       end
 
       def record(test)
