@@ -46,6 +46,13 @@ module Minitest
         before_suite(test_class(test))
       end
 
+      # Trims off the number prefix on test names when using Minitest Specs
+      def friendly_name(test)
+        groups = test.name.scan(/(test_\d+_)(.*)/i)
+        return test.name if groups.empty?
+        groups[0][1]
+      end
+
       def record(test)
         super
         tests << test

@@ -79,7 +79,7 @@ module Minitest
                       :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
           tests.each do |test|
             lineno = get_source_location(test).last
-            xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
+            xml.testcase(:name => friendly_name(test.name), :lineno => lineno, :classname => suite, :assertions => test.assertions,
                          :time => test.time) do
               xml << xml_message_for(test) unless test.passed?
             end
@@ -98,9 +98,9 @@ module Minitest
         e = test.failure
 
         if test.skipped?
-          xml.skipped(:type => test.name)
+          xml.skipped(:type => friendly_name(test.name))
         elsif test.error?
-          xml.error(:type => test.name, :message => xml.trunc!(e.message)) do
+          xml.error(:type => friendly_name(test.name), :message => xml.trunc!(e.message)) do
             xml.text!(message_for(test))
           end
         elsif test.failure
@@ -112,7 +112,7 @@ module Minitest
 
       def message_for(test)
         suite = test.class
-        name = test.name
+        name = friendly_name(test.name)
         e = test.failure
 
         if test.passed?

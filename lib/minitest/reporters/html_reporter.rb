@@ -43,9 +43,8 @@ module Minitest
 
       # Trims off the number prefix on test names when using Minitest Specs
       def friendly_name(test)
-        groups = test.name.scan(/(test_\d+_)(.*)/i)
-        return test.name if groups.empty?
-        "it #{groups[0][1]}"
+        name = super(test)
+        "it #{name}"
       end
 
       # The constructor takes a hash, and uses the following keys:
