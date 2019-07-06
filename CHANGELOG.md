@@ -1,5 +1,7 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.6...master)
 
+* added ability to specify output dir of JUnitReporter through ENV [#277](https://github.com/kern/minitest-reporters/pull/277) countributed by [KevinSjoberg](https://github.com/KevinSjoberg)
+
 ### [1.3.6](https://github.com/kern/minitest-reporters/compare/v1.3.5...v1.3.6)
 
 * fixed possible null pointer in #after_suite [#274](https://github.com/kern/minitest-reporters/pull/274)
