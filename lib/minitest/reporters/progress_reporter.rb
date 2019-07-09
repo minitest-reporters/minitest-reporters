@@ -38,6 +38,12 @@ module Minitest
         show
       end
 
+      def before_test(test)
+        super
+        puts
+        puts("\n%s#%s" % [test_class(test), test.name]) if options[:verbose]
+      end
+
       def record(test)
         super
         return if test.skipped? && !@detailed_skip
