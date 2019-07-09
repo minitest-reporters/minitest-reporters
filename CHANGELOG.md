@@ -1,6 +1,7 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.6...master)
 
 * added ability to specify output dir of JUnitReporter through ENV [#277](https://github.com/kern/minitest-reporters/pull/277) countributed by [KevinSjoberg](https://github.com/KevinSjoberg)
+* Added verbose functionality to ProgressReporter [#278](https://github.com/kern/minitest-reporters/pull/278) contributed by [senhalil](https://github.com/senhalil)
 
 ### [1.3.6](https://github.com/kern/minitest-reporters/compare/v1.3.5...v1.3.6)
 
