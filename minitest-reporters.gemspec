@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.required_ruby_version = '>= 1.9.3'
-  s.rubyforge_project = 'minitest-reporters'
 
   s.add_dependency 'minitest', '>= 5.0'
   s.add_dependency 'ansi'
