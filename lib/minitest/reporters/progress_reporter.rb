@@ -40,8 +40,10 @@ module Minitest
 
       def before_test(test)
         super
-        puts
-        puts("\n%s#%s" % [test_class(test), test.name]) if options[:verbose]
+        if options[:verbose]
+          puts
+          puts("\n%s#%s" % [test_class(test), test.name])
+        end
       end
 
       def record(test)
