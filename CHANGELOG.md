@@ -2,7 +2,7 @@
 
 ### [1.3.8](https://github.com/kern/minitest-reporters/compare/v1.3.7...v1.3.8)
 
-* Fixed default ProgressReporter regression from [#278](https://github.com/kern/minitest-reporters/pull/278) fix [#284](https://github.com/kern/minitest-reporters/pull/284) contributed by [bobmaerten](https://github.com/bobmaerten)
+* Fixed default ProgressReporter regression from [#278](https://github.com/kern/minitest-reporters/pull/278); fix [#284](https://github.com/kern/minitest-reporters/pull/284) contributed by [bobmaerten](https://github.com/bobmaerten)
 
 ### [1.3.7](https://github.com/kern/minitest-reporters/compare/v1.3.6...v1.3.7)
 
