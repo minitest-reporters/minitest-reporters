@@ -24,4 +24,5 @@ doc/
 Gemfile.lock
 .idea/
 .ruby-version
+vendor
 
