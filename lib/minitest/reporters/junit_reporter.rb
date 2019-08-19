@@ -99,16 +99,16 @@ module Minitest
           txt.sub(/\n.*/m, '...')
         end
 
-        e = test.failure
+        failure = test.failure
 
         if test.skipped?
-          xml.skipped(:type => test.name)
+          xml.skipped(:type => failure.error.class.name)
         elsif test.error?
-          xml.error(:type => test.name, :message => xml.trunc!(e.message)) do
+          xml.error(:type => failure.error.class.name, :message => xml.trunc!(failure.message)) do
             xml.text!(message_for(test))
           end
-        elsif test.failure
-          xml.failure(:type => test.name, :message => xml.trunc!(e.message)) do
+        elsif failure
+          xml.failure(:type => failure.error.class.name, :message => xml.trunc!(failure.message)) do
             xml.text!(message_for(test))
           end
         end
