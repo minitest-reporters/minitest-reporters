@@ -11,7 +11,7 @@
 <body>
 <div class="container">
     <div class="jumbotron">
-        <h6 class="lead">Report generated on <%= DateTime.now.strftime("%b %d, %Y at %H:%M") %></h6>
+        <h5>Report generated on <%= DateTime.now.strftime("%b %d, %Y at %H:%M") %></h5>
         <h1><%= title %></h1>
         <p>
             Finished in <%= total_time_to_hms %>, <%= '%.2f tests/s' % (count / total_time) %>, <%= '%.2f assertions/s' % (assertions / total_time) %>
