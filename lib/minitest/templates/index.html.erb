@@ -11,6 +11,7 @@
 <body>
 <div class="container">
     <div class="jumbotron">
+        <h6 class="pull-right"><%= DateTime.now.strftime("%b %d, %Y at %H:%M") %></h6>
         <h1><%= title %></h1>
         <p>
             Finished in <%= total_time_to_hms %>, <%= '%.2f tests/s' % (count / total_time) %>, <%= '%.2f assertions/s' % (assertions / total_time) %>
