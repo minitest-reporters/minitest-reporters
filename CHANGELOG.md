@@ -1,4 +1,8 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.3.8...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.0.beta1...master)
+
+### [1.4.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.8...v1.4.0.beta1)
+
+* JUnitReporter changed to be compatible with the spec [#286](https://github.com/kern/minitest-reporters/pull/286) contributed by [dylanahsmith](https://github.com/dylanahsmith)
 
 ### [1.3.8](https://github.com/kern/minitest-reporters/compare/v1.3.7...v1.3.8)
 
