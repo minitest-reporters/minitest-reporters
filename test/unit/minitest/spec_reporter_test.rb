@@ -57,6 +57,14 @@ module MinitestReportersTest
 
       refute error_msg, error_msg
     end
+
+    def test_suite_class_retrieval
+      Object.const_set('MockingTest', Class.new { def klass() nil end})
+      @reporter.io = StringIO.new
+      @reporter.before_test(MockingTest.new)
+
+      assert_match /MockingTest/, @reporter.io.string
+    end
   end
 end
 
