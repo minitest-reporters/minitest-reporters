@@ -1,4 +1,10 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.0.beta1...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.0...master)
+
+### [1.4.0](https://github.com/kern/minitest-reporters/compare/v1.4.0.beta1...v1.4.0)
+
+* travis updated to include ruby 2.6 ([#292](https://github.com/kern/minitest-reporters/pull/292) contributed by [pvalena](https://github.com/pvalena))
+* location option added to DefaultReporter [#288](https://github.com/kern/minitest-reporters/pull/288) contributed by [bmo](https://github.com/bmo)
+* Date and time added to HTML report [#287](https://github.com/kern/minitest-reporters/pull/287) contributed by [cderche](https://github.com/cderche)
 
 ### [1.4.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.8...v1.4.0.beta1)
 
