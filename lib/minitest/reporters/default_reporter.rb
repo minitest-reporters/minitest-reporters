@@ -19,6 +19,7 @@ module Minitest
         @suite_times = []
         @suite_start_times = {}
         @fast_fail = options.fetch(:fast_fail, false)
+        @show_test_location = options.fetch(:location, false)
         @options = options
       end
 
@@ -141,10 +142,27 @@ module Minitest
         unless message.nil? || message.strip == ''
           puts
           puts colored_for(result(test), message)
+          if @show_test_location
+            location = get_source_location(test)
+            puts "\n\n#{relative_path(location[0])}:#{location[1]}"
+          end
+
         end
       end
 
       private
+
+      def relative_path(path)
+        Pathname.new(path).relative_path_from(Pathname.new(Dir.getwd))
+      end
+      
+      def get_source_location(result)
+        if result.respond_to? :klass
+          result.source_location
+        else
+          result.method(result.name).source_location
+        end
+      end
 
       def color?
         return @color if defined?(@color)
@@ -187,7 +205,6 @@ module Minitest
 
       def location(exception)
         last_before_assertion = ''
-
         exception.backtrace.reverse_each do |s|
           break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
           last_before_assertion = s
