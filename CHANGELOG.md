@@ -1,4 +1,8 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.0...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.1...master)
+
+### [1.4.1](https://github.com/kern/minitest-reporters/compare/v1.4....v1.4.1)
+
+* fixed Time.current replaced with Time.now in HTML reporter's remplate [#293](https://github.com/kern/minitest-reporters/issues/293)
 
 ### [1.4.0](https://github.com/kern/minitest-reporters/compare/v1.4.0.beta1...v1.4.0)
 
