@@ -16,6 +16,12 @@ module Minitest
         all_reporters.each(&:start)
       end
 
+      def prerecord(klass, name)
+        all_reporters.each do |reporter|
+          reporter.prerecord klass, name
+        end
+      end
+
       def record(result)
         all_reporters.each do |reporter|
           reporter.record result
