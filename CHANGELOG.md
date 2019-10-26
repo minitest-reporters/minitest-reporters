@@ -1,4 +1,8 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.1...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.2...master)
+
+### [1.4.2](https://github.com/kern/minitest-reporters/compare/v1.4.1...v1.4.2)
+
+* fixed DelegateReporter to delegate prerecord() [#294](https://github.com/kern/minitest-reporters/pull/294) contributed by [mame](https://github.com/mame)
 
 ### [1.4.1](https://github.com/kern/minitest-reporters/compare/v1.4....v1.4.1)
 
