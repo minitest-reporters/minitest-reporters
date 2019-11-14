@@ -100,7 +100,7 @@ module Minitest
       #
       # @return [void]
       def reset_statistics!
-        File.open(previous_runs_filename, 'w+') { |f| f.write('') }
+        File.delete(previous_runs_filename) if File.exist?(previous_runs_filename)
       end
 
       protected
