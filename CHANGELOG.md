@@ -1,38 +1,38 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.2...master)
 
-### [1.4.2](https://github.com/kern/minitest-reporters/compare/v1.4.1...v1.4.2)
+### [1.4.2](https://github.com/kern/minitest-reporters/compare/v1.4.1...v1.4.2) (2019-10-26)
 
 * fixed DelegateReporter to delegate prerecord() [#294](https://github.com/kern/minitest-reporters/pull/294) contributed by [mame](https://github.com/mame)
 
-### [1.4.1](https://github.com/kern/minitest-reporters/compare/v1.4....v1.4.1)
+### [1.4.1](https://github.com/kern/minitest-reporters/compare/v1.4....v1.4.1) (2019-10-10)
 
 * fixed Time.current replaced with Time.now in HTML reporter's remplate [#293](https://github.com/kern/minitest-reporters/issues/293)
 
-### [1.4.0](https://github.com/kern/minitest-reporters/compare/v1.4.0.beta1...v1.4.0)
+### [1.4.0](https://github.com/kern/minitest-reporters/compare/v1.4.0.beta1...v1.4.0) (2019-10-06)
 
 * travis updated to include ruby 2.6 ([#292](https://github.com/kern/minitest-reporters/pull/292) contributed by [pvalena](https://github.com/pvalena))
 * location option added to DefaultReporter [#288](https://github.com/kern/minitest-reporters/pull/288) contributed by [bmo](https://github.com/bmo)
 * Date and time added to HTML report [#287](https://github.com/kern/minitest-reporters/pull/287) contributed by [cderche](https://github.com/cderche)
 
-### [1.4.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.8...v1.4.0.beta1)
+### [1.4.0.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.8...v1.4.0.beta1) (2019-08-28)
 
 * JUnitReporter changed to be compatible with the spec [#286](https://github.com/kern/minitest-reporters/pull/286) contributed by [dylanahsmith](https://github.com/dylanahsmith)
 
-### [1.3.8](https://github.com/kern/minitest-reporters/compare/v1.3.7...v1.3.8)
+### [1.3.8](https://github.com/kern/minitest-reporters/compare/v1.3.7...v1.3.8) (2019-08-14)
 
 * Fixed default ProgressReporter regression from [#278](https://github.com/kern/minitest-reporters/pull/278); fix [#284](https://github.com/kern/minitest-reporters/pull/284) contributed by [bobmaerten](https://github.com/bobmaerten)
 
-### [1.3.7](https://github.com/kern/minitest-reporters/compare/v1.3.6...v1.3.7)
+### [1.3.7](https://github.com/kern/minitest-reporters/compare/v1.3.6...v1.3.7) (2019-08-14)
 
 * added ability to specify output dir of JUnitReporter through ENV [#277](https://github.com/kern/minitest-reporters/pull/277) countributed by [KevinSjoberg](https://github.com/KevinSjoberg)
 * Added verbose functionality to ProgressReporter [#278](https://github.com/kern/minitest-reporters/pull/278) contributed by [senhalil](https://github.com/senhalil)
 
-### [1.3.6](https://github.com/kern/minitest-reporters/compare/v1.3.5...v1.3.6)
+### [1.3.6](https://github.com/kern/minitest-reporters/compare/v1.3.5...v1.3.6) (2019-01-16)
 
 * fixed possible null pointer in #after_suite [#274](https://github.com/kern/minitest-reporters/pull/274)
   contributed by [casperisfine](https://github.com/casperisfine)
 
-### [1.3.5](https://github.com/kern/minitest-reporters/compare/v1.3.5.beta1...v1.3.5)
+### [1.3.5](https://github.com/kern/minitest-reporters/compare/v1.3.5.beta1...v1.3.5) (2018-09-30)
 
 ### [1.3.5.beta1](https://github.com/kern/minitest-reporters/compare/v1.3.4...v1.3.5.beta1)
 
