@@ -1,12 +1,6 @@
 [gem]: https://rubygems.org/gems/minitest-reporters
 [travis]: https://travis-ci.org/kern/minitest-reporters
 
-# MAINTAINER WANTED!
-
-I have not been working with Ruby for a long time and feel like I'm providing a bad service to others keeping control over the gem.  Contact me (e-mail/PR) and I will be happy to help with getting up-to-speed with the gem.
-
-Thanks, [Oleg](https://github.com/os97673).
-
 # minitest-reporters - create customizable Minitest output formats
 
 [![Gem Version](https://badge.fury.io/rb/minitest-reporters.svg)][gem]
