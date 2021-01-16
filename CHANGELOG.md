@@ -1,4 +1,9 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.2...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.3...master)
+
+### [1.4.3](https://github.com/kern/minitest-reporters/compare/v1.4.2...v1.4.3) (2021-01-15)
+
+* fixed MeanTimeReporter to reset by deleting previous run file [#296](https://github.com/kern/minitest-reporters/pull/296) contributed by [AnythonyClark](https://github.com/AnthonyClark)
+* removed debug output from ProgressReporter [#301](https://github.com/kern/minitest-reporters/pull/301) contributed by [wvanbergen](https://github.com/wvanbergen)
 
 ### [1.4.2](https://github.com/kern/minitest-reporters/compare/v1.4.1...v1.4.2) (2019-10-26)
 
