@@ -116,6 +116,10 @@ The third parameter to `.use!`, in this case `Minitest.backtrace_filter`, should
 filter object. In the above example, you're telling minitest-reporters to use the filter
 that Rails has already set.
 
+**Test Anything Protocol (TAP)**
+
+The [Test Anything Protocol](https://testanything.org) is a specification for outputting test results in an implementation-agnostic manner so that various tools can read the output. If you need to produce TAP-compliant output for Minitest results, see this [blog post](https://dev.to/davidwessman/rails-minitest-results-output-in-tap-format-for-heroku-ci-46d3) and [gist](https://gist.github.com/davidwessman/09a13840a8a80080e3842ac3051714c7) by [@davidwessman](https://github.com/davidwessman).
+
 ## Note on Patches/Pull Requests ##
 
 * Fork the project.
