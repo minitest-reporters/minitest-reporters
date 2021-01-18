@@ -61,8 +61,12 @@ module Minitest
       def get_relative_path(result)
         file_path = Pathname.new(get_source_location(result).first)
         base_path = Pathname.new(@base_path)
-        file_path.relative_path_from(base_path) if file_path.absolute?
-        file_path
+
+        if file_path.absolute?
+          file_path.relative_path_from(base_path)
+        else
+          file_path
+        end
       end
 
       private
