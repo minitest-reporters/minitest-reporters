@@ -1,5 +1,6 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.2...master)
 
+* fixed rare compatability issue between JUnitReporter and older versions of Minitest [#272](https://github.com/minitest-reporters/minitest-reporters/pull/272) contributed by [chakrit](https://github.com/chakrit)
 * fixed JUnitReporter to use a relative file path if a file path is absolute [#305](https://github.com/minitest-reporters/minitest-reporters/issues/305)
 * fixed MeanTimeReporter to reset by deleting previous run file [#296](https://github.com/kern/minitest-reporters/pull/296) contributed by [AnythonyClark](https://github.com/AnthonyClark)
 * removed debug output from ProgressReporter [#301](https://github.com/kern/minitest-reporters/pull/301) contributed by [wvanbergen](https://github.com/wvanbergen)
