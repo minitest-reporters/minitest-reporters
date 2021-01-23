@@ -1,4 +1,6 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.2...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.3...master)
+
+### [1.4.3](https://github.com/kern/minitest-reporters/compare/v1.4.3...v1.4.2)
 
 * fixed rare compatability issue between JUnitReporter and older versions of Minitest [#272](https://github.com/minitest-reporters/minitest-reporters/pull/272) contributed by [chakrit](https://github.com/chakrit)
 * fixed JUnitReporter to use a relative file path if a file path is absolute [#305](https://github.com/minitest-reporters/minitest-reporters/issues/305)
@@ -121,5 +123,3 @@
 ## [1.1.15](https://github.com/kern/minitest-reporters/compare/v1.1.14...v1.1.15)
 
 * Fixed problem with handling SIGINFO [#231](https://github.com/kern/minitest-reporters/pull/231) (contributed by [joshpencheon](https://github.com/joshpencheon))
-
-
