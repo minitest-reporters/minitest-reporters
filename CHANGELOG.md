@@ -1,6 +1,6 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.3...master)
 
-### [1.4.3](https://github.com/kern/minitest-reporters/compare/v1.4.3...v1.4.2)
+### [1.4.3](https://github.com/kern/minitest-reporters/compare/v1.4.2...v1.4.3)
 
 * fixed rare compatability issue between JUnitReporter and older versions of Minitest [#272](https://github.com/minitest-reporters/minitest-reporters/pull/272) contributed by [chakrit](https://github.com/chakrit)
 * fixed JUnitReporter to use a relative file path if a file path is absolute [#305](https://github.com/minitest-reporters/minitest-reporters/issues/305)
