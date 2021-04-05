@@ -1,5 +1,7 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.3...master)
 
+* Added support for environment variables to define the output location of HTML reports. [#311](https://github.com/minitest-reporters/minitest-reporters/pull/311) contributed by [estebanbouza](https://github.com/estebanbouza)
+
 ### [1.4.3](https://github.com/kern/minitest-reporters/compare/v1.4.2...v1.4.3)
 
 * fixed rare compatability issue between JUnitReporter and older versions of Minitest [#272](https://github.com/minitest-reporters/minitest-reporters/pull/272) contributed by [chakrit](https://github.com/chakrit)
