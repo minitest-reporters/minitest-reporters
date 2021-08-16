@@ -2,6 +2,7 @@
 
 * Added support for environment variables to define the output location of HTML reports. [#311](https://github.com/minitest-reporters/minitest-reporters/pull/311) contributed by [estebanbouza](https://github.com/estebanbouza)
 * Fixed ProgressReporter accuracy on skipped tests while `detailed_skip` is disabled [#312](https://github.com/minitest-reporters/minitest-reporters/pull/312) contributed by [seven1m](https://github.com/seven1m)
+* Added `file` attribute to `<testcase>` tags in JUnitReporter for CircleCI compatibility [#313](https://github.com/minitest-reporters/minitest-reporters/pull/313) contributed by [nbudin](https://github.com/nbudin)
 
 ### [1.4.3](https://github.com/kern/minitest-reporters/compare/v1.4.2...v1.4.3)
 
@@ -67,7 +68,7 @@
 
 * SpecReporter do not print exception name any more (unless it is an test error) [#264](https://github.com/kern/minitest-reporters/issues/264)
 * Fixed loading error caused by fix for [#265](https://github.com/kern/minitest-reporters/pull/265)
-  see [#267](https://github.com/kern/minitest-reporters/issues/267) and 
+  see [#267](https://github.com/kern/minitest-reporters/issues/267) and
   [#268](https://github.com/kern/minitest-reporters/pull/268) for more details.
 
 ### [1.3.1](https://github.com/kern/minitest-reporters/compare/v1.3.1.beta1...v1.3.1)

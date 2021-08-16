@@ -90,7 +90,7 @@ module Minitest
           tests.each do |test|
             lineno = get_source_location(test).last
             xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
-                         :time => test.time) do
+                         :time => test.time, :file => file_path) do
               xml << xml_message_for(test) unless test.passed?
             end
           end
