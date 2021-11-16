@@ -86,7 +86,8 @@ module Minitest
         xml.testsuite(:name => suite, :filepath => file_path,
                       :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
                       :errors => suite_result[:error_count], :tests => suite_result[:test_count],
-                      :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
+                      :assertions => suite_result[:assertion_count], :time => suite_result[:time],
+                      :timestamp => suite_result[:timestamp]) do
           tests.each do |test|
             lineno = get_source_location(test).last
             xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
@@ -154,6 +155,7 @@ module Minitest
           result[:assertion_count] += test.assertions
           result[:test_count] += 1
           result[:time] += test.time
+          result[:timestamp] = DateTime.now.strftime('%a, %d %b %Y %H:%M:%S')
         end
         result
       end
