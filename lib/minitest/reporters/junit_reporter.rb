@@ -171,7 +171,7 @@ module Minitest
           result[:assertion_count] += test.assertions
           result[:test_count] += 1
           result[:time] += test.time
-          result[:timestamp] = Minitest::Reporters.clock_time if @timestamp_report
+          result[:timestamp] = DateTime.now.strftime('%a, %d %b %Y %H:%M:%S') if @timestamp_report
         end
         result
       end
