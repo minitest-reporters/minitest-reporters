@@ -3,6 +3,8 @@
 require 'builder'
 require 'fileutils'
 require 'pathname'
+require 'time'
+
 module Minitest
   module Reporters
     # A reporter for writing JUnit test reports
@@ -21,6 +23,7 @@ module Minitest
         @reports_path = File.absolute_path(ENV.fetch("MINITEST_REPORTERS_REPORTS_DIR", reports_dir))
         @single_file = options[:single_file]
         @base_path = options[:base_path] || Dir.pwd
+        @timestamp_report = options[:include_timestamp]
 
         return unless empty
 
@@ -83,15 +86,31 @@ module Minitest
         suite_result = analyze_suite(tests)
         file_path = get_relative_path(tests.first)
 
-        xml.testsuite(:name => suite, :filepath => file_path,
-                      :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
-                      :errors => suite_result[:error_count], :tests => suite_result[:test_count],
-                      :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
-          tests.each do |test|
-            lineno = get_source_location(test).last
-            xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
-                         :time => test.time, :file => file_path) do
-              xml << xml_message_for(test) unless test.passed?
+        if @timestamp_report
+          xml.testsuite(:name => suite, :filepath => file_path,
+                                    :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
+                                    :errors => suite_result[:error_count], :tests => suite_result[:test_count],
+                                    :assertions => suite_result[:assertion_count], :time => suite_result[:time],
+                                    :timestamp => suite_result[:timestamp]) do
+            tests.each do |test|
+              lineno = get_source_location(test).last
+              xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
+                           :time => test.time, :file => file_path) do
+                xml << xml_message_for(test) unless test.passed?
+              end
+            end
+          end
+        else
+         xml.testsuite(:name => suite, :filepath => file_path,
+                                    :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
+                                    :errors => suite_result[:error_count], :tests => suite_result[:test_count],
+                                    :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
+            tests.each do |test|
+              lineno = get_source_location(test).last
+              xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
+                           :time => test.time, :file => file_path) do
+                xml << xml_message_for(test) unless test.passed?
+              end
             end
           end
         end
@@ -154,6 +173,7 @@ module Minitest
           result[:assertion_count] += test.assertions
           result[:test_count] += 1
           result[:time] += test.time
+          result[:timestamp] = Time.now.iso8601 if @timestamp_report
         end
         result
       end

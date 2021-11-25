@@ -3,6 +3,7 @@
 * Added support for environment variables to define the output location of HTML reports. [#311](https://github.com/minitest-reporters/minitest-reporters/pull/311) contributed by [estebanbouza](https://github.com/estebanbouza)
 * Fixed ProgressReporter accuracy on skipped tests while `detailed_skip` is disabled [#312](https://github.com/minitest-reporters/minitest-reporters/pull/312) contributed by [seven1m](https://github.com/seven1m)
 * Added `file` attribute to `<testcase>` tags in JUnitReporter for CircleCI compatibility [#313](https://github.com/minitest-reporters/minitest-reporters/pull/313) contributed by [nbudin](https://github.com/nbudin)
+* Added timestamp option to JUnitReporter [#316] (https://github.com/minitest-reporters/minitest-reporters/pull/316) contributed by [sipani909](https://github.com/sipani909)
 
 ### [1.4.3](https://github.com/kern/minitest-reporters/compare/v1.4.2...v1.4.3)
 
