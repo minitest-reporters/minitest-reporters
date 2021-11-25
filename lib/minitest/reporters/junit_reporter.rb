@@ -3,6 +3,8 @@
 require 'builder'
 require 'fileutils'
 require 'pathname'
+require 'time'
+
 module Minitest
   module Reporters
     # A reporter for writing JUnit test reports
@@ -171,7 +173,7 @@ module Minitest
           result[:assertion_count] += test.assertions
           result[:test_count] += 1
           result[:time] += test.time
-          result[:timestamp] = DateTime.now.strftime('%a, %d %b %Y %H:%M:%S') if @timestamp_report
+          result[:timestamp] = Time.now.iso8601 if @timestamp_report
         end
         result
       end
