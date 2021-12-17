@@ -41,7 +41,7 @@ module Minitest
       # stolen from minitest self.run
       def total_count(options)
         filter = options[:filter] || '/./'
-        filter = Regexp.new $1 if filter =~ /\/(.*)\//
+        filter = Regexp.new $1 if filter.is_a?(String) && filter =~ %r%/(.*)/%
 
         Minitest::Runnable.runnables.map { |runnable|
           runnable.runnable_methods.find_all { |m|
