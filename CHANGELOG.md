@@ -1,4 +1,6 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.4.3...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.5.0...master)
+
+### [1.5.0](https://github.com/kern/minitest-reporters/compare/v1.4.3...v1.5.0)
 
 * Added support for environment variables to define the output location of HTML reports. [#311](https://github.com/minitest-reporters/minitest-reporters/pull/311) contributed by [estebanbouza](https://github.com/estebanbouza)
 * Fixed ProgressReporter accuracy on skipped tests while `detailed_skip` is disabled [#312](https://github.com/minitest-reporters/minitest-reporters/pull/312) contributed by [seven1m](https://github.com/seven1m)
