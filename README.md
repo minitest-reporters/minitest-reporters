@@ -4,7 +4,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/minitest-reporters.svg)][gem]
 [![Build Status](https://github.com/minitest-reporters/minitest-reporters/actions/workflows/ci.yml/badge.svg)][github-actions]
-[![Windows build status](https://ci.appveyor.com/api/projects/status/3pugsxatwcldgyjd/branch/master?svg=true)](https://ci.appveyor.com/project/os97673/minitest-reporters/branch/master)
 
 Death to haphazard monkey-patching! Extend Minitest through simple hooks.
 
