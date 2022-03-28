@@ -19,7 +19,6 @@ Metrics:
 
 Layout/LineLength:
   Severity: convention
-  Max: 130
 
 Naming:
   Enabled: true
