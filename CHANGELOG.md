@@ -1,5 +1,7 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.5.0...master)
 
+* Switched to Github actions [#324](https://github.com/minitest-reporters/minitest-reporters/pull/324) [petergoldstein](https://github.com/petergoldstein)
+
 ### [1.5.0](https://github.com/kern/minitest-reporters/compare/v1.4.3...v1.5.0)
 
 * Added support for environment variables to define the output location of HTML reports. [#311](https://github.com/minitest-reporters/minitest-reporters/pull/311) contributed by [estebanbouza](https://github.com/estebanbouza)
