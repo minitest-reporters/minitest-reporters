@@ -29,9 +29,6 @@ Naming:
 Naming/MethodParameterName:
   MinNameLength: 1
 
-Performance:
-  Enabled: true
-
 Security:
   Enabled: true
 
