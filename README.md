@@ -1,11 +1,9 @@
 [gem]: https://rubygems.org/gems/minitest-reporters
-[travis]: https://travis-ci.org/kern/minitest-reporters
 
 # minitest-reporters - create customizable Minitest output formats
 
 [![Gem Version](https://badge.fury.io/rb/minitest-reporters.svg)][gem]
-[![Build Status](https://secure.travis-ci.org/kern/minitest-reporters.png)][travis]
-[![Windows build status](https://ci.appveyor.com/api/projects/status/3pugsxatwcldgyjd/branch/master?svg=true)](https://ci.appveyor.com/project/os97673/minitest-reporters/branch/master)
+[![Build Status](https://github.com/minitest-reporters/minitest-reporters/actions/workflows/ci.yml/badge.svg)][github-actions]
 
 Death to haphazard monkey-patching! Extend Minitest through simple hooks.
 
