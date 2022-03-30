@@ -1,6 +1,8 @@
 ---
-#AllCops:
-#  DisabledByDefault: true
+AllCops:
+  NewCops: enable
+
+inherit_from: .rubocop_todo.yml
 
 Layout:
   Enabled: true
@@ -15,21 +17,14 @@ Metrics:
   Severity: refactor
   Enabled: false
 
-Metrics/LineLength:
+Layout/LineLength:
   Severity: convention
-  Max: 130
 
 Naming:
   Enabled: true
 
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   MinNameLength: 1
-
-Performance:
-  Enabled: true
-
-Rails:
-  Enabled: false
 
 Security:
   Enabled: true
