@@ -70,6 +70,26 @@ module Minitest
         puts
       end
 
+      # @param sigfig [Integer] minimum number of digits to include (not including leading 0s if duration < 1s)
+      def format_duration(duration, sigfig: 3)
+        return('[negative duration]') if duration < 0 # duration should be positive, but nonmonotonic clock is possible
+
+        lg = duration == 0 ? 0 : Math.log10(duration).floor
+        if lg - sigfig + 1 < 0
+          seconds = "%.#{sigfig - lg - 1}f" % (duration % 60)
+        else
+          seconds = "%i" % (duration % 60)
+        end
+
+        if duration > 60 * 60
+          "%ih %im %ss" % [duration / 60 / 60, duration / 60 % 60, seconds]
+        elsif duration > 60
+          "%im %ss" % [duration / 60, seconds]
+        else
+          "%ss" % seconds
+        end
+      end
+
       protected
 
       def after_suite(test); end
