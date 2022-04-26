@@ -79,7 +79,7 @@ module Minitest
         test_name = test.name.gsub(/^test_: /, 'test:')
         print pad_test(test_name)
         print_colored_status(test)
-        print(" (%.2fs)" % test.time) unless test.time.nil?
+        print(" (%s)" % format_duration(test.time)) unless test.time.nil?
         puts
       end
     end

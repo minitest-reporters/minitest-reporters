@@ -15,7 +15,7 @@
         <h1>
             <%= title %></h1>
         <p>
-            Finished in <%= total_time_to_hms %>, <%= '%.2f tests/s' % (count / total_time) %>, <%= '%.2f assertions/s' % (assertions / total_time) %>
+            Finished in <%= format_duration(total_time) %>, <%= '%.2f tests/s' % (count / total_time) %>, <%= '%.2f assertions/s' % (assertions / total_time) %>
         </p>
         <p>
             <strong>
@@ -51,7 +51,7 @@
                     <span class="<%= 'text-danger' if suite[:fail_count] > 0 %>"> <%= '%d' % suite[:fail_count] %> failures</span>,
                     <span class="<%= 'text-danger' if suite[:error_count] > 0 %>"> <%= '%d' % suite[:error_count] %> errors</span>,
                     <span class="<%= 'text-warning' if suite[:skip_count] > 0 %>"> <%= '%d' % suite[:skip_count] %> skips</span>,
-                    <span> finished in <%= '%.4fs' % suite[:time] %></span>
+                    <span> finished in <%= format_duration(suite[:time]) %></span>
                 </span>
             </div>
             <div class="panel-body">
@@ -68,7 +68,7 @@
                                 <% end %>
                                 <%= friendly_name(test) %>
                                 <span class="pull-right">
-                                    Assertions <%= test.assertions %>, time <%= ('%.6fs' % test.time) %>
+                                    Assertions <%= test.assertions %>, time <%= format_duration(test.time) %>
                                 </span>
                             </h5>
                             <% if !test.passed? %>

@@ -57,7 +57,7 @@ module Minitest
       end
 
       def on_record(test)
-        print "#{"%.2f" % test.time} = " if options[:verbose]
+        print "#{format_duration(test.time)} = " if options[:verbose]
 
         # Print the pass/skip/fail mark
         print(if test.passed?
@@ -92,8 +92,8 @@ module Minitest
       end
 
       def on_report
-        status_line = "Finished tests in %.6fs, %.4f tests/s, %.4f assertions/s." %
-          [total_time, count / total_time, assertions / total_time]
+        status_line = "Finished tests in %s, %.4f tests/s, %.4f assertions/s." %
+          [format_duration(total_time), count / total_time, assertions / total_time]
 
         puts
         puts
@@ -114,7 +114,7 @@ module Minitest
           puts
 
           slow_tests.each do |test|
-            puts "%.6fs %s#%s" % [test.time, test.name, test_class(test)]
+            puts "%s %s#%s" % [format_duration(test.time), test.name, test_class(test)]
           end
         end
 
@@ -126,7 +126,7 @@ module Minitest
           puts
 
           slow_suites.each do |slow_suite|
-            puts "%.6fs %s" % [slow_suite[1], slow_suite[0]]
+            puts "%s %s" % [format_duration(slow_suite[1]), slow_suite[0]]
           end
         end
 

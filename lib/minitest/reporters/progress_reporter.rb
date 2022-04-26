@@ -82,7 +82,7 @@ module Minitest
       end
 
       def print_test_with_time(test)
-        print(" %s#%s (%.2fs)" % [test_class(test), test.name, total_time])
+        print(" %s#%s (%s)" % [test_class(test), test.name, format_duration(total_time)])
       end
 
       def color

@@ -37,7 +37,7 @@ module Minitest
       def report
         super
         puts
-        puts('Finished in %.5fs' % total_time)
+        puts('Finished in %s' % format_duration(total_time))
         print('%d tests, %d assertions, ' % [count, assertions])
         print('%d failures, %d errors, ' % [failures, errors])
         print('%d skips' % skips)
@@ -47,7 +47,7 @@ module Minitest
       private
 
       def print_test_with_time(test)
-        print(" #{test.class}##{test.name} (%.2fs)" % test.time)
+        print(" #{test.class}##{test.name} (%s)" % format_duration(test.time))
       end
     end
   end
