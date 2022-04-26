@@ -92,8 +92,8 @@ module Minitest
       end
 
       def on_report
-        status_line = "Finished tests in %s, %.4f tests/s, %.4f assertions/s." %
-          [format_duration(total_time), count / total_time, assertions / total_time]
+        status_line = "Finished tests in %s, %s tests/s, %s assertions/s." %
+          [format_duration(total_time), format_sigfig(count / total_time), format_sigfig(assertions / total_time)]
 
         puts
         puts
