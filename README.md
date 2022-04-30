@@ -128,8 +128,8 @@ The [Test Anything Protocol](https://testanything.org) is a specification for ou
 
 ## Resources ##
 
-* [GitHub Repository](https://github.com/CapnKernul/minitest-reporters)
-* [Documentation](http://www.rubydoc.info/github/kern/minitest-reporters/master)
+* [GitHub Repository](https://github.com/minitest-reporters/minitest-reporters/)
+* [Documentation](https://www.rubydoc.info/github/minitest-reporters/minitest-reporters/master)
 
 ## License ##
 
