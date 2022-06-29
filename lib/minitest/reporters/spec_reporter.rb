@@ -10,6 +10,16 @@ module Minitest
       include ANSI::Code
       include RelativePosition
 
+      # The constructor takes an `options` hash
+      # @param options [Hash]
+      # @option options print_at_bottom [Boolean] wether to print the errors at the bottom of the
+      #   report or inline as they happen.
+      #
+      def initialize(options = {})
+        super
+        @print_at_bottom = options[:print_at_bottom]
+      end
+
       def start
         super
         puts('Started with run options %s' % options[:args])
@@ -18,11 +28,14 @@ module Minitest
 
       def report
         super
-        failed_tests = tests.select { |test| !test.failures.empty? }
-        unless failed_tests.empty?
-          print(red 'Failures and errors:')
-          failed_tests.each { |test| print_failure(test) }
+        if @print_at_bottom
+          failed_tests = tests.reject { |test| test.failures.empty? }
+          unless failed_tests.empty?
+            print(red('Failures and errors:'))
+            failed_tests.each { |test| print_failure(test) }
+          end
         end
+
         puts('Finished in %.5fs' % total_time)
         print('%d tests, %d assertions, ' % [count, assertions])
         color = failures.zero? && errors.zero? ? :green : :red
@@ -34,6 +47,7 @@ module Minitest
       def record(test)
         super
         record_print_status(test)
+        record_print_failures_if_any(test) unless @print_at_bottom
       end
 
       protected
@@ -52,6 +66,13 @@ module Minitest
         print_info(test.failure, test.error?)
         puts "Location:\n\t #{test.source_location.join(':')}"
         puts
+      end
+
+      def record_print_failures_if_any(test)
+        if !test.skipped? && test.failure
+          print_info(test.failure, test.error?)
+          puts
+        end
       end
 
       def record_print_status(test)
