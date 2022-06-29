@@ -62,6 +62,7 @@ module Minitest
 
       def print_failure(test)
         puts
+        puts test.klass
         record_print_status(test)
         print_info(test.failure, test.error?)
         puts "Location:\n\t #{test.source_location.join(':')}"
