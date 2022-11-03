@@ -12,12 +12,12 @@ module Minitest
 
       # The constructor takes an `options` hash
       # @param options [Hash]
-      # @option options print_at_bottom [Boolean] wether to print the errors at the bottom of the
+      # @option options print_failure_summary [Boolean] wether to print the errors at the bottom of the
       #   report or inline as they happen.
       #
       def initialize(options = {})
         super
-        @print_at_bottom = options[:print_at_bottom]
+        @print_failure_summary = options[:print_failure_summary]
       end
 
       def start
@@ -28,11 +28,14 @@ module Minitest
 
       def report
         super
-        if @print_at_bottom
-          failed_tests = tests.reject { |test| test.failures.empty? }
-          unless failed_tests.empty?
+        if @print_failure_summary
+          failed_test_groups = tests.reject { |test| test.failures.empty? }
+                                    .sort_by { |test| [test_class(test).to_s, test.name] }
+                                    .group_by { |test| test_class(test).to_s }
+          unless failed_test_groups.empty?
             print(red('Failures and errors:'))
-            failed_tests.each { |test| print_failure(test) }
+
+            failed_test_groups.each { |name, tests| print_failure(name, tests) }
           end
         end
 
@@ -47,7 +50,7 @@ module Minitest
       def record(test)
         super
         record_print_status(test)
-        record_print_failures_if_any(test) unless @print_at_bottom
+        record_print_failures_if_any(test) unless @print_failure_summary
       end
 
       protected
@@ -60,13 +63,14 @@ module Minitest
         puts
       end
 
-      def print_failure(test)
+      def print_failure(name, tests)
         puts
-        puts test.klass
-        record_print_status(test)
-        print_info(test.failure, test.error?)
-        puts "Location:\n\t #{test.source_location.join(':')}"
-        puts
+        puts name
+        tests.each do |test|
+          record_print_status(test)
+          print_info(test.failure, test.error?)
+          puts
+        end
       end
 
       def record_print_failures_if_any(test)
