@@ -28,13 +28,16 @@ module Minitest
 
       # The percentage of tests that passed, calculated in a way that avoids rounding errors
       def percent_passes
-        100 - percent_skipps - percent_errors_failures
+        100 - percent_skips - percent_errors_failures
       end
 
       # The percentage of tests that were skipped
-      def percent_skipps
+      def percent_skips
         (skips / count.to_f * 100).to_i
       end
+
+      # Keeping old method name with typo for backwards compatibility in custom templates (for now)
+      alias_method :percent_skipps, :percent_skips
 
       # The percentage of tests that failed
       def percent_errors_failures
