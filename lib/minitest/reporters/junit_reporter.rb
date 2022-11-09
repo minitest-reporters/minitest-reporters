@@ -24,10 +24,11 @@ module Minitest
         @single_file = options[:single_file]
         @base_path = options[:base_path] || Dir.pwd
         @timestamp_report = options[:include_timestamp]
+        @silent = options.fetch(:silent, false)
 
         return unless empty
 
-        puts "Emptying #{@reports_path}"
+        puts "Emptying #{@reports_path}" unless @silent
         FileUtils.mkdir_p(@reports_path)
         File.delete(*Dir.glob("#{@reports_path}/TEST-*.xml"))
       end
@@ -35,7 +36,7 @@ module Minitest
       def report
         super
 
-        puts "Writing XML reports to #{@reports_path}"
+        puts "Writing XML reports to #{@reports_path}" unless @silent
         suites = tests.group_by do |test|
           test_class(test)
         end

@@ -56,6 +56,7 @@ module Minitest
       # :reports_dir - the directory the reports should be written to, defaults to 'test/html_reports'
       # :erb_template - the path to a custom ERB template, defaults to the supplied ERB template
       # :mode - Useful for debugging, :terse suppresses errors and is the default, :verbose lets errors bubble up
+      # :silent - suppresses all non-essential output
       # :output_filename - the report's filename, defaults to 'index.html'
       def initialize(args = {})
         super({})
@@ -65,6 +66,7 @@ module Minitest
           :erb_template    => "#{File.dirname(__FILE__)}/../templates/index.html.erb",
           :reports_dir     => ENV['MINITEST_HTML_REPORTS_DIR'] || 'test/html_reports',
           :mode            => :safe,
+          :silent          => false,
           :output_filename => ENV['MINITEST_HTML_REPORTS_FILENAME'] || 'index.html',
         }
 
@@ -75,6 +77,7 @@ module Minitest
         @erb_template = settings[:erb_template]
         @output_filename = settings[:output_filename]
         reports_dir = settings[:reports_dir]
+        @silent = settings[:silent]
 
         @reports_path = File.absolute_path(reports_dir)
       end
@@ -82,7 +85,7 @@ module Minitest
       def start
         super
 
-        puts "Emptying #{@reports_path}"
+        puts "Emptying #{@reports_path}" unless @silent
         FileUtils.mkdir_p(@reports_path)
         File.delete(html_file) if File.exist?(html_file)
       end
@@ -92,7 +95,7 @@ module Minitest
         super
 
         begin
-          puts "Writing HTML reports to #{@reports_path}"
+          puts "Writing HTML reports to #{@reports_path}" unless @silent
           erb_str = File.read(@erb_template)
           renderer = ERB.new(erb_str)
 

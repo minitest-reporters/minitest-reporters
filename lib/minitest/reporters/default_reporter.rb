@@ -20,6 +20,9 @@ module Minitest
         @suite_start_times = {}
         @fast_fail = options.fetch(:fast_fail, false)
         @show_test_location = options.fetch(:location, false)
+        @show_run_options = options.fetch(:run_options, true)
+        @show_status_line = options.fetch(:status_line, true)
+        @show_result_line = options.fetch(:result_line, true)
         @options = options
       end
 
@@ -29,6 +32,7 @@ module Minitest
       end
 
       def on_start
+        return unless @show_run_options
         puts
         puts("# Running tests with run options %s:" % options[:args])
         puts
@@ -92,13 +96,15 @@ module Minitest
       end
 
       def on_report
-        status_line = "Finished tests in %.6fs, %.4f tests/s, %.4f assertions/s." %
-          [total_time, count / total_time, assertions / total_time]
+        if @show_status_line
+          status_line = "Finished tests in %.6fs, %.4f tests/s, %.4f assertions/s." %
+            [total_time, count / total_time, assertions / total_time]
 
-        puts
-        puts
-        puts colored_for(suite_result, status_line)
-        puts
+          puts
+          puts
+          puts colored_for(suite_result, status_line)
+          puts
+        end
 
         unless @fast_fail
           tests.reject(&:passed?).each do |test|
@@ -130,9 +136,11 @@ module Minitest
           end
         end
 
-        puts
-        print colored_for(suite_result, result_line)
-        puts
+        if @show_result_line
+          puts
+          print colored_for(suite_result, result_line)
+          puts
+        end
       end
 
       alias to_s report
