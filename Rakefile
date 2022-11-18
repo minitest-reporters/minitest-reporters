@@ -38,6 +38,7 @@ task :gallery do
     "RubyMineReporter",
     "HtmlReporter",
     "MeanTimeReporter",
+    "GithubActionsReporter",
   ].each do |reporter|
     puts
     puts "-" * 72
