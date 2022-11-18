@@ -203,16 +203,6 @@ module Minitest
         end
       end
 
-      # taken from the JUnit reporter
-      def location(exception)
-        last_before_assertion = ''
-        exception.backtrace.reverse_each do |s|
-          break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
-          last_before_assertion = s
-        end
-        last_before_assertion.sub(/:in .*$/, '')
-      end
-
       def total_time_to_hms
         return ('%.2fs' % total_time) if total_time < 1
 

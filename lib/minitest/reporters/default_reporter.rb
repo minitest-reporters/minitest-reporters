@@ -155,14 +155,6 @@ module Minitest
       def relative_path(path)
         Pathname.new(path).relative_path_from(Pathname.new(Dir.getwd))
       end
-      
-      def get_source_location(result)
-        if result.respond_to? :klass
-          result.source_location
-        else
-          result.method(result.name).source_location
-        end
-      end
 
       def color?
         return @color if defined?(@color)
@@ -201,16 +193,6 @@ module Minitest
         when skips > 0; :skip
         else :pass
         end
-      end
-
-      def location(exception)
-        last_before_assertion = ''
-        exception.backtrace.reverse_each do |s|
-          break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
-          last_before_assertion = s
-        end
-
-        last_before_assertion.sub(/:in .*$/, '')
       end
 
       def message_for(test)

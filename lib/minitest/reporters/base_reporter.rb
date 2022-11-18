@@ -1,3 +1,5 @@
+require 'pathname'
+
 module Minitest
   module Reporters
     class Suite
@@ -130,6 +132,36 @@ module Minitest
 
         trace = filter_backtrace(e.backtrace)
         trace.each { |line| print_with_info_padding(line) }
+      end
+
+      def get_source_location(result)
+        if result.respond_to? :source_location
+          result.source_location
+        else
+          result.method(result.name).source_location
+        end
+      end
+
+      def location(exception)
+        last_before_assertion = ''
+        exception.backtrace.reverse_each do |s|
+          break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
+
+          last_before_assertion = s
+        end
+
+        last_before_assertion.sub(/:in .*$/, '')
+      end
+
+      def get_relative_path(result)
+        file_path = Pathname.new(get_source_location(result).first)
+        base_path = Pathname.new(options[:base_path] || Dir.pwd)
+
+        if file_path.absolute?
+          file_path.relative_path_from(base_path)
+        else
+          file_path
+        end
       end
     end
   end
