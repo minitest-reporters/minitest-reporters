@@ -163,6 +163,12 @@ module Minitest
           file_path
         end
       end
+
+      def print_run_options
+        puts
+        puts("# Running tests with run options %s:" % options[:args])
+        puts
+      end
     end
   end
 end

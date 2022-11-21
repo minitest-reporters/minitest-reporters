@@ -25,13 +25,7 @@ module Minitest
 
       def start
         super
-        on_start
-      end
-
-      def on_start
-        puts
-        puts("# Running tests with run options %s:" % options[:args])
-        puts
+        print_run_options
       end
 
       def before_test(test)
