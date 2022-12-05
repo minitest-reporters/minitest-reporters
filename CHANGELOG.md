@@ -3,6 +3,8 @@
 * Switched to Github actions [#324](https://github.com/minitest-reporters/minitest-reporters/pull/324) [petergoldstein](https://github.com/petergoldstein)
 * Fixed misspelled method name in HTML reporter (`percent_skipps` -> `percent_skips`) [#326](https://github.com/minitest-reporters/minitest-reporters/pull/326) contributed by [andyw8](https://github.com/andyw8)
 * Removed deprecated call to `Object#=~` [#318](https://github.com/minitest-reporters/minitest-reporters/pull/318) contributed by [etiennebarrie](https://github.com/etiennebarrie)
+* Added option `print_failure_summary` to `SpecReporter` which causes failures and errors to print at the end of the test suite instead of inline
+  as they happen [#306](https://github.com/minitest-reporters/minitest-reporters/pull/306) contributed by [picandocodigo](https://github.com/picandocodigo)
 
 ### [1.5.0](https://github.com/kern/minitest-reporters/compare/v1.4.3...v1.5.0)
 
