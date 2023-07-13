@@ -46,11 +46,11 @@ export MINITEST_REPORTER=JUnitReporter
 Detection of those systems is based on presence of certain ENV variables and are evaluated in the following order:
 
 ```
- MINITEST_REPORTER => use reporter indicated in env variable
- TM_PID => use RubyMateReporter
- RM_INFO => use RubyMineReporter
- TEAMCITY_VERSION => use RubyMineReporter
- VIM => disable all Reporters
+MINITEST_REPORTER => use reporter indicated in env variable
+TM_PID => use RubyMateReporter
+RM_INFO => use RubyMineReporter
+TEAMCITY_VERSION => use RubyMineReporter
+VIM => disable all Reporters
 ```
 
 The following reporters are provided:
@@ -77,15 +77,15 @@ Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => tru
 
 **Default Reporter**
 
-![Default Reporter](./assets/default-reporter.png?raw=true)
+![Default Reporter](https://raw.githubusercontent.com/minitest-reporters/minitest-reporters/master/assets/default-reporter.png)
 
 **Spec Reporter**
 
-![Spec Reporter](./assets/spec-reporter.png?raw=true)
+![Spec Reporter](https://raw.githubusercontent.com/minitest-reporters/minitest-reporters/master/assets/spec-reporter.png)
 
 **Progress Reporter**
 
-![Progress Reporter](./assets/progress-reporter.png?raw=true)
+![Progress Reporter](https://raw.githubusercontent.com/minitest-reporters/minitest-reporters/master/assets/progress-reporter.png)
 
 ## Caveats ##
 
@@ -104,11 +104,11 @@ happening if you see overly long or otherwise unexpected backtraces.)
 To avoid that, you must manually tell minitest-reporters which filter to use. In Rails,
 do this in `test_helper.rb`:
 ```ruby
-    Minitest::Reporters.use!(
-      Minitest::Reporters::DefaultReporter.new,
-      ENV,
-      Minitest.backtrace_filter
-    )
+Minitest::Reporters.use!(
+  Minitest::Reporters::DefaultReporter.new,
+  ENV,
+  Minitest.backtrace_filter
+)
 ```
 The third parameter to `.use!`, in this case `Minitest.backtrace_filter`, should be a
 filter object. In the above example, you're telling minitest-reporters to use the filter

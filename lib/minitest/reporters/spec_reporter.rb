@@ -12,7 +12,7 @@ module Minitest
 
       # The constructor takes an `options` hash
       # @param options [Hash]
-      # @option options print_failure_summary [Boolean] wether to print the errors at the bottom of the
+      # @option options print_failure_summary [Boolean] whether to print the errors at the bottom of the
       #   report or inline as they happen.
       #
       def initialize(options = {})

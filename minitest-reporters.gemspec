@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'ruby-progressbar'
   s.add_dependency 'builder'
 
-  s.add_development_dependency 'maruku'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rubocop'
 
