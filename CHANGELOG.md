@@ -1,6 +1,7 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.6.0...master)
 
 * Dropped support for Ruby < 2.3 [#342](https://github.com/minitest-reporters/minitest-reporters/pull/342)
+* Minor documentation improvements [#343](https://github.com/minitest-reporters/minitest-reporters/pull/343)
 
 ### [1.6.0](https://github.com/kern/minitest-reporters/compare/v1.5.0...v1.6.0)
 
