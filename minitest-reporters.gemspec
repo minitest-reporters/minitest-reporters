@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ['Alexander Kern']
   s.email       = ['alex@kernul.com']
-  s.homepage    = 'https://github.com/CapnKernul/minitest-reporters'
+  s.homepage    = 'https://github.com/minitest-reporters/minitest-reporters'
   s.summary     = %q{Create customizable Minitest output formats}
   s.description = %q{Death to haphazard monkey-patching! Extend Minitest through simple hooks.}
   s.license     = 'MIT'
