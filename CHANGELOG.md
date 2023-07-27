@@ -1,5 +1,7 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.6.0...master)
 
+* Replaced use of `MiniTest` constant with `Minitest` [#345](https://github.com/minitest-reporters/minitest-reporters/pull/345) contributed by [istana](https://github.com/istana)
+
 ### [1.6.0](https://github.com/kern/minitest-reporters/compare/v1.5.0...v1.6.0)
 
 * Switched to Github actions [#324](https://github.com/minitest-reporters/minitest-reporters/pull/324) [petergoldstein](https://github.com/petergoldstein)
