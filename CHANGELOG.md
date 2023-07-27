@@ -4,6 +4,7 @@
 * Minor documentation improvements [#343](https://github.com/minitest-reporters/minitest-reporters/pull/343)
 * Fixed homepage link in gemspec [#333](https://github.com/minitest-reporters/minitest-reporters/pull/333) contributed by [andyw8](https://github.com/andyw8)
 * Added Ruby 3.2 to the CI matrix [#335](https://github.com/minitest-reporters/minitest-reporters/pull/335) contributed by [petergoldstein](https://github.com/petergoldstein)
+* Replaced use of `MiniTest` constant with `Minitest` [#345](https://github.com/minitest-reporters/minitest-reporters/pull/345) contributed by [istana](https://github.com/istana)
 
 ### [1.6.0](https://github.com/kern/minitest-reporters/compare/v1.5.0...v1.6.0)
 
