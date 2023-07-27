@@ -1,4 +1,6 @@
-### [dev](https://github.com/kern/minitest-reporters/compare/v1.6.0...master)
+### [dev](https://github.com/kern/minitest-reporters/compare/v1.6.1...master)
+
+### [1.6.1](https://github.com/kern/minitest-reporters/compare/v1.6.0...v1.6.1)
 
 * Replaced use of `MiniTest` constant with `Minitest` [#345](https://github.com/minitest-reporters/minitest-reporters/pull/345) contributed by [istana](https://github.com/istana)
 
