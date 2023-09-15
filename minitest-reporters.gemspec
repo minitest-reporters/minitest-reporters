@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{Death to haphazard monkey-patching! Extend Minitest through simple hooks.}
   s.license     = 'MIT'
 
-  s.required_ruby_version = '>= 2.3.0'
+  s.required_ruby_version = '>= 1.9.3'
 
   s.add_dependency 'minitest', '>= 5.0'
   s.add_dependency 'ansi'

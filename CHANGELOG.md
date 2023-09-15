@@ -1,6 +1,5 @@
 ### [dev](https://github.com/kern/minitest-reporters/compare/v1.6.1...master)
 
-* Dropped support for Ruby < 2.3 [#342](https://github.com/minitest-reporters/minitest-reporters/pull/342)
 * Minor documentation improvements [#343](https://github.com/minitest-reporters/minitest-reporters/pull/343)
 * Fixed homepage link in gemspec [#333](https://github.com/minitest-reporters/minitest-reporters/pull/333) contributed by [andyw8](https://github.com/andyw8)
 * Added Ruby 3.2 to the CI matrix [#335](https://github.com/minitest-reporters/minitest-reporters/pull/335) contributed by [petergoldstein](https://github.com/petergoldstein)
