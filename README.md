@@ -56,14 +56,15 @@ VIM => disable all Reporters
 The following reporters are provided:
 
 ```ruby
-Minitest::Reporters::DefaultReporter  # => Redgreen-capable version of standard Minitest reporter
-Minitest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
-Minitest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
-Minitest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
-Minitest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
-Minitest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
-Minitest::Reporters::MeanTimeReporter # => Produces a report summary showing the slowest running tests
-Minitest::Reporters::HtmlReporter     # => Generates an HTML report of the test results
+Minitest::Reporters::DefaultReporter       # => Redgreen-capable version of standard Minitest reporter
+Minitest::Reporters::SpecReporter          # => Turn-like output that reads like a spec
+Minitest::Reporters::ProgressReporter      # => Fuubar-like output with a progress bar
+Minitest::Reporters::RubyMateReporter      # => Simple reporter designed for RubyMate
+Minitest::Reporters::RubyMineReporter      # => Reporter designed for RubyMine IDE and TeamCity CI server
+Minitest::Reporters::JUnitReporter         # => JUnit test reporter designed for JetBrains TeamCity
+Minitest::Reporters::MeanTimeReporter      # => Produces a report summary showing the slowest running tests
+Minitest::Reporters::HtmlReporter          # => Generates an HTML report of the test results
+Minitest::Reporters::GithubActionsReporter # => Generate Annotations for use with Github Actions
 ```
 
 Options can be passed to these reporters at construction-time, e.g. to force

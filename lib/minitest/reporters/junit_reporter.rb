@@ -2,7 +2,6 @@
 
 require 'builder'
 require 'fileutils'
-require 'pathname'
 require 'time'
 
 module Minitest
@@ -22,7 +21,6 @@ module Minitest
         super({})
         @reports_path = File.absolute_path(ENV.fetch("MINITEST_REPORTERS_REPORTS_DIR", reports_dir))
         @single_file = options[:single_file]
-        @base_path = options[:base_path] || Dir.pwd
         @timestamp_report = options[:include_timestamp]
 
         return unless empty
@@ -61,26 +59,7 @@ module Minitest
         end
       end
 
-      def get_relative_path(result)
-        file_path = Pathname.new(get_source_location(result).first)
-        base_path = Pathname.new(@base_path)
-
-        if file_path.absolute?
-          file_path.relative_path_from(base_path)
-        else
-          file_path
-        end
-      end
-
       private
-
-      def get_source_location(result)
-        if result.respond_to? :source_location
-          result.source_location
-        else
-          result.method(result.name).source_location
-        end
-      end
 
       def parse_xml_for(xml, suite, tests)
         suite_result = analyze_suite(tests)
@@ -153,16 +132,6 @@ module Minitest
         elsif test.error?
           "Error:\n#{name}(#{suite}):\n#{e.message}"
         end
-      end
-
-      def location(exception)
-        last_before_assertion = ''
-        exception.backtrace.reverse_each do |s|
-          break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
-
-          last_before_assertion = s
-        end
-        last_before_assertion.sub(/:in .*$/, '')
       end
 
       def analyze_suite(tests)

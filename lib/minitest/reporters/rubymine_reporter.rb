@@ -35,8 +35,7 @@ else
 
         def start
           super
-          puts('Started with run options %s' % options[:args])
-          puts
+          print_run_options
 
           # Setup test runner's MessageFactory
           set_message_factory(Rake::TeamCity::MessageFactory)

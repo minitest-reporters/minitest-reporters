@@ -17,6 +17,7 @@ module Minitest
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
     autoload :HtmlReporter, "minitest/reporters/html_reporter"
     autoload :MeanTimeReporter, "minitest/reporters/mean_time_reporter"
+    autoload :GithubActionsReporter, "minitest/reporters/github_actions_reporter"
 
     class << self
       attr_accessor :reporters

@@ -22,8 +22,7 @@ module Minitest
 
       def start
         super
-        puts('Started with run options %s' % options[:args])
-        puts
+        print_run_options
       end
 
       def report

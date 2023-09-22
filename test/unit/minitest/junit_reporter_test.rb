@@ -14,7 +14,7 @@ module MinitestReportersTest
     def test_relative_path
       path = Pathname.new(__FILE__).relative_path_from(Pathname.new(Dir.pwd)).to_s
       @result.source_location = [path, 10]
-      relative_path = @reporter.get_relative_path(@result)
+      relative_path = @reporter.send(:get_relative_path, @result)
       assert_equal path, relative_path.to_s
     end
 
