@@ -86,31 +86,23 @@ module Minitest
         suite_result = analyze_suite(tests)
         file_path = get_relative_path(tests.first)
 
-        if @timestamp_report
-          xml.testsuite(:name => suite, :filepath => file_path,
-                                    :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
-                                    :errors => suite_result[:error_count], :tests => suite_result[:test_count],
-                                    :assertions => suite_result[:assertion_count], :time => suite_result[:time],
-                                    :timestamp => suite_result[:timestamp]) do
-            tests.each do |test|
-              lineno = get_source_location(test).last
-              xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
-                           :time => test.time, :file => file_path) do
-                xml << xml_message_for(test) unless test.passed?
-              end
-            end
-          end
-        else
-         xml.testsuite(:name => suite, :filepath => file_path,
-                                    :skipped => suite_result[:skip_count], :failures => suite_result[:fail_count],
-                                    :errors => suite_result[:error_count], :tests => suite_result[:test_count],
-                                    :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
-            tests.each do |test|
-              lineno = get_source_location(test).last
-              xml.testcase(:name => test.name, :lineno => lineno, :classname => suite, :assertions => test.assertions,
-                           :time => test.time, :file => file_path) do
-                xml << xml_message_for(test) unless test.passed?
-              end
+        testsuite_attributes = {
+          :name => suite, :filepath => file_path, :skipped => suite_result[:skip_count],
+          :failures => suite_result[:fail_count], :errors => suite_result[:error_count],
+          :tests => suite_result[:test_count], :assertions => suite_result[:assertion_count],
+          :time => suite_result[:time]
+        }
+        testsuite_attributes[:timestamp] = suite_result[:timestamp] if @timestamp_report
+
+        xml.testsuite(testsuite_attributes) do
+          tests.each do |test|
+            lineno = get_source_location(test).last
+            xml.testcase(
+              :name => test.name, :lineno => lineno, :classname => suite,
+              :assertions => test.assertions, :time => test.time, :file => file_path
+            ) do
+              xml << xml_message_for(test) unless test.passed?
+              xml << xml_attachment_for(test) if test.respond_to?('metadata') && test.metadata[:failure_screenshot_path]
             end
           end
         end
@@ -153,6 +145,12 @@ module Minitest
         elsif test.error?
           "Error:\n#{name}(#{suite}):\n#{e.message}"
         end
+      end
+
+      def xml_attachment_for(test)
+        xml = Builder::XmlMarkup.new(:indent => 2, :margin => 2)
+
+        xml.tag!('system-out', "[[ATTACHMENT|#{test.metadata[:failure_screenshot_path]}]]")
       end
 
       def location(exception)
