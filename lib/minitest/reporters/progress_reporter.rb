@@ -72,12 +72,7 @@ module Minitest
         @progress.finish
 
         puts
-        puts('Finished in %.5fs' % total_time)
-        print('%d tests, %d assertions, ' % [count, assertions])
-        color = failures.zero? && errors.zero? ? :green : :red
-        print(send(color) { '%d failures, %d errors, ' } % [failures, errors])
-        print(yellow { '%d skips' } % skips)
-        puts
+        print_finished
       end
 
       private
@@ -87,7 +82,7 @@ module Minitest
       end
 
       def print_test_with_time(test)
-        print(" %s#%s (%.2fs)" % [test_class(test), test.name, total_time])
+        print(" %s#%s (%s)" % [test_class(test), test.name, format_duration(total_time)])
       end
 
       def color

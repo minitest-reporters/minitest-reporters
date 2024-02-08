@@ -144,13 +144,23 @@ module Minitest
       #
       # @return [String]
       def report_body
-        order_sorted_body.each_with_object([]) do |result, obj|
+        body = order_sorted_body
+        lengths = {}
+        numkeys = [:avg, :min, :max, :last]
+        body.each do |result|
+          numkeys.each do |key|
+            formatted = format_sigfig(result[key])
+            result[:"format_#{key}"] = formatted
+            lengths[key] = formatted.size if !lengths.key?(key) || lengths[key] < formatted.size
+          end
+        end
+        body.each_with_object([]) do |result, obj|
           rating = rate(result[:last], result[:min], result[:max])
 
-          obj << "#{avg_label} #{result[:avg].to_s.ljust(12)} " \
-                 "#{min_label} #{result[:min].to_s.ljust(12)} " \
-                 "#{max_label} #{result[:max].to_s.ljust(12)} " \
-                 "#{run_label(rating)} #{result[:last].to_s.ljust(12)} " \
+          obj << "#{avg_label} #{result[:format_avg].ljust(lengths[:avg])}   " \
+                 "#{min_label} #{result[:format_min].ljust(lengths[:min])}   " \
+                 "#{max_label} #{result[:format_max].ljust(lengths[:max])}   " \
+                 "#{run_label(rating)} #{result[:format_last].ljust(lengths[:last])}   " \
                  "#{des_label} #{result[:desc]}\n"
         end.join
       end
@@ -176,10 +186,10 @@ module Minitest
           size = Array(timings).size
           sum  = Array(timings).inject { |total, x| total + x }
           obj << {
-            avg:  (sum / size).round(9),
-            min:  Array(timings).min.round(9),
-            max:  Array(timings).max.round(9),
-            last: Array(timings).last.round(9),
+            avg:  sum / size,
+            min:  Array(timings).min,
+            max:  Array(timings).max,
+            last: Array(timings).last,
             desc: description,
           }
         end.sort_by { |k| k[sort_column] }

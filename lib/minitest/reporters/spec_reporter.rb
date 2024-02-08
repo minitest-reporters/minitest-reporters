@@ -39,12 +39,7 @@ module Minitest
           end
         end
 
-        puts('Finished in %.5fs' % total_time)
-        print('%d tests, %d assertions, ' % [count, assertions])
-        color = failures.zero? && errors.zero? ? :green : :red
-        print(send(color) { '%d failures, %d errors, ' } % [failures, errors])
-        print(yellow { '%d skips' } % skips)
-        puts
+        print_finished
       end
 
       def record(test)
@@ -84,7 +79,7 @@ module Minitest
         test_name = test.name.gsub(/^test_: /, 'test:')
         print pad_test(test_name)
         print_colored_status(test)
-        print(" (%.2fs)" % test.time) unless test.time.nil?
+        print(" (%s)" % format_duration(test.time)) unless test.time.nil?
         puts
       end
     end
