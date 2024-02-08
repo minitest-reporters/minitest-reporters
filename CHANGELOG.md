@@ -3,6 +3,7 @@
 * Minor documentation improvements [#343](https://github.com/minitest-reporters/minitest-reporters/pull/343)
 * Fixed homepage link in gemspec [#333](https://github.com/minitest-reporters/minitest-reporters/pull/333) contributed by [andyw8](https://github.com/andyw8)
 * Added Ruby 3.2 to the CI matrix [#335](https://github.com/minitest-reporters/minitest-reporters/pull/335) contributed by [petergoldstein](https://github.com/petergoldstein)
+* Updated `JUnitReporter` to output a failure screenshot path when included in the minitest result [#346](https://github.com/minitest-reporters/minitest-reporters/pull/346) contributed by [matteeyah](https://github.com/matteeyah)
 
 ### [1.6.1](https://github.com/kern/minitest-reporters/compare/v1.6.0...v1.6.1)
 
