@@ -64,6 +64,7 @@ Minitest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE an
 Minitest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
 Minitest::Reporters::MeanTimeReporter # => Produces a report summary showing the slowest running tests
 Minitest::Reporters::HtmlReporter     # => Generates an HTML report of the test results
+Minitest::Reporters::GithubReporter   # => Annotates for Github Action workflows.
 ```
 
 Options can be passed to these reporters at construction-time, e.g. to force
