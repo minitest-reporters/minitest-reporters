@@ -18,6 +18,19 @@ module Minitest
 
       attr_reader :reports_path
 
+      # @param reports_dir [String] The directory where the XML reports will be written. You can also specify this path
+      #   by setting the `MINITEST_REPORTERS_REPORTS_DIR` environment variable.
+      # @param empty [Boolean] If this is set to true, `JUnitReporter` will empty the reports directory before
+      #   writing the XML reports.
+      # @param options [Hash]
+      # @option options :single_file [Boolean] (false) If this is set to true, `JUnitReporter` will write all test
+      #   results to a single XML file. Otherwise, it will write one XML file per test class.
+      # @option options :base_path [String] (Dir.pwd) If this is set, `JUnitReporter` will use this path as the base
+      #   path for the test file paths in the XML reports. Otherwise, it will use the current working directory. The
+      #   `filepath` attribute in the `testsuite` element in the report XML will be relative to this path.
+      # @option options :include_timestamp [Boolean] (false) If this is set to true, `JUnitReporter` will include
+      #   a `timestamp` attribute recording the time the report was generated in the `testsuite` element in the report
+      #   XML.
       def initialize(reports_dir = DEFAULT_REPORTS_DIR, empty = true, options = {})
         super({})
         @reports_path = File.absolute_path(ENV.fetch("MINITEST_REPORTERS_REPORTS_DIR", reports_dir))
