@@ -29,6 +29,12 @@ module Minitest
         )
       end
 
+      def add_defaults(...)
+        super
+
+        @progress.total = total_count
+      end
+
       def start
         super
         puts('Started with run options %s' % options[:args])
