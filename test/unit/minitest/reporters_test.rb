@@ -53,6 +53,20 @@ module MinitestReportersTest
       end
     end
 
+    def test_register_minitest_plugin
+      original_extensions = Minitest.extensions.dup
+      Minitest.extensions.delete("minitest_reporter")
+      Minitest::Reporters.register_minitest_plugin!
+
+      if Gem::Version.new(Minitest::VERSION) >= Gem::Version.new("6.0.0")
+        assert_includes Minitest.extensions, "minitest_reporter"
+      else
+        refute_includes Minitest.extensions, "minitest_reporter"
+      end
+    ensure
+      Minitest.extensions.replace(original_extensions)
+    end
+
     def test_uses_minitest_clock_time_when_minitest_version_less_than_561
       Minitest::Reporters.stub :minitest_version, 431 do
         Time.stub :now, Time.new(2015, 11, 20, 17, 35) do
