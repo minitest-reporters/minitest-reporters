@@ -15,13 +15,10 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 1.9.3'
 
-  s.add_dependency 'minitest', '>= 5.0'
+  s.add_dependency 'minitest', '>= 5.0', '< 7'
   s.add_dependency 'ansi'
   s.add_dependency 'ruby-progressbar'
   s.add_dependency 'builder'
-
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rubocop'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
