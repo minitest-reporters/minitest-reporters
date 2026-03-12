@@ -128,7 +128,7 @@ module Minitest
         # by the previous line. In that case, and that case only, skip the backtrace output.
         return if e.is_a?(Minitest::UnexpectedError)
 
-        trace = filter_backtrace(e.backtrace)
+        trace = filter_backtrace(e.backtrace || [])
         trace.each { |line| print_with_info_padding(line) }
       end
     end
