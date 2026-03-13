@@ -16,11 +16,13 @@ module Minitest
       #   report.
       # @option options suppress_inline_failure_output [Boolean] whether to suppress the printing of errors
       #   inline with the test results as they occur.
+      # @option options show_progress [Boolean] whether to show progress in each test status. (e.g. "[0001/0042]")
       #
       def initialize(options = {})
         super
         @print_failure_summary = options[:print_failure_summary]
         @suppress_inline_failure_output = options[:suppress_inline_failure_output]
+        @show_progress = options[:show_progress]
       end
 
       def start
@@ -85,10 +87,17 @@ module Minitest
 
       def record_print_status(test)
         test_name = test.name.gsub(/^test_: /, 'test:')
+        test_name = [progress, test_name].join(' ') if @show_progress
         print pad_test(test_name)
         print_colored_status(test)
         print(" (%.2fs)" % test.time) unless test.time.nil?
         puts
+      end
+
+      private
+
+      def progress
+        format("[%04<count>i/%04<total_count>i]", count: tests.size, total_count: total_count || 0)
       end
     end
   end
