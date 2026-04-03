@@ -1,4 +1,6 @@
-### [dev](https://github.com/minitest-reporters/minitest-reporters/compare/v1.7.1...master)
+### [dev](https://github.com/minitest-reporters/minitest-reporters/compare/v1.8.0...master)
+
+### [1.8.0](https://github.com/minitest-reporters/minitest-reporters/compare/v1.7.1...1.8.0)
 * Added support for minitest 6 [#366](https://github.com/minitest-reporters/minitest-reporters/pull/366) contributed by [Maimer](https://github.com/Maimer)
 * Updated gemspec to avoid packaging unnecessary files in the gem
 
