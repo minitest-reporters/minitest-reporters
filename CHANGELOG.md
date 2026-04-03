@@ -1,5 +1,6 @@
 ### [dev](https://github.com/minitest-reporters/minitest-reporters/compare/v1.7.1...master)
 * Added support for minitest 6 [#366](https://github.com/minitest-reporters/minitest-reporters/pull/366) contributed by [Maimer](https://github.com/Maimer)
+* Updated gemspec to avoid packaging unnecessary files in the gem
 
 ### [1.7.1](https://github.com/minitest-reporters/minitest-reporters/compare/v1.7.0...v1.7.1)
 * Fixed logic of new `suppress_inline_failure_output`. This option was doing the opposite of what it intended to do.
