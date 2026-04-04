@@ -15,16 +15,14 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = '>= 2.3.0' # keep in sync with gemspec and ci.yml
 
-  s.add_dependency 'minitest', '>= 5.0'
+  s.add_dependency 'minitest', '>= 5.0', '< 7'
   s.add_dependency 'ansi'
   s.add_dependency 'ruby-progressbar'
   s.add_dependency 'builder'
 
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rubocop'
+  s.files = `git ls-files`.split("\n").select do |f|
+    f.start_with?("lib/") || %w[LICENSE README.md CHANGELOG.md].include?(f)
+  end
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 end

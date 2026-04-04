@@ -40,7 +40,8 @@ module Minitest
 
       # stolen from minitest self.run
       def total_count(options)
-        filter = options[:filter] || '/./'
+        # In minitest 6, options[:filter] was renamed to options[:include]
+        filter = options[:include] || options[:filter] || '/./'
         filter = Regexp.new $1 if filter.is_a?(String) && filter =~ %r%/(.*)/%
 
         Minitest::Runnable.runnables.map { |runnable|

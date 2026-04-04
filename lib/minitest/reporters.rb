@@ -3,6 +3,7 @@ require 'minitest'
 module Minitest
   require "minitest/relative_position"
   require "minitest/extensible_backtrace_filter"
+  require "minitest/minitest_reporter_plugin"
 
   module Reporters
     require "minitest/reporters/version"
@@ -17,6 +18,7 @@ module Minitest
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
     autoload :HtmlReporter, "minitest/reporters/html_reporter"
     autoload :MeanTimeReporter, "minitest/reporters/mean_time_reporter"
+    autoload :DelegateReporter, "minitest/minitest_reporter_plugin"
 
     class << self
       attr_accessor :reporters
@@ -32,8 +34,13 @@ module Minitest
       unless defined?(@@loaded)
         use_around_test_hooks!
         use_old_activesupport_fix!
+        register_minitest_plugin!
         @@loaded = true
       end
+    end
+
+    def self.register_minitest_plugin!
+      Minitest.register_plugin("minitest_reporter") if Gem::Version.new(Minitest::VERSION) >= Gem::Version.new("6.0.0")
     end
 
     def self.use_runner!(console_reporters, env)

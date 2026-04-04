@@ -49,12 +49,15 @@ module Minitest
       def record(test)
         super
         return show if test.skipped? && !@detailed_skip
-        if test.failure
+
+        # In minitest 6, we need to handle skipped tests explicitly
+        # because test.failure might not trigger the same way
+        if test.failure || (test.skipped? && @detailed_skip)
           print "\e[0m\e[1000D\e[K"
           print_colored_status(test)
           print_test_with_time(test)
           puts
-          print_info(test.failure, test.error?)
+          print_info(test.failure, test.error?) if test.failure
           puts
         end
 
