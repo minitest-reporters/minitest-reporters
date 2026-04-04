@@ -92,7 +92,7 @@ module Minitest
       end
 
       def on_report
-        status_line = "Finished tests in %.6fs, %.4f tests/s, %.4f assertions/s." %
+        status_line = "Finished tests in %.6fs, %.4f runs/s, %.4f assertions/s." %
           [total_time, count / total_time, assertions / total_time]
 
         puts
@@ -228,7 +228,7 @@ module Minitest
       end
 
       def result_line
-        '%d tests, %d assertions, %d failures, %d errors, %d skips' %
+        '%d runs, %d assertions, %d failures, %d errors, %d skips' %
           [count, assertions, failures, errors, skips]
       end
 
