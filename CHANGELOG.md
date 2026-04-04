@@ -1,6 +1,8 @@
 ### [dev](https://github.com/minitest-reporters/minitest-reporters/compare/v1.8.0...master)
+* Drop support for Ruby < 2.3 [#358](https://github.com/minitest-reporters/minitest-reporters/pull/358) contributed by [grosser](https://github.com/grosser)
+* Refactored `Minitest::Test` patch to use module prepend instead of alias method chaining to improve compatibility with other libraries [#357](https://github.com/minitest-reporters/minitest-reporters/pull/357) contributed by [grosser](https://github.com/grosser)
 
-### [1.8.0](https://github.com/minitest-reporters/minitest-reporters/compare/v1.7.1...1.8.0)
+### [1.8.0](https://github.com/minitest-reporters/minitest-reporters/compare/v1.7.1...v1.8.0)
 * Added support for minitest 6 [#366](https://github.com/minitest-reporters/minitest-reporters/pull/366) contributed by [Maimer](https://github.com/Maimer)
 * Updated gemspec to avoid packaging unnecessary files in the gem
 
