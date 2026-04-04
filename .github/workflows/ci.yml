@@ -20,7 +20,7 @@ jobs:
           - '2.6'
           - '2.5'
           - '2.4'
-          - '2.3'
+          - '2.3' # keep lowest version in sync with gemspec and .rubocop.yml
           - jruby-head
           - jruby-10.0
           - jruby-9.4
