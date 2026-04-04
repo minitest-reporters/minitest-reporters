@@ -1,7 +1,6 @@
 ---
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 2.3 # keep in sync with gemspec and ci.yml
 
 inherit_from: .rubocop_todo.yml
 
