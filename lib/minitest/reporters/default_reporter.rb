@@ -205,6 +205,8 @@ module Minitest
 
       def location(exception)
         last_before_assertion = ''
+        return last_before_assertion unless exception.backtrace
+
         exception.backtrace.reverse_each do |s|
           break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
           last_before_assertion = s
