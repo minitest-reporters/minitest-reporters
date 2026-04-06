@@ -59,4 +59,3 @@ module MinitestReportersTest
     end
   end
 end
-
