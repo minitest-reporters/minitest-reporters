@@ -44,11 +44,11 @@ module Minitest
         filter = options[:include] || options[:filter] || '/./'
         filter = Regexp.new $1 if filter.is_a?(String) && filter =~ %r%/(.*)/%
 
-        Minitest::Runnable.runnables.map { |runnable|
-          runnable.runnable_methods.find_all { |m|
-            filter === m || filter === "#{runnable}##{m}"
-          }.size
-        }.inject(:+)
+        Minitest::Runnable.runnables.sum { |runnable|
+          runnable.runnable_methods.count { |m|
+            filter.match?(m) || filter.match?("#{runnable}##{m}")
+          }
+        }
       end
 
       def all_reporters
@@ -57,10 +57,12 @@ module Minitest
 
       def init_all_reporters
         return @reporters unless defined?(Minitest::Reporters.reporters) && Minitest::Reporters.reporters
+        total_count = total_count(@options)
+
         (Minitest::Reporters.reporters + guard_reporter(@reporters)).each do |reporter|
           reporter.io = @options[:io]
           if reporter.respond_to?(:add_defaults)
-            reporter.add_defaults(@options.merge(:total_count => total_count(@options)))
+            reporter.add_defaults(@options.merge(:total_count => total_count))
           end
         end
       end
