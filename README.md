@@ -58,6 +58,7 @@ The following reporters are provided:
 ```ruby
 Minitest::Reporters::DefaultReporter  # => Redgreen-capable version of standard Minitest reporter
 Minitest::Reporters::SpecReporter     # => Turn-like output that reads like a spec
+Minitest::Reporters::SpecDocReporter  # => Improved output formatting of your tests into spec docs
 Minitest::Reporters::ProgressReporter # => Fuubar-like output with a progress bar
 Minitest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
 Minitest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
@@ -72,6 +73,57 @@ color output from `DefaultReporter`:
 ```ruby
 Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => true)]
 ```
+
+### SpecdocReporter - configuration options ##
+
+The SpecdocReporter supports configuration options to customise the output as highlighted below.
+
+Available options:
+
+ *  `:show_order`   - sets the output order of the status, timer and test name parts.
+                      Available options: `:before` or `:after` [ Default: `:after` ]
+ 
+ *  `:show_time`    - toggle for outputting the timer info.  [ Default: `true` ]
+ 
+ *  `:show_status`  - toggle for outputting the status info   [ Default: `true` ]
+
+
+By default SpecdocReporter outputs the test status and time consumed after a padded test name, which 
+would look something like this:
+
+```ruby
+# ...SpecdocReporter.new
+"should_return_the_correct_path                     PASS (0.00s)"  # test syntax
+"Should return the correct path                     PASS (0.00s)"  # shoulda syntax
+"should return the correct path                     PASS (0.00s)"  # spec syntax
+```
+
+
+By combining the configuration options the following output formats can be achieved:
+
+```ruby
+# ...SpecdocReporter.new(:show_order => :after, :show_time => false)
+"should_return_the_correct_path                        PASS"
+
+# ...SpecdocReporter.new(:show_order => :after, :show_status => false)
+"should_return_the_correct_path                        (0.00s)"
+
+
+# ...SpecdocReporter.new(:show_order => :before)
+"PASS  should return the correct path  -  (0.00s)"  # spec syntax
+
+# ...SpecdocReporter.new(:show_order => :before, :show_time => false)
+"PASS  should return the correct path"
+
+# ...SpecdocReporter.new(:show_order => :before, :show_status => false)
+"should return the correct path  -  (0.00s)"
+
+# ...SpecdocReporter.new(:show_order => :before, :show_status => false, :show_time => false)
+"should return the correct path"
+
+```
+
+
 
 ## Screenshots ##
 
