@@ -144,9 +144,9 @@ module Minitest
         return -1 if suite_a[:has_errors_or_failures] && !suite_b[:has_errors_or_failures]
         return 1 if !suite_a[:has_errors_or_failures] && suite_b[:has_errors_or_failures]
 
-        return compare_suites_by_name(suite_a, suite_b) if suite_a[:has_skipps] && suite_b[:has_skipps]
-        return -1 if suite_a[:has_skipps] && !suite_b[:has_skipps]
-        return 1 if !suite_a[:has_skipps] && suite_b[:has_skipps]
+        return compare_suites_by_name(suite_a, suite_b) if suite_a[:has_skips] && suite_b[:has_skips]
+        return -1 if suite_a[:has_skips] && !suite_b[:has_skips]
+        return 1 if !suite_a[:has_skips] && suite_b[:has_skips]
 
         compare_suites_by_name(suite_a, suite_b)
       end
@@ -182,7 +182,7 @@ module Minitest
           summary[:time] += test.time
         end
         summary[:has_errors_or_failures] = (summary[:fail_count] + summary[:error_count]) > 0
-        summary[:has_skipps] = summary[:skip_count] > 0
+        summary[:has_skips] = summary[:skip_count] > 0
         summary
       end
 
