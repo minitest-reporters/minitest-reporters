@@ -61,6 +61,42 @@ module Minitest
         end
       end
 
+      def print_finished
+        puts('Finished in %s' % format_duration(total_time))
+        print('%d tests, %d assertions, ' % [count, assertions])
+        color = failures.zero? && errors.zero? ? :green : :red
+        print(send(color, '%d failures, %d errors, ') % [failures, errors])
+        print(yellow '%d skips' % skips)
+        puts
+      end
+
+      def format_duration(duration, sigfig: 3)
+        return('[negative duration]') if duration < 0 # duration should be positive, but nonmonotonic clock is possible
+
+        seconds = format_sigfig(duration, sigfig: sigfig, mod: 60)
+
+        if duration > 60 * 60
+          "%ih %im %ss" % [duration / 60 / 60, duration / 60 % 60, seconds]
+        elsif duration > 60
+          "%im %ss" % [duration / 60, seconds]
+        else
+          "%ss" % seconds
+        end
+      end
+
+      # @param sigfig [Integer] minimum number of digits to include (not including leading 0s if duration < 1s)
+      # @param mod the number of digits after the decimal point is computed from `n`,
+      #   but the formatted number returned will be `n` modulo this
+      def format_sigfig(n, sigfig: 3, mod: nil)
+        lg = n == 0 ? 0 : Math.log10(n.abs).floor
+        n = n % mod if mod
+        if lg - sigfig + 1 < 0
+          "%.#{sigfig - lg - 1}f" % n
+        else
+          "%i" % n
+        end
+      end
+
       protected
 
       def after_suite(test); end
