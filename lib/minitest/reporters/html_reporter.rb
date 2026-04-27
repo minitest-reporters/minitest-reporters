@@ -51,12 +51,16 @@ module Minitest
         "it #{groups[0][1]}"
       end
 
-      # The constructor takes a hash, and uses the following keys:
-      # :title - the title that will be used in the report, defaults to 'Test Results'
-      # :reports_dir - the directory the reports should be written to, defaults to 'test/html_reports'
-      # :erb_template - the path to a custom ERB template, defaults to the supplied ERB template
-      # :mode - Useful for debugging, :terse suppresses errors and is the default, :verbose lets errors bubble up
-      # :output_filename - the report's filename, defaults to 'index.html'
+      # @param args [Hash]
+      # @option args :title [Boolean] ('Test Results') the title that will be used in the report.
+      # @option args :reports_dir [Boolean] ('test/html_reports') the directory the reports should be written to. You
+      #   can also set this using the environment variable `MINITEST_HTML_REPORTS_DIR`.
+      # @option args :erb_template [Boolean] the path to a custom ERB template. If this is omitted, the template
+      #   supplied by minitest-reporters will be used.
+      # @option args :mode [Boolean] (:terse) Useful for debugging, `:terse` suppresses errors and `:verbose` lets
+      #   errors bubble up.
+      # @option args :output_filename [Boolean] ('index.html') the report's filename. You can also set this using
+      #   the environment variable `MINITEST_HTML_REPORTS_FILENAME`.
       def initialize(args = {})
         super({})
 

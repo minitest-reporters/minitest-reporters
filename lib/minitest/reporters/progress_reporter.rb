@@ -15,6 +15,9 @@ module Minitest
 
       PROGRESS_MARK = '='.freeze
 
+      # @param options [Hash]
+      # @option options :detailed_skip [Boolean] (true) If this is set to false, `ProgressReporter` will omit detailed
+      #  information about skipped tests, but will still show the total number of skipped tests in the summary line.
       def initialize(options = {})
         super
         @detailed_skip = options.fetch(:detailed_skip, true)

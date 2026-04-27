@@ -11,6 +11,20 @@ module Minitest
       include ANSI::Code
       include RelativePosition
 
+      # @param options [Hash]
+      # @option options :detailed_skip [Boolean] (true) If this is set to `false`, `DefaultReporter` will omit details
+      #   about the skipped tests such as the name and location of the skipped test as well as the skip message.
+      # @option options :slow_count [Integer] (0) If this is set to a number greater than 0, `DefaultReporter` will
+      #   print information about the slowest tests. The number of tests printed will be equal to the value of
+      #   `slow_count`.
+      # @option options :slow_suite_count [Integer] (0) If this is set to a number greater than 0, `DefaultReporter`
+      #   will print information about the slowest test classes. The number of test classes printed will be equal to
+      #   the value of `slow_suite_count`.
+      # @option options :fast_fail [Boolean] (false) If this is set to `true`, `DefaultReporter` will print information
+      #  about test failures as soon as they occur instead of waiting until the end of the test run.
+      # @option options :location [Boolean] (false) If this is set to `true`, `DefaultReporter` will print the location
+      #   where the test definition begins after the failure message for failing tests.
+      #
       def initialize(options = {})
         super
         @detailed_skip = options.fetch(:detailed_skip, true)

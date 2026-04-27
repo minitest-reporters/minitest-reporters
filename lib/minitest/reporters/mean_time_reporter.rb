@@ -35,20 +35,18 @@ module Minitest
       end
 
       # @param options [Hash]
-      # @option previous_runs_filename [String] Contains the times for each test
-      #   by description. Defaults to '/tmp/minitest_reporters_previous_run'.
-      # @option report_filename [String] Contains the parsed results for the
-      #   last test run. Defaults to '/tmp/minitest_reporters_report'.
-      # @option show_count [Fixnum] The number of tests to show in the report
-      #   summary at the end of the test run. Default is 15.
-      # @option show_progress [Boolean] If true it prints pass/skip/fail marks.
-      #   Default is true.
-      # @option show_all_runs [Boolean] If true it shows all recorded suit results.
-      #   Default is true.
-      # @option sort_column [Symbol] One of :avg (default), :min, :max, :last.
+      # @option options :previous_runs_filename [String] ('/tmp/minitest_reporters_previous_run') Contains the times for
+      #   each test by description.
+      # @option options :report_filename [String] ('/tmp/minitest_reporters_report') Contains the parsed results for the
+      #   last test run.
+      # @option options :show_count [Integer] (15) The number of tests to show in the report
+      #   summary at the end of the test run.
+      # @option options :show_progress [Boolean] (true) If true it prints pass/skip/fail marks.
+      # @option options :show_all_runs [Boolean] (true) If true it shows all recorded suit results.
+      # @option options :sort_column [Symbol] (:avg) One of `:avg`, `:min`, `:max`, `:last`.
       #   Determines the column by which the report summary is sorted.
-      # @option order [Symbol] One of :desc (default), or :asc. By default the
-      #   report summary is listed slowest to fastest (:desc). :asc will order
+      # @option options :order [Symbol] (:desc) One of `:desc` or `:asc`. By default the
+      #   report summary is listed slowest to fastest (`:desc`). `:asc` will order
       #   the report summary as fastest to slowest.
       # @return [Minitest::Reporters::MeanTimeReporter]
       def initialize(options = {})
@@ -190,7 +188,7 @@ module Minitest
         defaults.merge!(@options)
       end
 
-      # @return [Fixnum] The number of tests to output to output to the screen
+      # @return [Integer] The number of tests to output to output to the screen
       #   after each run.
       def show_count
         options[:show_count]
@@ -234,7 +232,7 @@ module Minitest
       #
       #    rake reset_statistics
       #
-      # @return [Fixnum]
+      # @return [Integer]
       def samples
         return 1 unless previous_run.first[1].is_a?(Array)
 

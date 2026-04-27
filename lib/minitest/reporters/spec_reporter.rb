@@ -10,13 +10,11 @@ module Minitest
       include ANSI::Code
       include RelativePosition
 
-      # The constructor takes an `options` hash
       # @param options [Hash]
-      # @option options print_failure_summary [Boolean] whether to print the errors at the bottom of the
-      #   report.
-      # @option options suppress_inline_failure_output [Boolean] whether to suppress the printing of errors
-      #   inline with the test results as they occur.
-      #
+      # @option options :print_failure_summary [Boolean] (false) If this is set to true, `SpecReporter` will print a
+      #   summary of test failure details at the end of the test run instead of when the failure occurs.
+      # @option options :suppress_inline_failure_output [Boolean] (false) If this is set to true, `SpecReporter` will
+      #   suppress the printing of errors inline with the test results as they occur.
       def initialize(options = {})
         super
         @print_failure_summary = options[:print_failure_summary]
