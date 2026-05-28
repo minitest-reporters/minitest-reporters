@@ -18,23 +18,23 @@ module Minitest
       def initialize(options = {})
         super
         @detailed_skip = options.fetch(:detailed_skip, true)
-
-        @progress = ProgressBar.create(
-          total:          total_count,
-          starting_at:    count,
-          progress_mark:  green(PROGRESS_MARK),
-          remainder_mark: ' ',
-          format:         options.fetch(:format, '  %c/%C: [%B] %p%% %a, %e'),
-          autostart:      false
-        )
+        @format = options.fetch(:format, '  %c/%C: [%B] %p%% %a, %e')
       end
 
       def start
         super
         puts('Started with run options %s' % options[:args])
         puts
+        @progress = ProgressBar.create(
+          total:          total_count,
+          starting_at:    count,
+          progress_mark:  green(PROGRESS_MARK),
+          remainder_mark: ' ',
+          format:         @format,
+          output:         io,
+          autostart:      false
+        )
         @progress.start
-        @progress.total = total_count
         show
       end
 
