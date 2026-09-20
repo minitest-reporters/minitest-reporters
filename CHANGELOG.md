@@ -1,4 +1,5 @@
 ### [dev](https://github.com/minitest-reporters/minitest-reporters/compare/v1.8.0...master)
+* Added an opt-in `CTRFReporter` for native CTRF JSON output, with configurable output paths and support for filtered and empty runs.
 * Drop support for Ruby < 2.3 [#358](https://github.com/minitest-reporters/minitest-reporters/pull/358) contributed by [grosser](https://github.com/grosser)
 * Refactored `Minitest::Test` patch to use module prepend instead of alias method chaining to improve compatibility with other libraries [#357](https://github.com/minitest-reporters/minitest-reporters/pull/357) contributed by [grosser](https://github.com/grosser)
 
