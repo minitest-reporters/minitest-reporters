@@ -16,6 +16,7 @@ module Minitest
     autoload :RubyMateReporter, "minitest/reporters/ruby_mate_reporter"
     autoload :RubyMineReporter, "minitest/reporters/rubymine_reporter"
     autoload :JUnitReporter, "minitest/reporters/junit_reporter"
+    autoload :CTRFReporter, "minitest/reporters/ctrf_reporter"
     autoload :HtmlReporter, "minitest/reporters/html_reporter"
     autoload :MeanTimeReporter, "minitest/reporters/mean_time_reporter"
     autoload :DelegateReporter, "minitest/minitest_reporter_plugin"
