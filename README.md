@@ -62,6 +62,7 @@ Minitest::Reporters::ProgressReporter # => Fuubar-like output with a progress ba
 Minitest::Reporters::RubyMateReporter # => Simple reporter designed for RubyMate
 Minitest::Reporters::RubyMineReporter # => Reporter designed for RubyMine IDE and TeamCity CI server
 Minitest::Reporters::JUnitReporter    # => JUnit test reporter designed for JetBrains TeamCity
+Minitest::Reporters::CTRFReporter     # => Writes machine-readable CTRF JSON test results
 Minitest::Reporters::MeanTimeReporter # => Produces a report summary showing the slowest running tests
 Minitest::Reporters::HtmlReporter     # => Generates an HTML report of the test results
 ```
@@ -72,6 +73,38 @@ color output from `DefaultReporter`:
 ```ruby
 Minitest::Reporters.use! [Minitest::Reporters::DefaultReporter.new(:color => true)]
 ```
+
+### CTRF JSON reports ###
+
+Use `CTRFReporter` alone for silent file output, or pair it with a console reporter:
+
+```ruby
+Minitest::Reporters.use! [
+  Minitest::Reporters::DefaultReporter.new,
+  Minitest::Reporters::CTRFReporter.new
+]
+```
+
+By default, it writes `test/reports/ctrf-report.json`. To choose another destination:
+
+```ruby
+Minitest::Reporters::CTRFReporter.new("artifacts", :output_filename => "worker-1.json")
+```
+
+`MINITEST_REPORTERS_REPORTS_DIR` overrides the directory argument. To select the
+reporter through the environment, set `MINITEST_REPORTER=CTRFReporter` and call
+`Minitest::Reporters.use!`.
+
+The reporter creates directories when reporting and overwrites only its destination
+file; sibling files are preserved. Each file describes one process's recorded run,
+including filtered and empty runs. Parallel processes must use distinct directories
+or output filenames; reports are not merged.
+
+Output follows the [CTRF draft schema at revision
+`66e823ca2c9e1f54bf8b387adda0b7e0c7610538`](https://github.com/ctrf-io/ctrf/blob/66e823ca2c9e1f54bf8b387adda0b7e0c7610538/schema/ctrf.schema.json),
+with `specVersion: "0.0.0"`. Durations and run timestamps use integer milliseconds.
+Assertion failures and errors both have status `failed`; skip reasons and filtered
+backtraces are retained. File and JSON serialization errors propagate to the caller.
 
 ## Screenshots ##
 
