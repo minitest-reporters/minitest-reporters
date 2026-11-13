@@ -24,12 +24,30 @@ module Minitest
         @single_file = options[:single_file]
         @base_path = options[:base_path] || Dir.pwd
         @timestamp_report = options[:include_timestamp]
+        # Absolute start/end wall-clock per test, so the suite time can be the
+        # true elapsed envelope rather than the sum of per-test durations
+        # (which over-counts when tests run concurrently via parallelize_me!).
+        @test_timings = {}
+        @test_timings_mutex = Mutex.new
 
         return unless empty
 
         puts "Emptying #{@reports_path}"
         FileUtils.mkdir_p(@reports_path)
         File.delete(*Dir.glob("#{@reports_path}/TEST-*.xml"))
+      end
+
+      # Runs on the test's own thread at test start (even under parallelize_me!),
+      # so clock_time here is the real wall-clock start.
+      def before_test(test)
+        super
+        record_timing(test, :start)
+      end
+
+      # Runs on the test's own thread once the test finishes.
+      def after_test(test)
+        super
+        record_timing(test, :end)
       end
 
       def report
@@ -173,7 +191,37 @@ module Minitest
           result[:time] += test.time
           result[:timestamp] = Time.now.iso8601 if @timestamp_report
         end
+        # Prefer the wall-clock envelope (max end - min start) so concurrent
+        # tests aren't double-counted; fall back to the summed durations when
+        # per-test timing wasn't captured.
+        result[:time] = suite_wall_clock_time(tests) || result[:time]
         result
+      end
+
+      def suite_wall_clock_time(tests)
+        starts = []
+        ends = []
+        tests.each do |test|
+          timing = @test_timings[timing_key(test)]
+          return nil unless timing && timing[:start] && timing[:end]
+
+          starts << timing[:start]
+          ends << timing[:end]
+        end
+        return nil if starts.empty?
+
+        ends.max - starts.min
+      end
+
+      def record_timing(test, which)
+        @test_timings_mutex.synchronize do
+          (@test_timings[timing_key(test)] ||= {})[which] = Minitest::Reporters.clock_time
+        end
+      end
+
+      def timing_key(test)
+        klass = test.respond_to?(:klass) ? test.klass : test.class.name
+        "#{klass}##{test.name}"
       end
 
       def filename_for(suite)
