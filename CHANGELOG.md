@@ -2,6 +2,7 @@
 * Drop support for Ruby < 2.3 [#358](https://github.com/minitest-reporters/minitest-reporters/pull/358) contributed by [grosser](https://github.com/grosser)
 * Refactored `Minitest::Test` patch to use module prepend instead of alias method chaining to improve compatibility with other libraries [#357](https://github.com/minitest-reporters/minitest-reporters/pull/357) contributed by [grosser](https://github.com/grosser)
 * Fix ProgressReporter "Unknown Progress Animation" flash at start - [#373](https://github.com/minitest-reporters/minitest-reporters/pull/373) contributed by [flavorjones](https://github.com/flavorjones)
+* `JUnitReporter` now emits a wall-clock `<testsuite time>` (the elapsed envelope) instead of the sum of per-test durations, which over-counted under `parallelize_me!` [#375](https://github.com/minitest-reporters/minitest-reporters/pull/375) contributed by [ItIsUday](https://github.com/ItIsUday)
 
 ### [1.8.0](https://github.com/minitest-reporters/minitest-reporters/compare/v1.7.1...v1.8.0)
 * Added support for minitest 6 [#366](https://github.com/minitest-reporters/minitest-reporters/pull/366) contributed by [Maimer](https://github.com/Maimer)
